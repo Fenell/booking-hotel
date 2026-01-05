@@ -1,0 +1,72 @@
+import sideBarStyle from "./SideBar.module.css";
+import SubMenu from "./SubMenu";
+import { motion } from "framer-motion";
+import { NavLink, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { collapseActions } from "../../store/collapse";
+import classNames from "classnames";
+import ArrowDownIcon from "./ArrowDownIcon";
+import type { MenuItem } from "@constants/menu";
+
+type SidebarItemProp = {
+  menuName: string;
+  menuLink: string;
+  icon: string;
+  subMenus?: MenuItem[];
+};
+
+function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
+  const subMenuId = useSelector((state) => state.collapse.subMenuId);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const activeStyle = sideBarStyle.active;
+  const parentActiceStyle = sideBarStyle["parent-active"];
+
+  const divIcon = (
+    <div>
+      <i className={icon + " fa-fw"}></i>
+    </div>
+  );
+
+  const menuWithSubMenu = (
+    <>
+      <button
+        type="button"
+        className={classNames(
+          sideBarStyle["dropdown-btn"],
+          location.state?.parentMenu === menuName ? parentActiceStyle : ""
+        )}
+        onClick={() =>
+          dispatch(collapseActions.toogleCollapseSubMenu(menuName))
+        }
+      >
+        {icon && divIcon}
+        <motion.span variants={{ collapse: { opacity: 0 } }}>
+          {menuName}
+        </motion.span>
+        <ArrowDownIcon isExpanded={subMenuId === menuName} />
+      </button>
+
+      <SubMenu parentMenu={menuName} subMenus={subMenus} parentIcon={icon} />
+    </>
+  );
+
+  const menuNoSubMenu = (
+    <NavLink
+      viewTransition
+      className={({ isActive }) => (isActive ? activeStyle : "")}
+      to={menuLink}
+      state={{ parentMenu: menuName, icon }}
+    >
+      {icon && divIcon}
+      <motion.span variants={{ collapse: { opacity: 0 } }}>
+        {menuName}
+      </motion.span>
+    </NavLink>
+  );
+
+  return <li>{subMenus ? menuWithSubMenu : menuNoSubMenu}</li>;
+}
+
+export default SidebarItem;

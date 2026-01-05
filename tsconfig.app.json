@@ -7,6 +7,16 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
+    "baseUrl": "./src", // Cấu hình baseUrl để thư mục src là gốc,
+    "paths": {
+      "@hooks/*": ["hooks/*"],
+      "@components/*": ["components/*"],
+      "@store/*": ["store/*"],
+      "@utils/*": ["utils/*"],
+      "@apis/*": ["apis/*"],
+      "@feature/*": ["feature/*"],
+      "@constants/*": ["constants/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
