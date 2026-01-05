@@ -11,7 +11,7 @@
     "paths": {
       "@hooks/*": ["hooks/*"],
       "@components/*": ["components/*"],
-      "@store/*": ["store/*"],
+      "@stores/*": ["stores/*"],
       "@utils/*": ["utils/*"],
       "@apis/*": ["apis/*"],
       "@feature/*": ["feature/*"],

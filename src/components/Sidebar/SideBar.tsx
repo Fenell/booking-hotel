@@ -3,10 +3,12 @@ import sideBarStyle from "./SideBar.module.css";
 import SidebarItem from "./SidebarItem";
 import CollapseButton from "@components/Navbar/CollapseButton";
 import { menus } from "@constants/menu";
+import { toogleCollapse } from "@stores/collapse-slice";
+import { useCollapseDispatch, useCollapseSelector } from "@stores/hooks";
 
 function SideBar() {
-  // const isCollapse = useSelector((state) => state.collapse.isCollapse);
-  // const dispatch = useDispatch();
+  const isCollapse = useCollapseSelector((state) => state.collapse.isCollapse);
+  const dispatch = useCollapseDispatch();
 
   return (
     <motion.aside
@@ -38,11 +40,9 @@ function SideBar() {
               gap: "10px",
             }}
           >
-            <CollapseButton
-              onClick={() => dispatch(collapseActions.toogleCollapse())}
-            />
+            <CollapseButton onClick={() => dispatch(toogleCollapse())} />
             <span
-              onClick={() => dispatch(collapseActions.toogleCollapse())}
+              onClick={() => dispatch(toogleCollapse())}
               style={{ cursor: "pointer" }}
             >
               Thu gọn

@@ -2,15 +2,16 @@ import { motion } from "framer-motion";
 import sideBarStyle from "./SideBar.module.css";
 import { NavLink } from "react-router";
 import type { MenuItem } from "@constants/menu";
+import { useCollapseSelector } from "@stores/hooks";
 
 type SubMenuProp = {
-  subMenus?: MenuItem[];
+  subMenus?: MenuItem[] | null;
   parentMenu: string;
   parentIcon: string;
 };
 
 const SubMenu = ({ subMenus, parentMenu, parentIcon }: SubMenuProp) => {
-  // const subMenuId = useSelector((state) => state.collapse.subMenuId);
+  const subMenuId = useCollapseSelector((state) => state.collapse.subMenuId);
 
   return (
     <>

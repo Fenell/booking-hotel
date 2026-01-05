@@ -2,22 +2,22 @@ import sideBarStyle from "./SideBar.module.css";
 import SubMenu from "./SubMenu";
 import { motion } from "framer-motion";
 import { NavLink, useLocation } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { collapseActions } from "../../store/collapse";
 import classNames from "classnames";
 import ArrowDownIcon from "./ArrowDownIcon";
 import type { MenuItem } from "@constants/menu";
+import { toogleCollapseSubMenu } from "@stores/collapse-slice";
+import { useCollapseDispatch, useCollapseSelector } from "@stores/hooks";
 
 type SidebarItemProp = {
   menuName: string;
   menuLink: string;
   icon: string;
-  subMenus?: MenuItem[];
+  subMenus?: MenuItem[] | null;
 };
 
 function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
-  const subMenuId = useSelector((state) => state.collapse.subMenuId);
-  const dispatch = useDispatch();
+  const subMenuId = useCollapseSelector((state) => state.collapse.subMenuId);
+  const dispatch = useCollapseDispatch();
   const location = useLocation();
 
   const activeStyle = sideBarStyle.active;
@@ -37,9 +37,7 @@ function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
           sideBarStyle["dropdown-btn"],
           location.state?.parentMenu === menuName ? parentActiceStyle : ""
         )}
-        onClick={() =>
-          dispatch(collapseActions.toogleCollapseSubMenu(menuName))
-        }
+        onClick={() => dispatch(toogleCollapseSubMenu({ menuId: menuName }))}
       >
         {icon && divIcon}
         <motion.span variants={{ collapse: { opacity: 0 } }}>

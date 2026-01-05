@@ -86,3 +86,26 @@ nav {
   cursor: pointer;
   padding: 1.1em;
 }
+
+.breadcrumb {
+  /* position: sticky;
+  top: 0; */
+  display: flex;
+  /* margin-bottom: 10px; */
+  z-index: 200;
+}
+
+.breadcrumb-title {
+  display: flex;
+  align-items: center;
+  div {
+    margin-right: 10px;
+  }
+  font-size: 20px;
+  border-right: 1px solid #ced3da;
+  padding-right: 20px;
+}
+
+.breadcrumb-child {
+  padding-left: 15px;
+}
