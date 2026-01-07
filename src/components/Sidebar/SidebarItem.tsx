@@ -1,4 +1,4 @@
-import sideBarStyle from "./SideBar.module.css";
+import sideBarStyle from "./Sidebar.module.css";
 import SubMenu from "./SubMenu";
 import { motion } from "framer-motion";
 import { NavLink, useLocation } from "react-router";

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import sideBarStyle from "./SideBar.module.css";
 import SidebarItem from "./SidebarItem";
 import CollapseButton from "@components/Navbar/CollapseButton";
+import sideBarStyle from "./Sidebar.module.css";
 import { menus } from "@constants/menu";
 import { toogleCollapse } from "@stores/collapse-slice";
 import { useCollapseDispatch, useCollapseSelector } from "@stores/hooks";
@@ -15,7 +15,7 @@ function SideBar() {
       variants={{ collapse: { padding: "5px 5px", width: "58px" } }}
       animate={isCollapse ? "collapse" : ""}
       transition={{ duration: 0.8, type: "spring" }}
-      id={sideBarStyle.sidebar}
+      className={sideBarStyle.sidebar}
     >
       <ul className={sideBarStyle["shop-menu"]}>
         <li>

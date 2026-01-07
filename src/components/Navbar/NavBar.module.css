@@ -9,7 +9,6 @@ nav {
   left: 220px;
   display: flex;
   justify-content: space-between;
-  align-content: center;
 }
 
 #nav-bar ul {

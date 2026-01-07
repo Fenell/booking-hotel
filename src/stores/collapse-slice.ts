@@ -6,7 +6,7 @@ export type Collapse = {
 };
 
 const initialState: Collapse = {
-  isCollapse: true,
+  isCollapse: false,
   subMenuId: null,
 };
 

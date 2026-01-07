@@ -1,7 +1,8 @@
-#sidebar {
-  --side-bar-hover-backgr-clr: #efefef;
-  --side-bar-item-hover: #0062c0;
-  --side-bar-item-active: #d6e3fb;
+.sidebar {
+  --side-bar-hover-backgr-clr: .efefef;
+  --side-bar-item-hover: 0.0062c0;
+  --side-bar-item-active: .d6e3fb;
+  --text-clr-sidebar: #fff;
   /*
   width và height bao gồm cả padding và border.
 Nội dung sẽ co lại nếu có padding.*/
@@ -17,10 +18,18 @@ Nội dung sẽ co lại nếu có padding.*/
   text-wrap: nowrap;
   overflow: hidden;
 
+  background: #4cc5f5;
+  background: linear-gradient(
+    90deg,
+    rgba(76, 197, 245, 1) 0%,
+    rgba(89, 135, 143, 1) 25%,
+    rgba(77, 165, 219, 1) 81%
+  );
+
   /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 }
 
-#sidebar ul {
+.sidebar ul {
   list-style: none;
 }
 
@@ -34,24 +43,24 @@ Nội dung sẽ co lại nếu có padding.*/
   }
 }
 
-#sidebar ul li {
+.sidebar ul li {
   margin: 5px 0;
 }
 
-#sidebar ul li.active a {
+.sidebar ul li.active a {
   color: var(--accent-clr);
 }
 
-#sidebar a,
-#sidebar .dropdown-btn,
-#sidebar .logo {
+.sidebar a,
+.sidebar .dropdown-btn,
+.sidebar .logo {
   text-decoration: none;
   display: flex;
   gap: 1em;
   padding: 0.4rem 0.2rem 0.4em 0.8rem;
   align-items: center;
   border-radius: 0.5em;
-  color: var(--text-clr);
+  color: var(--text-clr-sidebar);
   white-space: nowrap;
 }
 
@@ -64,33 +73,34 @@ Nội dung sẽ co lại nếu có padding.*/
   cursor: pointer;
 }
 
-#sidebar a span,
-#sidebar .dropdown-btn span {
+.sidebar a span,
+.sidebar .dropdown-btn span {
   flex-grow: 1;
   font-size: 14px;
+  color: #fff;
 }
 
-#sidebar a:hover,
-#sidebar .dropdown-btn:hover {
+.sidebar a:hover,
+.sidebar .dropdown-btn:hover {
   i,
   span {
     color: var(--side-bar-item-hover);
   }
   color: var(--side-bar-item-hover) !important;
-  /* background-color: #efefef; */
+  /* background-color: .efefef; */
 }
 
-#sidebar .sub-menu {
+.sidebar .sub-menu {
   overflow: hidden;
 }
 
-#sidebar .sub-menu a {
+.sidebar .sub-menu a {
   padding-left: 1.8em;
   margin: 5px 0;
   font-size: 14px;
 }
 
-#toggle-btn:hover {
+.toggle-btn:hover {
   background-color: var(--hover-clr);
   /* color: var(--side-bar-item-active) !important; */
 }

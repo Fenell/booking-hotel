@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import sideBarStyle from "./SideBar.module.css";
+import sideBarStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router";
 import type { MenuItem } from "@constants/menu";
 import { useCollapseSelector } from "@stores/hooks";
