@@ -2,11 +2,11 @@ nav {
   box-sizing: border-box;
   /* border-bottom: 1px solid var(--line-clr); */
   height: 3em;
-  padding: 0px 20px;
+  padding-right: 20px;
   position: fixed;
   top: 0;
   right: 0;
-  left: 220px;
+  left: 250px;
   display: flex;
   justify-content: space-between;
 }
@@ -19,6 +19,9 @@ nav {
   gap: 0.5em;
   justify-content: flex-end;
   align-items: center;
+}
+#nav-bar i {
+  color: #b8b8b8;
 }
 
 #nav-bar li:first-child {
@@ -74,16 +77,6 @@ nav {
   top: -7px;
   left: 10px;
   z-index: 1;
-}
-
-#toggle-btn {
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 0.5em;
-  background: none;
-  cursor: pointer;
-  padding: 1.1em;
 }
 
 .breadcrumb {

@@ -15,8 +15,8 @@ const CollapseMenu = ({ isExpanded, ...props }: CollapseMenuProp) => {
       {...props}
     >
       <g
-        fill="none"
-        stroke="currentColor"
+        fill="white"
+        stroke="white"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -27,4 +27,9 @@ const CollapseMenu = ({ isExpanded, ...props }: CollapseMenuProp) => {
   );
 };
 
+// g
+//         fill="none"
+//         stroke="currentColor"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
 export default CollapseMenu;

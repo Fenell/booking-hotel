@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
-import CollapseMenu from "../Sidebar/CollapseMenu";
-import navBarStyle from "./NavBar.module.css";
-
+import CollapseMenu from "./CollapseMenu";
+import sideBarStyle from "./Sidebar.module.css";
 type CollapseButtonProp = {} & ComponentPropsWithoutRef<"button">;
 
 const CollapseButton = ({ ...prop }: CollapseButtonProp) => {
@@ -9,7 +8,7 @@ const CollapseButton = ({ ...prop }: CollapseButtonProp) => {
   // useSelector((state) => state.collapse.isCollapse);
 
   return (
-    <button id={navBarStyle["toggle-btn"]} {...prop}>
+    <button id={sideBarStyle["toggle-btn"]} {...prop}>
       <CollapseMenu isExpanded={!isCollapse} />
     </button>
   );

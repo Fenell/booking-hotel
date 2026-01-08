@@ -12,10 +12,17 @@ type SidebarItemProp = {
   menuName: string;
   menuLink: string;
   icon: string;
+  isActive: boolean;
   subMenus?: MenuItem[] | null;
 };
 
-function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
+const SidebarItem = ({
+  menuName,
+  menuLink,
+  icon,
+  isActive,
+  subMenus,
+}: SidebarItemProp) => {
   const subMenuId = useCollapseSelector((state) => state.collapse.subMenuId);
   const dispatch = useCollapseDispatch();
   const location = useLocation();
@@ -53,6 +60,7 @@ function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
   const menuNoSubMenu = (
     <NavLink
       viewTransition
+      style={{ display: isActive ? "" : "none" }}
       className={({ isActive }) => (isActive ? activeStyle : "")}
       to={menuLink}
       state={{ parentMenu: menuName, icon }}
@@ -65,6 +73,6 @@ function SidebarItem({ menuName, menuLink, icon, subMenus }: SidebarItemProp) {
   );
 
   return <li>{subMenus ? menuWithSubMenu : menuNoSubMenu}</li>;
-}
+};
 
 export default SidebarItem;

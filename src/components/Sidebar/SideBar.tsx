@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import SidebarItem from "./SidebarItem";
-import CollapseButton from "@components/Navbar/CollapseButton";
+import CollapseButton from "@components/Sidebar/CollapseButton";
 import sideBarStyle from "./Sidebar.module.css";
 import { menus } from "@constants/menu";
 import { toogleCollapse } from "@stores/collapse-slice";
@@ -28,6 +28,7 @@ function SideBar() {
             menuLink={menu.menuLink}
             menuName={menu.menuName}
             subMenus={menu.subMenu}
+            isActive={menu.isActive}
           />
         ))}
       </ul>
@@ -43,7 +44,7 @@ function SideBar() {
             <CollapseButton onClick={() => dispatch(toogleCollapse())} />
             <span
               onClick={() => dispatch(toogleCollapse())}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", color: "#fff" }}
             >
               Thu gọn
             </span>

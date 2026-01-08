@@ -23,7 +23,7 @@ export const menus: Menu = [
     isActive: true,
     subMenu: [
       {
-        menuName: "Màu sắc",
+        menuName: "Dịch vụ",
         menuLink: "color",
         iconMenu: "",
         isActive: true,

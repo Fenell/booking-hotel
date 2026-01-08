@@ -1,6 +1,5 @@
 .sidebar {
   --side-bar-hover-backgr-clr: .efefef;
-  --side-bar-item-hover: 0.0062c0;
   --side-bar-item-active: .d6e3fb;
   --text-clr-sidebar: #fff;
   /*
@@ -18,12 +17,12 @@ Nội dung sẽ co lại nếu có padding.*/
   text-wrap: nowrap;
   overflow: hidden;
 
-  background: #4cc5f5;
-  background: linear-gradient(
-    90deg,
-    rgba(76, 197, 245, 1) 0%,
-    rgba(89, 135, 143, 1) 25%,
-    rgba(77, 165, 219, 1) 81%
+  background: #6faede;
+  background: radial-gradient(
+    circle,
+    rgba(111, 174, 222, 1) 0%,
+    rgba(61, 104, 219, 1) 50%,
+    rgba(73, 130, 204, 1) 100%
   );
 
   /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
@@ -74,7 +73,8 @@ Nội dung sẽ co lại nếu có padding.*/
 }
 
 .sidebar a span,
-.sidebar .dropdown-btn span {
+.sidebar .dropdown-btn span,
+i {
   flex-grow: 1;
   font-size: 14px;
   color: #fff;
@@ -84,9 +84,9 @@ Nội dung sẽ co lại nếu có padding.*/
 .sidebar .dropdown-btn:hover {
   i,
   span {
-    color: var(--side-bar-item-hover);
+    color: var(--hover-sidebar-clr);
   }
-  color: var(--side-bar-item-hover) !important;
+  color: var(--hover-sidebar-clr) !important;
   /* background-color: .efefef; */
 }
 
@@ -113,9 +113,9 @@ Nội dung sẽ co lại nếu có padding.*/
 .parent-active {
   i,
   span {
-    color: var(--side-bar-item-hover);
+    color: var(--hover-sidebar-clr);
   }
-  /* fill: var(--side-bar-item-hover) !important; */
+  /* fill: var(--hover-sidebar-clr) !important; */
   font-weight: 600;
 }
 
@@ -124,5 +124,16 @@ Nội dung sẽ co lại nếu có padding.*/
 }
 
 .account-menu {
-  border-top: 1px solid rgb(155, 151, 151);
+  border-top: 1px solid var(--text-clr-sidebar);
+}
+
+#toggle-btn {
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.5em;
+  background: none;
+  cursor: pointer;
+  padding: 1.1em;
+  color: var(--text-clr-sidebar);
 }

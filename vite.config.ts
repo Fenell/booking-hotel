@@ -17,6 +17,7 @@ export default defineConfig({
       "@apis": path.resolve(__dirname, "src/apis"),
       "@feature": path.resolve(__dirname, "src/feature"),
       "@constants": path.resolve(__dirname, "src/constants"),
+      "@types": path.resolve(__dirname, "src/types"),
     },
   },
 });

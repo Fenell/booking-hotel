@@ -25,6 +25,7 @@ const SubMenu = ({ subMenus, parentMenu, parentIcon }: SubMenuProp) => {
           <li key={item.menuName}>
             <NavLink
               viewTransition
+              style={{ display: item.isActive ? "" : "none" }}
               className={({ isActive }) =>
                 isActive ? sideBarStyle.active : ""
               }

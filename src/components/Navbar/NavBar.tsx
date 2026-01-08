@@ -9,7 +9,7 @@ const NavBar = () => {
 
   return (
     <motion.nav
-      variants={{ collapse: { left: "60px" } }}
+      variants={{ collapse: { left: "70px" } }}
       animate={isCollapse ? "collapse" : ""}
       id={navBarStyle["nav-bar"]}
     >

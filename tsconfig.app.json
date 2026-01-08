@@ -15,7 +15,8 @@
       "@utils/*": ["utils/*"],
       "@apis/*": ["apis/*"],
       "@feature/*": ["feature/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@types/*": ["types/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -33,5 +34,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "config.ts"]
 }
