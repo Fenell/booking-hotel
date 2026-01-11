@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import sideBarStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router";
-import type { MenuItem } from "@constants/menu";
+// import type { MenuItem } from "@constants/menu";
 import { useCollapseSelector } from "@stores/hooks";
+import type { Menu } from "@types/menu";
 
 type SubMenuProp = {
-  subMenus?: MenuItem[] | null;
+  subMenus: Menu[];
   parentMenu: string;
   parentIcon: string;
 };
@@ -21,7 +22,7 @@ const SubMenu = ({ subMenus, parentMenu, parentIcon }: SubMenuProp) => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={sideBarStyle["sub-menu"]}
       >
-        {subMenus?.map((item) => (
+        {subMenus.map((item) => (
           <li key={item.menuName}>
             <NavLink
               viewTransition

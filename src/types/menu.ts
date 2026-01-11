@@ -6,7 +6,7 @@ export type Menu = {
   menuIcon?: string;
   isActive: boolean;
   menuLevel: string;
-  isParent: boolean;
+  hasChild: boolean;
   parentMenu?: string;
-  subMenu?: Menu[];
+  subMenu?: Menu[] | null;
 };

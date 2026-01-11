@@ -7,13 +7,15 @@ import ArrowDownIcon from "./ArrowDownIcon";
 import type { MenuItem } from "@constants/menu";
 import { toogleCollapseSubMenu } from "@stores/collapse-slice";
 import { useCollapseDispatch, useCollapseSelector } from "@stores/hooks";
+import type { Menu } from "@types/menu";
 
 type SidebarItemProp = {
   menuName: string;
   menuLink: string;
   icon: string;
   isActive: boolean;
-  subMenus?: MenuItem[] | null;
+  hasChild: boolean;
+  subMenus: Menu[];
 };
 
 const SidebarItem = ({
@@ -21,6 +23,7 @@ const SidebarItem = ({
   menuLink,
   icon,
   isActive,
+  hasChild,
   subMenus,
 }: SidebarItemProp) => {
   const subMenuId = useCollapseSelector((state) => state.collapse.subMenuId);
@@ -72,7 +75,7 @@ const SidebarItem = ({
     </NavLink>
   );
 
-  return <li>{subMenus ? menuWithSubMenu : menuNoSubMenu}</li>;
+  return <li>{hasChild ? menuWithSubMenu : menuNoSubMenu}</li>;
 };
 
 export default SidebarItem;

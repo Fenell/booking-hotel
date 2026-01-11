@@ -12,7 +12,7 @@ export const menus: Menu = [
   {
     menuName: "Tổng quan",
     menuLink: "/",
-    iconMenu: "fa-regular fa-house ",
+    iconMenu: "fa-regular fa-house",
     subMenu: null,
     isActive: true,
   },
