@@ -6,4 +6,5 @@ export type IconResponse = {
   color?: string;
   sizeIcon?: string;
   isActive: boolean;
+  createdDate: Date;
 };

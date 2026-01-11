@@ -7,7 +7,7 @@
 Nội dung sẽ co lại nếu có padding.*/
   box-sizing: border-box;
   height: 100vh;
-  width: 240px;
+  width: var(--sidebar-width);
   padding: 5px 0.4em;
   /* border-right: 1px solid var(--line-clr); */
 

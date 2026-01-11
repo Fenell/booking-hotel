@@ -1,0 +1,137 @@
+:root {
+  --toast-speed: 250ms;
+  --toast-list-scrollbar-width: 0.35em;
+  --toast-list-width: 370px;
+  --toast-list-padding: 1em;
+}
+
+.toast {
+  --toast-success-hue: 124;
+  --toast-error-hue: 4;
+  --toast-warning-hue: 39;
+  --toast-info-hue: 205;
+  --toast-padding: 1.5em;
+  --toast-margin: 0.5em;
+  --toast-bg-color-fallback: hsl(var(--secondary-hue) 15% 100%);
+  --toast-text-color-fallback: hsl(var(--secondary-hue) 10% 25%);
+  --toast-opacity: 0.99;
+  --toast-content-gap: 1em;
+  --secondary-hue: 25;
+
+  position: relative;
+  background-color: var(--toast-bg-color-fallback);
+  padding: var(--toast-padding);
+  border-radius: 0.5em;
+  color: var(--toast-text-color-fallback);
+  opacity: var(--toast-opacity);
+  box-shadow: hsl(var(--secondary-hue) 10% 10%/ 10%) 0px 1px 3px 0px,
+    hsl(var(--secondary-hue) 10% 10/5%) 0px 1px 2px 0px;
+
+  margin-bottom: 5px;
+  z-index: 9999;
+}
+
+.toast:hover {
+  opacity: 1;
+  box-shadow: hsl(var(--secondary-hue) 10% 10% / 30%) 0px 1px 3px 0px,
+    hsl(var(--secondary-hue) 10% 10% / 15%) 0px 1px 2px 0px;
+  /* margin-top: var(--toast-margin); */
+}
+
+.toast-message {
+  display: inline-flex;
+  gap: var(--toast-content-gap);
+  align-items: start;
+  font-size: 0.8rem;
+}
+
+.toast-message p {
+  color: black;
+}
+
+.toast-close-btn {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  padding: 0;
+  line-height: 1;
+  height: 1em;
+  width: 1em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.toast-list {
+  position: fixed;
+  padding: var(--toast-list-padding);
+  width: 100%;
+  max-width: var(--toast-list-width);
+  max-height: 100vh;
+  overflow: hidden auto;
+  z-index: 9999;
+}
+
+.toast-list--top-left {
+  top: 0;
+  left: 0;
+}
+.toast-list--top-right {
+  top: 0;
+  right: 0;
+}
+.toast-list--bottom-left {
+  bottom: 0;
+  left: 0;
+}
+.toast-list--bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.toast--success {
+  color: hsl(var(--toast-success-hue) 97% 3%);
+  background-color: hsl(var(--toast-success-hue) 94% 96%);
+}
+
+.toast--success .icon--thumb {
+  color: hsl(var(--toast-success-hue) 90% 40%);
+}
+
+.toast--error {
+  color: hsl(var(--toast-error-hue) 97% 3%);
+  background-color: hsl(var(--toast-error-hue) 95% 97%);
+}
+
+.toast--error .icon--thumb {
+  color: hsl(var(--toast-error-hue) 90% 40%);
+}
+
+.toast--warning {
+  color: hsl(var(--toast-warning-hue) 97% 3%);
+  background-color: hsl(var(--toast-warning-hue) 95% 97%);
+}
+
+.toast--warning .icon--thumb {
+  color: hsl(var(--toast-warning-hue) 90% 40%);
+}
+
+.toast--info {
+  color: hsl(var(--toast-info-hue) 97% 3%);
+  background-color: hsl(var(--toast-info-hue) 95% 97%);
+}
+
+.toast--info .icon--thumb {
+  color: hsl(var(--toast-info-hue) 90% 40%);
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+.icon--lg {
+  width: 1.5em;
+  height: 1.5em;
+}

@@ -1,22 +1,42 @@
 .iconBox {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 10px;
+  width: 100%;
 }
 
 .iconItem {
-  border: solid 1px #f17676;
+  /* border: solid 1px #d2d2d2; */
   border-radius: 6px;
-  padding: 6px;
-  flex: 1 0 calc(20% - 6px);
+  padding: 10px;
+  height: 120px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.iconItem:hover {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .iconRow {
   display: flex;
   gap: 4px;
-  align-items: center;
+  align-items: baseline;
+}
+.iconRow p {
+  flex-basis: 60px;
+  margin: 0;
 }
 
 .iconRow span {
-  flex-basis: 50px;
+  overflow-wrap: anywhere;
+}
+
+.createBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

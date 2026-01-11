@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import iconStyle from "../style/Icon.module.css";
 import type { IconResponse } from "../types/icon.type";
 import type { CSSProperties } from "react";
@@ -7,7 +6,7 @@ const IconCardItem = () => {
   const iconTest: IconResponse = {
     id: "1",
     iconCode: "fa-plane",
-    description: "sfsdhkfsdhkjfdhjk",
+    description: "sdfds fsdfd sfsdfwer ewrewr werwe rwer",
     iconName: "Wifi",
     sizeIcon: "lg",
   };
@@ -22,12 +21,12 @@ const IconCardItem = () => {
   return (
     <div className={iconStyle.iconItem}>
       <div className={iconStyle.iconRow}>
-        <span>{iconTest.iconName}</span>
+        <p>{iconTest.iconName}</p>
         {/* <i className="fa-regular fa-plane fa-lg"></i> */}
         <i className={iconClass} style={iconColor}></i>
       </div>
       <div className={iconStyle.iconRow}>
-        <span>Mô tả</span>
+        <p>Mô tả</p>
         <span>{iconTest.description}</span>
       </div>
       {/* <div className={iconStyle.iconRow}>

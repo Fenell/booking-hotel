@@ -1,6 +1,7 @@
 import iconStyle from "../style/Icon.module.css";
 
 import IconCardItem from "../components/IconCardItem";
+import IconCreateItem from "../components/IconCreateItem";
 
 const IconPage = () => {
   return (
@@ -12,6 +13,7 @@ const IconPage = () => {
         <IconCardItem />
         <IconCardItem />
         <IconCardItem />
+        <IconCreateItem />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@
   /* transform: translateX(-50%); */
   white-space: nowrap;
   cursor: default;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .tooltip-content::before {
