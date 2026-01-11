@@ -1,7 +1,7 @@
 nav {
   box-sizing: border-box;
   /* border-bottom: 1px solid var(--line-clr); */
-  height: 3em;
+  height: var(--nav-height);
   padding-right: 20px;
   position: fixed;
   top: 0;

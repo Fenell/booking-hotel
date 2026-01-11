@@ -21,6 +21,9 @@
   --border-hover-blue: rgb(143, 206, 230);
   --box-shadow-focus-blue: 0px 0px 0 2px rgba(0, 123, 255, 0.3);
   --bgc-write: #fff;
+
+  --nav-height: 3em;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

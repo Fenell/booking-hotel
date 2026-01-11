@@ -2,19 +2,15 @@ import { motion } from "framer-motion";
 import SidebarItem from "./SidebarItem";
 import sideBarStyle from "./Sidebar.module.css";
 // import { menus } from "@constants/menu";
-import { useQuery } from "@tanstack/react-query";
 import { useCollapseDispatch, useCollapseSelector } from "@app/store/hooks";
 import { toogleCollapse } from "@app/store/collapse-slice";
-import { getMenu } from "@services/menu";
 import CollapseButton from "./CollapseButton";
+import { useMenu } from "@features/menu/useMenu";
 
 const SideBar = () => {
   const isCollapse = useCollapseSelector((state) => state.collapse.isCollapse);
   const dispatch = useCollapseDispatch();
-  const { data, isPending } = useQuery({
-    queryKey: ["menu"],
-    queryFn: getMenu,
-  });
+  const { data, isPending } = useMenu();
 
   return (
     <motion.aside

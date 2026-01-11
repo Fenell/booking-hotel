@@ -1,16 +1,11 @@
-import axios, { type AxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "../../config";
+import { type AxiosRequestConfig } from "axios";
 import type { ResponseApi } from "shared/types/common";
 import type { Menu } from "shared/types/menu";
-
-const instance = axios.create({
-  baseURL: `${API_BASE_URL}/menu`,
-  headers: { "X-Api-Version": 1.0 },
-});
+import axiosInstance from "@shared/lib/axios";
 
 export const getMenu = async ({ signal }: AxiosRequestConfig) => {
   try {
-    const response = await instance.get<ResponseApi<Menu[]>>("", {
+    const response = await axiosInstance.get<ResponseApi<Menu[]>>("/menu", {
       signal,
     });
 

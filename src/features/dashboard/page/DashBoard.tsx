@@ -1,4 +1,4 @@
-import Button from "@shared/components/UI/Button/Button";
+import { Button } from "@shared/components/UI";
 
 const DashBoard = () => {
   return (

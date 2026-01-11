@@ -1,0 +1,22 @@
+.iconBox {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.iconItem {
+  border: solid 1px #f17676;
+  border-radius: 6px;
+  padding: 6px;
+  flex: 1 0 calc(20% - 6px);
+}
+
+.iconRow {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.iconRow span {
+  flex-basis: 50px;
+}

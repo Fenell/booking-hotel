@@ -28,20 +28,6 @@ const RawButton = ({
   //cssCustom,
   ...props
 }: RawButtonProps) => {
-  // let iconVar = {
-  //   hover: { opacity: 1 },
-  //   init: { opacity: 0 },
-  // };
-
-  // let textVar = {
-  //   hover: { right: 0 },
-  //   init: { right: "10px" },
-  // };
-
-  // if (noAnimation) {
-  //   iconVar.init.opacity = 1;
-  //   textVar.init.right = 0;
-  // }
   console.log(noAnimation);
   const createIconVariant = (noAnimation: boolean): any => ({
     hover: { opacity: 1 },
