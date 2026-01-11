@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "../../config";
-import type { ResponseApi } from "@types/common";
-import type { Menu } from "@types/menu";
+import type { ResponseApi } from "shared/types/common";
+import type { Menu } from "shared/types/menu";
 
 const instance = axios.create({
   baseURL: `${API_BASE_URL}/menu`,

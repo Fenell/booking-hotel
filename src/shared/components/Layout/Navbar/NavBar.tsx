@@ -1,5 +1,5 @@
-import { useCollapseSelector } from "@stores/hooks";
-import boy from "../../assets/boy.png";
+import { useCollapseSelector } from "@app/store/hooks";
+import boy from "@assets/boy.png";
 import Breadcrumb from "./Breadcrumb";
 import navBarStyle from "./NavBar.module.css";
 import { motion } from "framer-motion";

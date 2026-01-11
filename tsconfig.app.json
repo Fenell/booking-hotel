@@ -9,14 +9,13 @@
     "skipLibCheck": true,
     "baseUrl": "./src", // Cấu hình baseUrl để thư mục src là gốc,
     "paths": {
-      "@hooks/*": ["hooks/*"],
-      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"],
+      "@app/*": ["app/*"],
       "@stores/*": ["stores/*"],
-      "@utils/*": ["utils/*"],
-      "@apis/*": ["apis/*"],
-      "@feature/*": ["feature/*"],
-      "@constants/*": ["constants/*"],
-      "@types/*": ["types/*"]
+      "@layouts/*": ["layouts/*"],
+      "@services/*": ["services/*"],
+      "@features/*": ["features/*"],
+      "@shared/*": ["shared/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

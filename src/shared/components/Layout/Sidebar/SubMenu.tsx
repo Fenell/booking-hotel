@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import sideBarStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router";
 // import type { MenuItem } from "@constants/menu";
-import { useCollapseSelector } from "@stores/hooks";
-import type { Menu } from "@types/menu";
+import type { Menu } from "shared/types/menu";
+import { useCollapseSelector } from "@app/store/hooks";
 
 type SubMenuProp = {
   subMenus: Menu[];
@@ -30,7 +30,7 @@ const SubMenu = ({ subMenus, parentMenu, parentIcon }: SubMenuProp) => {
               className={({ isActive }) =>
                 isActive ? sideBarStyle.active : ""
               }
-              to={item.menuLink}
+              to={item.menuLink ?? ""}
               state={{
                 menuName: item.menuName,
                 parentMenu: parentMenu,

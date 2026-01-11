@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
-import CollapseMenu from "./CollapseMenu";
 import sideBarStyle from "./Sidebar.module.css";
+import CollapseMenu from "./CollapseMenu";
 type CollapseButtonProp = {} & ComponentPropsWithoutRef<"button">;
 
 const CollapseButton = ({ ...prop }: CollapseButtonProp) => {

@@ -74,7 +74,7 @@ Nội dung sẽ co lại nếu có padding.*/
 
 .sidebar a span,
 .sidebar .dropdown-btn span,
-i {
+.sidebar i {
   flex-grow: 1;
   font-size: 14px;
   color: #fff;
@@ -120,7 +120,7 @@ i {
 }
 
 .shop-menu {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 70px);
 }
 
 .account-menu {
@@ -136,4 +136,13 @@ i {
   cursor: pointer;
   padding: 1.1em;
   color: var(--text-clr-sidebar);
+}
+
+.skeletonItem {
+  height: 36px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 37%, #2a2a2a 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 6px;
+  margin-bottom: 8px;
 }

@@ -1,7 +1,7 @@
-import NavBar from "@components/Navbar/NavBar";
-import SideBar from "../components/Sidebar/SideBar";
+import Main from "@shared/components/Layout/Main/Main";
+import NavBar from "@shared/components/Layout/Navbar/NavBar";
+import SideBar from "@shared/components/Layout/Sidebar/SideBar";
 import { Outlet } from "react-router";
-import Main from "@components/Main/Main";
 
 const Root = () => {
   return (

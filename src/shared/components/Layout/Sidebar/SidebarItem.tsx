@@ -4,10 +4,9 @@ import { motion } from "framer-motion";
 import { NavLink, useLocation } from "react-router";
 import classNames from "classnames";
 import ArrowDownIcon from "./ArrowDownIcon";
-import type { MenuItem } from "@constants/menu";
-import { toogleCollapseSubMenu } from "@stores/collapse-slice";
-import { useCollapseDispatch, useCollapseSelector } from "@stores/hooks";
-import type { Menu } from "@types/menu";
+import type { Menu } from "shared/types/menu";
+import { useCollapseDispatch, useCollapseSelector } from "@app/store/hooks";
+import { toogleCollapseSubMenu } from "@app/store/collapse-slice";
 
 type SidebarItemProp = {
   menuName: string;
