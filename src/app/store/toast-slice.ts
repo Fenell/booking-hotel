@@ -24,7 +24,7 @@ export const toastSlice = createSlice({
       // state.position = action.payload.position;
       // state.message = action.payload.message;
     },
-    removeToast(state, action) {
+    removeToast(state, action: PayloadAction<{ id: string }>) {
       state.listToast = state.listToast.filter(
         (toast) => toast.id !== action.payload.id
       );

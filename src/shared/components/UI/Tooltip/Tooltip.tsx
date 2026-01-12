@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 type TooltipProps = {
   content?: string;
-  position: "top" | "bottom";
+  position?: "top" | "bottom";
   children: ReactNode;
 };
 

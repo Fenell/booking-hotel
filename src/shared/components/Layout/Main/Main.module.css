@@ -2,13 +2,13 @@ main {
   margin-top: var(--nav-height);
   max-width: calc(100wh - var(--sidebar-width));
   height: calc(100vh - var(--nav-height));
-  background-color: #eaecf0;
+  /* background-color: #eaecf0; */
   border-radius: 10px 10px 0 0;
   overflow-x: auto;
 }
 main p {
   /* color: var(--secondary-text-clr); */
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 section {

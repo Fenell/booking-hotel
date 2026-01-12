@@ -4,12 +4,14 @@ import { addToast, removeToast } from "@app/store/toast-slice";
 export function useToast() {
   const dispatch = useToastDispatch();
 
-  const defaultTimeOut = 2000;
+  const DEFAULT_TIMEOUT = 2000;
+  const DEFAULT_POSITION = "top-right";
+
   const showToast = (
     message: string,
     type: "success" | "error" | "info" | "warning",
-    position?: string,
-    timeOut?: number
+    position: string = DEFAULT_POSITION,
+    timeOut: number = DEFAULT_TIMEOUT
   ) => {
     const id = Date.now().toString();
     dispatch(
@@ -24,40 +26,16 @@ export function useToast() {
     }, timeOut);
   };
 
-  function success(
-    message: string,
-    position = "top-right",
-    timeOut = defaultTimeOut
-  ) {
-    showToast(message, "success", position, timeOut);
-  }
-  function error(
-    message: string,
-    position = "top-right",
-    timeOut = defaultTimeOut
-  ) {
-    showToast(message, "error", position, timeOut);
-  }
-  function warning(
-    message: string,
-    position = "top-right",
-    timeOut = defaultTimeOut
-  ) {
-    showToast(message, "warning", position, timeOut);
-  }
-  function info(
-    message: string,
-    position = "top-right",
-    timeOut = defaultTimeOut
-  ) {
-    showToast(message, "info", position, timeOut);
-  }
-
   const toast = {
-    success,
-    error,
-    warning,
-    info,
+    success: (msg: string, pos?: string, t?: number) =>
+      showToast(msg, "success", pos, t),
+    error: (msg: string, pos?: string, t?: number) =>
+      showToast(msg, "error", pos, t),
+    warning: (msg: string, pos?: string, t?: number) =>
+      showToast(msg, "warning", pos, t),
+    info: (msg: string, pos?: string, t?: number) =>
+      showToast(msg, "info", pos, t),
   };
+
   return toast;
 }
