@@ -1,20 +1,20 @@
 import React, { type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import "./Modal.css";
+import modalStyle from "./Modal.module.css";
 import { motion } from "motion/react";
 import classNames from "classnames";
 import { ModalContext } from "./ModalContext";
 
 type ModalProps = {
   children: ReactNode;
-  size: string;
+  size?: string;
   onClose: () => void;
-  closeOnEscape: boolean;
+  closeOnEscape?: boolean;
 };
 
 const Modal = ({
   onClose,
-  closeOnEscape,
+  closeOnEscape = false,
   children,
   size = "xs",
 }: ModalProps) => {
@@ -53,7 +53,7 @@ const Modal = ({
           initial="hiddenBackDrop"
           animate="visibleBackDrop"
           exit="hiddenBackDrop"
-          className="backdrop"
+          className={modalStyle.backdrop}
           // onClick={handleCloseModal}
         >
           <motion.dialog
@@ -64,7 +64,7 @@ const Modal = ({
             exit="hidden"
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
             // ref={modalRef}
-            className={classNames("modal", size)}
+            className={classNames(modalStyle.modal, modalStyle[size])}
             onKeyDown={handleKeyDown}
             onClick={(e) => e.stopPropagation()}
           >

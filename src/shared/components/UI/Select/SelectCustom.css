@@ -1,0 +1,124 @@
+.select-custom-container {
+}
+
+.select-custom__control {
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-clr);
+  border-radius: 6px;
+  padding: 0rem 0 0rem 0.8rem;
+  transition: border-color 0.5s ease, box-shadow 0.5s !important;
+  background-color: #fff;
+}
+
+.select-custom__control {
+  min-height: 32px !important;
+}
+
+.select-custom__placeholder {
+  color: rgb(180, 180, 180);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.select-custom__control:hover {
+  cursor: pointer;
+  /* border-color: rgb(114, 114, 114); */
+  border-color: var(--border-hover-blue);
+  box-shadow: var(--box-shadow-focus-blue);
+}
+
+.select-custom__control--is-focused {
+  /* border-color: rgb(114, 114, 114); */
+  border-color: var(--border-hover-blue);
+  box-shadow: var(--box-shadow-focus-blue);
+}
+
+.select-custom__menu {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border-radius: 5px;
+  left: 0;
+  padding: 0.5rem;
+  margin-top: 5px;
+  background-color: white;
+}
+
+.select-custom__option {
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+}
+.select-custom__action {
+  padding: 0.4rem 0.8rem;
+  /* position: fixed; */
+}
+
+/*Indicator*/
+
+.select-custom__dropdown-indicator {
+  align-items: center;
+  height: 100%;
+  padding: 0.7rem;
+  color: #939393;
+}
+
+.select-custom__clear-indicator {
+  padding: 0 0.6rem 0 0.6rem;
+  color: #939393;
+}
+
+.select-custom__clear-indicator:hover,
+.select-custom__dropdown-indicator:hover {
+  color: #4d4c4c;
+}
+
+.select-custom__indicator-separator {
+  border: 1px solid rgb(216, 216, 216);
+}
+/*Indicator END*/
+
+/* focus item */
+.select-custom__option--is-focused {
+  background-color: #f2f3f4;
+}
+
+/*Multi value*/
+
+.select-custom__value-container {
+  font-size: 0.9rem;
+  row-gap: 5px;
+}
+
+.select-custom__input-container {
+  line-height: 16px;
+}
+
+.select-custom__multi-value {
+  gap: 2px;
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  background-color: #edeef0;
+  border-radius: 5px;
+  align-items: center;
+  color: #454444;
+
+  transition: background-color 0.5s ease;
+}
+
+.select-custom__multi-value:hover {
+  background-color: #ddddde;
+  cursor: default;
+}
+
+.select-custom__multi-value__remove {
+  display: flex;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #bababa;
+}
+
+.select-custom__multi-value__remove:hover {
+  cursor: pointer;
+}

@@ -1,14 +1,28 @@
 import { Button } from "@shared/components/UI";
+import Input from "@shared/components/UI/Input/Input";
+import { Modal, ModalContent, ModalHeader } from "@shared/components/UI/Modal";
 import { useToast } from "@shared/hooks/useToast";
+import { useState } from "react";
 
 const DashBoard = () => {
   const toast = useToast();
+  const [isOpen, setIsOpen] = useState(false);
   const handleTest = () => {
-    toast.error("okok");
+    // toast.error("okok");
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
   };
   return (
     <div>
-      sesrseres
+      {isOpen && (
+        <Modal onClose={handleClose}>
+          <ModalHeader hasCloseButton>Kaka</ModalHeader>
+          <ModalContent>okeok</ModalContent>
+        </Modal>
+      )}
       <Button
         status="error"
         icon="fa-duotone fa-regular fa-trash"
@@ -18,6 +32,8 @@ const DashBoard = () => {
       >
         Test
       </Button>
+
+      <Input placeholder="okeoej" />
     </div>
   );
 };

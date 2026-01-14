@@ -28,7 +28,7 @@ const RawButton = ({
   //cssCustom,
   ...props
 }: RawButtonProps) => {
-  console.log(noAnimation);
+  // console.log(noAnimation);
   const createIconVariant = (noAnimation: boolean): any => ({
     hover: { opacity: 1 },
     init: { opacity: noAnimation ? 1 : 0 },
