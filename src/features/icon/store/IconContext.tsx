@@ -17,7 +17,6 @@ type IconAction = OpenOrCloseAction;
 
 const iconReducer = (state: IconState, action: IconAction): IconState => {
   if (action.type === "OPEN_OR_CLOSE") {
-    console.log(state.isOpen);
     return { ...state, isOpen: action.isOpen };
   }
   return state;

@@ -1,6 +1,8 @@
 import axiosInstance from "@shared/lib/axios";
-import type { DynamicDataPagingResponse } from "@shared/types/dynamic";
-import type { AxiosRequestConfig } from "axios";
+import type {
+  DyanmicDataPagingRequest,
+  DynamicDataPagingResponse,
+} from "@shared/types/dynamic";
 import camelcaseKeys from "camelcase-keys";
 
 axiosInstance.interceptors.response.use((response) => {
@@ -8,17 +10,16 @@ axiosInstance.interceptors.response.use((response) => {
   return response;
 });
 
-export const getDynamicData = async <T extends []>({
-  signal,
-}: AxiosRequestConfig) => {
+export const getDynamicData = async <T extends readonly unknown[]>(
+  request: DyanmicDataPagingRequest
+) => {
   try {
-    const response = await axiosInstance.get<DynamicDataPagingResponse<T>>(
+    const response = await axiosInstance.post<DynamicDataPagingResponse<T>>(
       "/dynamic/get-data",
-      { signal }
+      request
     );
-
     return response.data;
   } catch (err) {
-    console.log(err);
+    throw new Error(JSON.stringify(err));
   }
 };

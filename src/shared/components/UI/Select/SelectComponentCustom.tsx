@@ -16,7 +16,8 @@ export const DropdownIndicatorCustom = <
 >(
   props: DropdownIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const menuIsOpen = props.selectProps;
+  const menuIsOpen = props.selectProps.menuIsOpen;
+
   return (
     <components.DropdownIndicator {...props}>
       <motion.i

@@ -1,9 +1,6 @@
 :root {
   /* font-family: Roboto, sans-serif; */
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+
   line-height: 1.5rem;
   --base-clr: #11121a;
   --line-clr: #42434a;
@@ -23,7 +20,7 @@
 
   --nav-height: 3em;
   --sidebar-width: 240px;
-
+  --bgc-modal: #f5f7f8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,9 +29,10 @@ input {
   font-optical-sizing: auto;
 }
 
-button {
-  color: rgb(96, 96, 96);
-  font-family: "Inter", sans-serif;
+button,
+input,
+textarea {
+  font-family: inherit;
 }
 
 * {
@@ -48,6 +46,10 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   grid-template-columns: auto 1fr;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* .fa-light,

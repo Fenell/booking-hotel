@@ -28,6 +28,7 @@ const DashBoard = () => {
         icon="fa-duotone fa-regular fa-trash"
         showTooltip
         tooltipContent="tesst"
+        small
         onClick={handleTest}
       >
         Test

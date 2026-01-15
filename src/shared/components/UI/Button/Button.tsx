@@ -17,6 +17,7 @@ type RawButtonProps = {
   status: StatusBtn;
   icon?: string | null;
   noAnimation?: boolean;
+  small?: boolean;
   children?: ReactNode | null;
 } & ComponentPropsWithoutRef<"button">;
 
@@ -24,6 +25,7 @@ const RawButton = ({
   children,
   status,
   icon,
+  small = false,
   noAnimation = false,
   //cssCustom,
   ...props
@@ -44,6 +46,7 @@ const RawButton = ({
         whileHover={"hover"}
         className={classNames(
           buttonStyle["button"],
+          small && buttonStyle["small"],
           buttonStyle[status] || buttonStyle["default"]
         )}
         {...props}

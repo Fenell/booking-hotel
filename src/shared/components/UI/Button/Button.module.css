@@ -6,7 +6,7 @@
   --bule-clr: #6dccff;
   --dark-clr: #9e9e9e;
   --default-clr: #424242;
-  padding: 7px 14px;
+  padding: 6px 18px;
   font-size: 14px;
   border-radius: 6px;
   background: none;
@@ -16,10 +16,14 @@
   transition: background-color 0.5s ease;
 }
 
+.button.small {
+  padding: 5px 6px;
+  font-size: 12px;
+}
+
 .button-text {
   position: relative;
-  /* transition: color 0.5s ease; */
-  /* right: 10px; */
+  /* line-height: 14px; */
 }
 
 .button .btn-icon {
@@ -34,6 +38,7 @@
 
 .button.success {
   border: 1px solid var(--success-clr);
+  color: var(--success-clr);
   &:hover {
     background-color: var(--success-clr);
   }
@@ -63,6 +68,7 @@
 
 .button.primary {
   border: 1px solid var(--bule-clr);
+
   &:hover {
     background-color: var(--bule-clr);
   }

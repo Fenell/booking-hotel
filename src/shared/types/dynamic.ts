@@ -1,16 +1,16 @@
 export type DyanmicDataPagingRequest = {
   tableNames: string;
-  ids: string;
-  searchTerm: string;
-  fields: string;
+  ids?: string;
+  searchTerm?: string;
+  fields?: string;
   pageNumber: number;
   pageSize: number;
-  searchFields: string;
-  filters: Filter[];
-  sorts: Sort[];
+  searchFields?: string;
+  filters?: Filter[];
+  sorts?: Sort[];
 };
 
-export type DynamicDataPagingResponse<T extends []> = {
+export type DynamicDataPagingResponse<T extends readonly unknown[]> = {
   data: T;
   tota: bigint;
   pageSize: number;

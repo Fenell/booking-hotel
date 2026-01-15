@@ -2,21 +2,26 @@ import iconStyle from "../style/Icon.module.css";
 import type { IconResponse } from "../types/icon.type";
 import type { CSSProperties } from "react";
 
-const IconCardItem = () => {
-  const iconTest: IconResponse = {
-    id: "1",
-    iconCode: "fa-plane",
-    description: "sdfds fsdfd sfsdfwer ewrewr werwe rwer",
-    iconName: "Wifi",
-    sizeIcon: "lg",
-    color: "#2796fd",
-  };
+type IconCardItemProps = {} & IconResponse;
 
-  const iconClass: string = `fa-regular ${iconTest.iconCode} ${
-    iconTest.sizeIcon && "fa-" + iconTest.sizeIcon
+const IconCardItem = ({
+  id,
+  iconCode,
+  iconName,
+  color,
+  description,
+  sizeIcon,
+  isActive,
+}: IconCardItemProps) => {
+  const iconClass: string = `fa-regular fa-${iconCode} ${
+    sizeIcon && "fa-" + sizeIcon
   }`;
   const iconColor: CSSProperties = {
-    color: iconTest.color ?? "#2796fd",
+    color: color ?? "#2796fd",
+  };
+
+  const handleEdit = () => {
+    console.log(id);
   };
 
   return (
@@ -26,31 +31,31 @@ const IconCardItem = () => {
           <div>
             <i className={iconClass} style={iconColor}></i>
           </div>
-          <h3>{iconTest.iconName}</h3>
+          <h3>{iconName}</h3>
         </div>
         <div style={{ display: "flex", gap: "6px", cursor: "pointer" }}>
-          <i className="fa-light fa-file-pen"></i>
+          <i className="fa-light fa-file-pen" onClick={handleEdit}></i>
           <i className="fa-light fa-eye"></i>
           <i className="fa-light fa-eye-low-vision"></i>
         </div>
       </div>
 
-      <p className={iconStyle.iconDescription}>{iconTest.description}</p>
+      <p className={iconStyle.iconDescription}>{description}</p>
       <div className={iconStyle.iconInfo}>
         <div className={iconStyle.infoInfoBox}>
           <span>Màu sắc:</span>
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <div
-              style={{ backgroundColor: iconTest.color }}
+              style={{ backgroundColor: color }}
               className={iconStyle.colorBox}
             ></div>
-            <span>{iconTest.color}</span>
+            <span>{color}</span>
           </div>
         </div>
         <div className={iconStyle.infoInfoBox}>
           <span>Kích thước:</span>
           <div>
-            <span>{iconTest.sizeIcon}</span>
+            <span>{sizeIcon}</span>
           </div>
         </div>
         <div className={iconStyle.infoInfoBox}>

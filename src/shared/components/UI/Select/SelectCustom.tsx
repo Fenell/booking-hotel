@@ -1,22 +1,17 @@
 import "./SelectCustom.css";
-import Select, {
-  type GroupBase,
-  type OptionsOrGroups,
-  type Props,
-} from "react-select";
+import Select, { type GroupBase, type Props } from "react-select";
 import { AnimatePresence } from "motion/react";
 import { getComponent } from "./Component";
 
-interface SelectCustomProps<
+type SelectCustomProps<
   Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
-> extends Props<Option, IsMulti, Group> {
-  placeholder: string;
-  multiSelect?: boolean;
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = Props<Option, IsMulti, Group> & {
+  placeholder?: string;
+  multiSelect?: IsMulti;
   small?: boolean;
-  data: OptionsOrGroups<Option, Group>;
-}
+};
 
 const SelectCustom = <
   Option,
@@ -24,9 +19,8 @@ const SelectCustom = <
   Group extends GroupBase<Option> = GroupBase<Option>
 >({
   placeholder = "Chọn",
-  multiSelect = false,
+  multiSelect = false as IsMulti,
   small = false,
-  data,
   ...props
 }: SelectCustomProps<Option, IsMulti, Group>) => {
   //Prop "value" truyền vào từ field trong Controller của React form
@@ -40,8 +34,7 @@ const SelectCustom = <
         styles={{ container: (base) => ({ ...base, width: "150px" }) }}
         placeholder={placeholder}
         components={components}
-        options={data}
-        isMulti={multiSelect as IsMulti}
+        isMulti={multiSelect}
         closeMenuOnSelect={!multiSelect}
         hideSelectedOptions={false}
         className="select-custom-container"

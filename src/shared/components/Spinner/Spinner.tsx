@@ -1,7 +1,11 @@
 import spinnerStyle from "./Spinner.module.css";
 
 const Spinner = () => {
-  return <span className={spinnerStyle.loader}></span>;
+  return (
+    <div className={spinnerStyle.loaderBox}>
+      <span className={spinnerStyle.loader}></span>
+    </div>
+  );
 };
 
 export default Spinner;

@@ -16,7 +16,7 @@ const IconPreview = () => {
   const iconColor: CSSProperties = {
     color: color ?? "#2796fd",
   };
-  // console.log(iconClass, iconColor);
+  // console.log(color);
   return (
     <div
       style={{

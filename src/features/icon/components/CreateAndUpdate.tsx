@@ -10,35 +10,67 @@ import {
   Controller,
   FormProvider,
   useForm,
+  useWatch,
   type DefaultValues,
   type SubmitHandler,
 } from "react-hook-form";
 import type { IconResponse } from "../types/icon.type";
 import { Input, TextArea } from "@shared/components/UI/Input";
 import IconPreview from "./IconPreview";
+import SelectCustom from "@shared/components/UI/Select/SelectCustom";
+import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { createIcon } from "../api/icon.api";
+import { useToast } from "@shared/hooks/useToast";
+import { queryClient } from "@app/queryClient";
 
 const defaultIconValue: DefaultValues<IconResponse> = {
-  id: "",
   iconCode: "",
   iconName: "",
   isActive: true,
-  color: "",
+  color: "#21a9e4",
   sizeIcon: "",
   description: "",
 };
 
+type IconOption = {
+  value: string;
+  label: string;
+};
+
+const iconSizeOption: IconOption[] = [
+  { label: "2xs", value: "2xs" },
+  { label: "xs", value: "xs" },
+  { label: "sm", value: "sm" },
+  { label: "lg", value: "lg" },
+  { label: "xl", value: "xl" },
+  { label: "none", value: "" },
+];
+
 const CreateAndUpdate = () => {
   const { openOrCloseDialog } = useIconContext();
-
   const methods = useForm<IconResponse>({
     defaultValues: defaultIconValue,
   });
-  const { handleSubmit, watch, control } = methods;
+  const { handleSubmit, register, control, watch, setValue } = methods;
+  const color = watch("color");
+  const toast = useToast();
 
-  // const watchFields = watch(["iconCode", "sizeIcon", "color"]);
-  console.log("render");
+  const handleSucces = () => {
+    toast.success("Tạo mới thành công ^_^");
+    queryClient.invalidateQueries({ queryKey: ["icons"] });
+  };
+
+  const mutation = useMutation({
+    mutationFn: createIcon,
+    onSuccess: handleSucces,
+    onError: () => toast.warning("Tạo mới thất bại T_T"),
+  });
+
   const onsubmit: SubmitHandler<IconResponse> = (data) => {
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
+    const { id, createdDate, isActive, ...rest } = data;
+    mutation.mutate(rest);
   };
 
   return (
@@ -46,8 +78,8 @@ const CreateAndUpdate = () => {
       <ModalHeader>Thêm mới biểu tượng</ModalHeader>
       <ModalContent>
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onsubmit)}>
-            <div style={{ padding: "0px 10px" }}>
+          <form id="icon-form" onSubmit={handleSubmit(onsubmit)}>
+            <div style={{ padding: "5px 10px" }}>
               <div
                 style={{
                   display: "flex",
@@ -87,13 +119,23 @@ const CreateAndUpdate = () => {
               >
                 <div style={{ width: "100%" }}>
                   <label>Màu:</label>
-                  <Controller
-                    control={control}
-                    name="color"
-                    render={({ field }) => (
-                      <Input {...field} placeholder="Mã icon" />
-                    )}
-                  />
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    <input
+                      type="color"
+                      value={color}
+                      onChange={(e) => setValue("color", e.target.value)}
+                      style={{
+                        border: "none",
+                        cursor: "pointer",
+                        width: "30px",
+                      }}
+                    />
+                    <Input
+                      placeholder="màu"
+                      value={color}
+                      onChange={(e) => setValue("color", e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div style={{ width: "100%" }}>
                   <label>Kích thước:</label>
@@ -101,7 +143,15 @@ const CreateAndUpdate = () => {
                     control={control}
                     name="sizeIcon"
                     render={({ field }) => (
-                      <Input {...field} placeholder="Tên icon" />
+                      <SelectCustom<IconOption>
+                        {...field}
+                        options={iconSizeOption}
+                        value={iconSizeOption.find(
+                          (c) => c.value === field.value
+                        )}
+                        onChange={(a) => field.onChange(a?.value)}
+                        name="sizeIcon"
+                      />
                     )}
                   />
                 </div>
@@ -131,7 +181,7 @@ const CreateAndUpdate = () => {
         </FormProvider>
       </ModalContent>
       <ModalFooter>
-        <Button status="primary" noAnimation>
+        <Button status="primary" noAnimation type="submit" form="icon-form">
           Cất giữ
         </Button>
       </ModalFooter>
