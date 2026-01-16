@@ -21,7 +21,6 @@ const IconPageContent = () => {
     queryKey: ["icons"],
     queryFn: () => getDynamicData<IconResponse[]>(iconRequest),
   });
-
   if (isPending) {
     return <Spinner />;
   }

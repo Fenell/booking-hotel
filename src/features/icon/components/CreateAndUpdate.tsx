@@ -19,19 +19,13 @@ import { Input, TextArea } from "@shared/components/UI/Input";
 import IconPreview from "./IconPreview";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createIcon } from "../api/icon.api";
 import { useToast } from "@shared/hooks/useToast";
 import { queryClient } from "@app/queryClient";
-
-const defaultIconValue: DefaultValues<IconResponse> = {
-  iconCode: "",
-  iconName: "",
-  isActive: true,
-  color: "#21a9e4",
-  sizeIcon: "",
-  description: "",
-};
+import { getDynamicData } from "@shared/services/dynamic";
+import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import { useIconForm } from "../hook/useIconForm";
 
 type IconOption = {
   value: string;
@@ -48,34 +42,13 @@ const iconSizeOption: IconOption[] = [
 ];
 
 const CreateAndUpdate = () => {
-  const { openOrCloseDialog } = useIconContext();
-  const methods = useForm<IconResponse>({
-    defaultValues: defaultIconValue,
-  });
-  const { handleSubmit, register, control, watch, setValue } = methods;
-  const color = watch("color");
-  const toast = useToast();
-
-  const handleSucces = () => {
-    toast.success("Tạo mới thành công ^_^");
-    queryClient.invalidateQueries({ queryKey: ["icons"] });
-  };
-
-  const mutation = useMutation({
-    mutationFn: createIcon,
-    onSuccess: handleSucces,
-    onError: () => toast.warning("Tạo mới thất bại T_T"),
-  });
-
-  const onsubmit: SubmitHandler<IconResponse> = (data) => {
-    // console.log(JSON.stringify(data));
-    const { id, createdDate, isActive, ...rest } = data;
-    mutation.mutate(rest);
-  };
+  const { openOrCloseDialog, id } = useIconContext();
+  const [color, methods, isEdit, title, onsubmit] = useIconForm(id);
+  const { handleSubmit, control, setValue } = methods;
 
   return (
     <Modal onClose={() => openOrCloseDialog(false)}>
-      <ModalHeader>Thêm mới biểu tượng</ModalHeader>
+      <ModalHeader>{title}</ModalHeader>
       <ModalContent>
         <FormProvider {...methods}>
           <form id="icon-form" onSubmit={handleSubmit(onsubmit)}>

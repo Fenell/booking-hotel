@@ -28,6 +28,12 @@ type Sort = {
   direction: string;
 };
 
+export type DeleteDataRequest = {
+  tableName: string;
+  primaryKey: string;
+  deleteType: string;
+};
+
 // "tableNames": "",
 //   "ids": "",
 //   "searchTerm": "",

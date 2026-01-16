@@ -1,3 +1,4 @@
+import { useIconContext } from "../store/IconContext";
 import iconStyle from "../style/Icon.module.css";
 import type { IconResponse } from "../types/icon.type";
 import type { CSSProperties } from "react";
@@ -13,6 +14,7 @@ const IconCardItem = ({
   sizeIcon,
   isActive,
 }: IconCardItemProps) => {
+  const { openOrCloseDialog } = useIconContext();
   const iconClass: string = `fa-regular fa-${iconCode} ${
     sizeIcon && "fa-" + sizeIcon
   }`;
@@ -21,8 +23,10 @@ const IconCardItem = ({
   };
 
   const handleEdit = () => {
-    console.log(id);
+    openOrCloseDialog(true, id);
   };
+
+  const handleDelete = () => {};
 
   return (
     <div className={iconStyle.iconItem}>
@@ -35,7 +39,7 @@ const IconCardItem = ({
         </div>
         <div style={{ display: "flex", gap: "6px", cursor: "pointer" }}>
           <i className="fa-light fa-file-pen" onClick={handleEdit}></i>
-          <i className="fa-light fa-eye"></i>
+          <i className="fa-light fa-eye" onClick={handleDelete}></i>
           <i className="fa-light fa-eye-low-vision"></i>
         </div>
       </div>
