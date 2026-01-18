@@ -11,7 +11,8 @@
   padding: 10px;
   /* height: 120px; */
   /* cursor: pointer; */
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+  box-shadow:
+    rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   transition: box-shadow 0.3s ease-in-out;
 }
@@ -60,14 +61,30 @@
 }
 
 .status {
-  background-color: #b6ecd4;
   padding: 1px 8px;
   border-radius: 6px;
   width: fit-content;
+  &.active {
+    background-color: #b6ecd4;
+  }
+  &.stop {
+    background-color: #ffacac;
+  }
 }
 
-.stausText {
+/* .status.active {
+}
+
+.status */
+
+.statusText {
   color: #073e1b;
+  &.activeText {
+    color: #00733f;
+  }
+  &.stopText {
+    color: #ff1f1f;
+  }
 }
 
 .createBtn {

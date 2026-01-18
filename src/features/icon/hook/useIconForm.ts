@@ -8,7 +8,7 @@ import { useToast } from "@shared/hooks/useToast";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { createIcon } from "../api/icon.api";
+import { createIcon, updateIcon } from "../api/icon.api";
 import { useEffect } from "react";
 import { getDynamicData } from "@shared/services/dynamic";
 import { queryClient } from "@app/queryClient";
@@ -51,9 +51,13 @@ export const useIconForm: any = (id?: string) => {
   }, [data, isEdit, isSuccess, reset]);
 
   const handleSuccess = () => {
-    toast.success("Tạo mới thành công ^_^");
+    if (isEdit) {
+      toast.success("Cập nhật thành công ^_^");
+    } else {
+      toast.success("Tạo mới thành công ^_^");
+      reset(defaultIconValue);
+    }
     queryClient.invalidateQueries({ queryKey: ["icons"] });
-    reset(defaultIconValue);
   };
 
   const mutation = useMutation({
@@ -62,17 +66,27 @@ export const useIconForm: any = (id?: string) => {
     onError: () => toast.warning("Tạo mới thất bại T_T"),
   });
 
+  const mutationUpdate = useMutation({
+    mutationFn: updateIcon,
+    onSuccess: handleSuccess,
+    onError: () => toast.warning("Cập nhật thất bại T_T"),
+  });
+
   const title: string = !isEdit
     ? "Thêm mới biểu tượng"
     : isSuccess
-    ? `Sửa biểu tượng: ${data?.data[0].iconName}`
-    : "";
+      ? `Sửa biểu tượng: ${data?.data[0].iconName}`
+      : "";
 
   const onsubmit: SubmitHandler<IconResponse> = (data) => {
     const { id, createdDate, isActive, ...rest } = data;
 
-    mutation.mutate(rest);
+    if (isEdit) {
+      mutationUpdate.mutate({ id, data });
+    } else {
+      mutation.mutate(rest);
+    }
   };
-
-  return [color, methods, isEdit, title, onsubmit];
+  const isLoading = mutation.isPending || mutationUpdate.isPending;
+  return [color, methods, isEdit, title, isLoading, onsubmit];
 };

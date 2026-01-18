@@ -31,7 +31,8 @@ type Sort = {
 export type DeleteDataRequest = {
   tableName: string;
   primaryKey: string;
-  deleteType: string;
+  deleteType?: string;
+  actionType: string;
 };
 
 // "tableNames": "",

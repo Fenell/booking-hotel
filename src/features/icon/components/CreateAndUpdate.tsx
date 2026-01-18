@@ -6,25 +6,11 @@ import {
 } from "@shared/components/UI/Modal";
 import { useIconContext } from "../store/IconContext";
 import { Button } from "@shared/components/UI";
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  useWatch,
-  type DefaultValues,
-  type SubmitHandler,
-} from "react-hook-form";
-import type { IconResponse } from "../types/icon.type";
+import { Controller, FormProvider } from "react-hook-form";
 import { Input, TextArea } from "@shared/components/UI/Input";
 import IconPreview from "./IconPreview";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
-import { useEffect } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createIcon } from "../api/icon.api";
-import { useToast } from "@shared/hooks/useToast";
-import { queryClient } from "@app/queryClient";
-import { getDynamicData } from "@shared/services/dynamic";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+
 import { useIconForm } from "../hook/useIconForm";
 
 type IconOption = {
@@ -43,7 +29,7 @@ const iconSizeOption: IconOption[] = [
 
 const CreateAndUpdate = () => {
   const { openOrCloseDialog, id } = useIconContext();
-  const [color, methods, isEdit, title, onsubmit] = useIconForm(id);
+  const [color, methods, isEdit, title, isLoading, onsubmit] = useIconForm(id);
   const { handleSubmit, control, setValue } = methods;
 
   return (
@@ -62,22 +48,32 @@ const CreateAndUpdate = () => {
                 }}
               >
                 <div style={{ width: "100%" }}>
-                  <label>Mã icon:</label>
+                  <label htmlFor="iconCode">Mã icon:</label>
                   <Controller
                     control={control}
                     name="iconCode"
                     render={({ field }) => (
-                      <Input {...field} placeholder="Mã icon" />
+                      <Input
+                        {...field}
+                        placeholder="Mã icon"
+                        id="iconCode"
+                        name={field.name}
+                      />
                     )}
                   />
                 </div>
                 <div style={{ width: "100%" }}>
-                  <label>Tên icon:</label>
+                  <label htmlFor="iconName">Tên icon:</label>
                   <Controller
                     control={control}
                     name="iconName"
                     render={({ field }) => (
-                      <Input {...field} placeholder="Tên icon" />
+                      <Input
+                        {...field}
+                        placeholder="Tên icon"
+                        id="iconName"
+                        name="iconName"
+                      />
                     )}
                   />
                 </div>
@@ -91,12 +87,14 @@ const CreateAndUpdate = () => {
                 }}
               >
                 <div style={{ width: "100%" }}>
-                  <label>Màu:</label>
+                  <label htmlFor="color">Màu:</label>
                   <div style={{ display: "flex", gap: "6px" }}>
                     <input
                       type="color"
                       value={color}
                       onChange={(e) => setValue("color", e.target.value)}
+                      id="color"
+                      name="color"
                       style={{
                         border: "none",
                         cursor: "pointer",
@@ -106,12 +104,14 @@ const CreateAndUpdate = () => {
                     <Input
                       placeholder="màu"
                       value={color}
+                      id="color"
+                      name="color"
                       onChange={(e) => setValue("color", e.target.value)}
                     />
                   </div>
                 </div>
                 <div style={{ width: "100%" }}>
-                  <label>Kích thước:</label>
+                  <label htmlFor="sizeIcon">Kích thước:</label>
                   <Controller
                     control={control}
                     name="sizeIcon"
@@ -120,10 +120,11 @@ const CreateAndUpdate = () => {
                         {...field}
                         options={iconSizeOption}
                         value={iconSizeOption.find(
-                          (c) => c.value === field.value
+                          (c) => c.value === field.value,
                         )}
                         onChange={(a) => field.onChange(a?.value)}
                         name="sizeIcon"
+                        inputId="sizeIcon"
                       />
                     )}
                   />
@@ -136,15 +137,22 @@ const CreateAndUpdate = () => {
                   marginBottom: "10px",
                 }}
               >
-                <label>Mô tả:</label>
+                <label htmlFor="description">Mô tả:</label>
                 <Controller
                   control={control}
                   name="description"
-                  render={({ field }) => <TextArea rows={4} {...field} />}
+                  render={({ field }) => (
+                    <TextArea
+                      rows={4}
+                      {...field}
+                      id="description"
+                      name="description"
+                    />
+                  )}
                 />
               </div>
               <div>
-                <label>Xem trước</label>
+                <span>Xem trước</span>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <IconPreview />
                 </div>
@@ -154,7 +162,13 @@ const CreateAndUpdate = () => {
         </FormProvider>
       </ModalContent>
       <ModalFooter>
-        <Button status="primary" noAnimation type="submit" form="icon-form">
+        <Button
+          status="primary"
+          noAnimation
+          type="submit"
+          form="icon-form"
+          isLoading={isLoading}
+        >
           Cất giữ
         </Button>
       </ModalFooter>
