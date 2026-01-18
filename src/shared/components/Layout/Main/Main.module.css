@@ -4,7 +4,7 @@ main {
   height: calc(100vh - var(--nav-height));
   /* background-color: #eaecf0; */
   border-radius: 10px 10px 0 0;
-  overflow-x: auto;
+  /* overflow-y: auto; */
 }
 main p {
   /* color: var(--secondary-text-clr); */
@@ -37,4 +37,5 @@ section {
   grid-template-rows: auto 1fr; */
   height: 100%;
   width: 100%;
+  overflow-y: auto;
 }

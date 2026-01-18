@@ -1,5 +1,6 @@
 import DashBoard from "@features/dashboard/page/DashBoard";
 import IconPage from "@features/icon/page/IconPage";
+import ServicePage from "@features/service/page/ServicePage";
 import Root from "@layouts/Root";
 import { createBrowserRouter } from "react-router";
 
@@ -10,7 +11,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <DashBoard /> },
       { path: "icon", element: <IconPage /> },
-      // { path: "size", element: <Size /> },
+      { path: "service", element: <ServicePage /> },
       // { path: "product", element: <Product /> },
       // { path: "product-item", element: <ProductItem /> },
       // { path: "order", element: <Order /> },

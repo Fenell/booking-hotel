@@ -28,7 +28,7 @@ const IconPageContent = () => {
   return (
     <>
       {isOpen && <CreateAndUpdate />}
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", height: "100%" }}>
         <div className={iconStyle.iconBox}>
           {iconData?.map((a) => (
             <IconCardItem {...a} key={a.id} />

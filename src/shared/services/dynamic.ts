@@ -1,5 +1,5 @@
 import { API_ENDPOINT } from "@shared/constants/endpoint";
-import axiosInstance from "@shared/lib/axios";
+import axiosInstance from "@shared/lib/axios.config";
 import type { ResponseApi } from "@shared/types/common";
 import type {
   DeleteDataRequest,

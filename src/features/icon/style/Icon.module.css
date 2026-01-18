@@ -11,6 +11,7 @@
   padding: 10px;
   /* height: 120px; */
   /* cursor: pointer; */
+  min-height: 216px;
   box-shadow:
     rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -35,6 +36,7 @@
 .iconDescription {
   font-size: 0.8rem;
   margin: 10px 0;
+  min-height: 24px;
 }
 
 .iconInfo {
