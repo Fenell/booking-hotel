@@ -11,8 +11,8 @@ type IconContextValue = IconState & {
 
 type OpenOrCloseAction = {
   type: "OPEN_OR_CLOSE";
-  isOpen: boolean;
   id?: string;
+  isOpen: boolean;
 };
 
 type IconAction = OpenOrCloseAction;

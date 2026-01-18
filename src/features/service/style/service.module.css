@@ -1,3 +1,19 @@
+.box {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  gap: 10px;
+}
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px;
+  border-radius: 6px;
+  border: solid 1px #dbdbdb;
+}
+
 .actionRow {
   display: inline-flex;
   align-items: center;

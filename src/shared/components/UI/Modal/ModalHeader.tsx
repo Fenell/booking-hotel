@@ -5,7 +5,7 @@ import modalStyle from "./Modal.module.css";
 type ModalHeaderProps = {
   hasCloseButton?: boolean;
   title?: string;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 const ModalHeader = ({
