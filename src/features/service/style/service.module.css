@@ -25,3 +25,28 @@
   /* color: #ffffff; */
   /* margin: aut; */
 }
+
+.iconSelectBox {
+  padding: 6px;
+}
+
+.iconSelectList {
+  display: flex;
+  gap: 8px;
+  max-width: 260px;
+  flex-wrap: wrap;
+}
+
+.iconSelectItem {
+  cursor: pointer;
+  border: solid 1px #fff;
+  padding: 4px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.3s ease-in-out;
+}
+
+.iconSelectItem:hover {
+  border: solid 1px #e4e4e4;
+  border-radius: 4px;
+}

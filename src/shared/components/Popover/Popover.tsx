@@ -79,19 +79,20 @@ import type { StatusBtn } from "../UI/Button/Button";
 
 type PopoverProp = {
   content: ReactNode;
-  noAnimation: boolean;
+  noAnimation?: boolean;
   status: StatusBtn;
-  icon: string;
-  children: ReactNode;
-} & ComponentPropsWithoutRef<"button">;
+  icon?: string;
+  children?: ReactNode;
+  btnProps?: ComponentPropsWithoutRef<"button">;
+};
 
 const Popover = ({
-  children,
   content,
   noAnimation = false,
   status,
   icon,
-  ...props
+  children,
+  btnProps,
 }: PopoverProp) => {
   const [isVisible, setIsVisible] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -101,7 +102,7 @@ const Popover = ({
   useEffect(() => {
     if (isVisible && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      console.log(rect);
+      // console.log(rect);
       setPos({
         top: rect.bottom + window.scrollY, // dưới trigger + 8px
         left: rect.right + window.scrollX,
@@ -149,7 +150,7 @@ const Popover = ({
   return (
     <div className={styles["popover-container"]}>
       <Button
-        {...props}
+        {...btnProps}
         ref={triggerRef}
         status={status}
         noAnimation={noAnimation}
@@ -157,6 +158,7 @@ const Popover = ({
         icon={icon}
         aria-expanded={isVisible}
         aria-controls="popover-content"
+        type="button"
         onClick={toggleVisibility}
       >
         {children}

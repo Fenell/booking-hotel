@@ -1,9 +1,12 @@
-export type ServiceResponse = {
+export type ServiceResponse = ServiceCreateAndUpdateModel & {
+  createDate: Date;
+  isActive: boolean;
+};
+
+export type ServiceCreateAndUpdateModel = {
   id: string;
   serviceCode?: string;
   serviceName: string;
-  isActive: boolean;
-  createDate: Date;
   description?: string;
   idIcon: string;
 };
