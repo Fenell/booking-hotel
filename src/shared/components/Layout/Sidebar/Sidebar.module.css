@@ -81,7 +81,7 @@ Nội dung sẽ co lại nếu có padding.*/
 .sidebar i {
   font-size: 18px;
   color: #fff;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 .sidebar a:hover,
@@ -99,9 +99,22 @@ Nội dung sẽ co lại nếu có padding.*/
 }
 
 .sidebar .sub-menu a {
-  padding-left: 1.8em;
-  margin: 5px 0;
+  /* padding-left: 1.8em; */
+  /* padding-left: 10px; */
+  margin: 2px 0;
   font-size: 14px;
+}
+
+.sidebar .sub-menu-item {
+  display: flex;
+  align-items: center;
+  padding-left: 26px;
+  i,
+  a {
+    font-size: 14px;
+  }
+
+  /* gap: 6px; */
 }
 
 .toggle-btn:hover {

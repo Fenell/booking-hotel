@@ -23,7 +23,8 @@ const SubMenu = ({ subMenus, parentMenu, parentIcon }: SubMenuProp) => {
         className={sideBarStyle["sub-menu"]}
       >
         {subMenus.map((item) => (
-          <li key={item.menuName}>
+          <li key={item.menuName} className={sideBarStyle["sub-menu-item"]}>
+            <i className={item.menuIcon || "fa-light fa-circle-dot"}></i>
             <NavLink
               viewTransition
               style={{ display: item.isActive ? "" : "none" }}
