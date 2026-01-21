@@ -55,7 +55,7 @@ Nội dung sẽ co lại nếu có padding.*/
 .sidebar .logo {
   text-decoration: none;
   display: flex;
-  gap: 1em;
+  gap: 10px;
   padding: 0.4rem 0.2rem 0.4em 0.8rem;
   align-items: center;
   border-radius: 0.5em;
@@ -73,11 +73,15 @@ Nội dung sẽ co lại nếu có padding.*/
 }
 
 .sidebar a span,
-.sidebar .dropdown-btn span,
-.sidebar i {
+.sidebar .dropdown-btn span {
   flex-grow: 1;
   font-size: 14px;
   color: #fff;
+}
+.sidebar i {
+  font-size: 18px;
+  color: #fff;
+  flex-grow: 1;
 }
 
 .sidebar a:hover,

@@ -35,9 +35,11 @@ const IconItem = ({ id, iconCode, sizeIcon, color, ...prop }: IconResponse) => {
 
 const iconRequest: DyanmicDataPagingRequest = {
   tableNames: "icons",
+  filters: [{ field: "is_active", operator: "=", value: "true" }],
   pageNumber: 1,
   pageSize: 100,
 };
+
 const IconSelect = () => {
   const { data, isPending } = useQuery({
     queryKey: ["icons"],

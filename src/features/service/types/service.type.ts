@@ -1,14 +1,21 @@
 export type ServiceResponse = ServiceCreateAndUpdateModel & {
   createDate: Date;
   isActive: boolean;
+  id: string;
+  iconCode?: string;
+  sizeIcon?: string;
+  color?: string;
 };
 
 export type ServiceCreateAndUpdateModel = {
-  id: string;
   serviceCode?: string;
   serviceName: string;
   description?: string;
-  idIcon: string;
+  idIcon?: string;
+};
+
+export type ServiceUpdateRequest = ServiceCreateAndUpdateModel & {
+  id: string;
 };
 
 // id": "019b8497-de44-745a-a0ff-4995cd9c5ff0",

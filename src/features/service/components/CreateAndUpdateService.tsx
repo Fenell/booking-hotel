@@ -9,43 +9,22 @@ import { useServiceContext } from "../store/serviceContext";
 import { Input, TextArea } from "@shared/components/UI/Input";
 import Popover from "@shared/components/Popover/Popover";
 import IconSelect from "./IconSelect";
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  type DefaultValues,
-  type SubmitHandler,
-} from "react-hook-form";
-import type { ServiceResponse } from "../types/service.type";
-import { useEffect } from "react";
-
-const defaultValues: DefaultValues<ServiceResponse> = {
-  id: "",
-  serviceCode: "",
-  serviceName: "",
-  description: "",
-  idIcon: "",
-};
+import { Controller, FormProvider } from "react-hook-form";
+import { useServiceForm } from "../hook/useServiceForm";
 
 const CreateAndUpdateService = () => {
-  const { icon, openOrCloseDialog, selectIcon } = useServiceContext();
-  const methods = useForm<ServiceResponse>({
-    defaultValues,
-  });
-  const { control, handleSubmit, reset } = methods;
-  const onsubmit: SubmitHandler<ServiceResponse> = (data) => {
-    console.log(JSON.stringify(data));
-  };
+  const { icon, id, openOrCloseDialog, selectIcon } = useServiceContext();
 
-  useEffect(() => {
-    return () => {
-      selectIcon(null);
-    };
-  }, []);
+  const { methods, isLoading, title, onsubmit } = useServiceForm(
+    id,
+    selectIcon,
+  );
+
+  const { control, handleSubmit, reset } = methods;
 
   return (
     <Modal onClose={() => openOrCloseDialog(false)}>
-      <ModalHeader hasCloseButton title="Thêm mới" />
+      <ModalHeader hasCloseButton title={title} />
       <ModalContent>
         <FormProvider {...methods}>
           <form
@@ -88,7 +67,13 @@ const CreateAndUpdateService = () => {
         </FormProvider>
       </ModalContent>
       <ModalFooter>
-        <Button form="service-form" status="success" noAnimation type="submit">
+        <Button
+          form="service-form"
+          status="success"
+          noAnimation
+          type="submit"
+          isLoading={isLoading}
+        >
           Cất giữ
         </Button>
       </ModalFooter>

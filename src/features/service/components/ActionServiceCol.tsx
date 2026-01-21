@@ -9,8 +9,6 @@ export type ActionServiceColProps = CustomCellRendererProps<ServiceResponse> & {
 const ActionServiceCol = ({ data, onClick }: ActionServiceColProps) => {
   // const { id } = data?.;
   return (
-    // <div style={{ height: "100%" }}>
-    // </div>
     <button className={serviceStyle.actionRow} onClick={onClick}>
       <i className="fa-light fa-pen-to-square fa-xl"></i>
       Chỉnh sửa
