@@ -102,7 +102,7 @@ export const useServiceForm = (
     };
   }, []);
 
-  const isLoading: boolean = mutaion.isPending;
+  const isLoading: boolean = mutaion.isPending || mutaionUpdate.isPending;
   const title: string = isEdit ? `Sửa` : "Thêm mới";
 
   return { methods, isLoading, title, onsubmit };

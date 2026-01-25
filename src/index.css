@@ -1,5 +1,6 @@
 :root {
-  --ag-cell-font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ag-cell-font-family:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.5rem;
   --base-clr: #11121a;
   --line-clr: #42434a;
@@ -51,6 +52,7 @@ body {
   grid-template-columns: auto 1fr;
   font-family:
     "Inter",
+    system-ui,
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;

@@ -1,6 +1,8 @@
 import DashBoard from "@features/dashboard/page/DashBoard";
 import IconPage from "@features/icon/page/IconPage";
+import RoomPage from "@features/room/page/RoomPage";
 import ServicePage from "@features/service/page/ServicePage";
+import TypeRoomPage from "@features/typeRoom/page/TypeRoomPage";
 import Root from "@layouts/Root";
 import { createBrowserRouter } from "react-router";
 
@@ -12,8 +14,8 @@ export const router = createBrowserRouter([
       { index: true, element: <DashBoard /> },
       { path: "icon", element: <IconPage /> },
       { path: "service", element: <ServicePage /> },
-      // { path: "product", element: <Product /> },
-      // { path: "product-item", element: <ProductItem /> },
+      { path: "room-type", element: <TypeRoomPage /> },
+      { path: "room", element: <RoomPage /> },
       // { path: "order", element: <Order /> },
       // { path: "sales", element: <Sales /> },
       // { path: "image", element: <Image /> },

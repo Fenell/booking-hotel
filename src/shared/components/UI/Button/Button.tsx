@@ -138,25 +138,31 @@ const RawButton = forwardRef<HTMLButtonElement, RawButtonProps>(
           )}
           {...props}
         >
-          {icon && (
-            <motion.i
-              variants={createIconVariant(noAnimation)}
-              initial={createIconVariant(noAnimation).init}
-              className={classNames(
-                icon,
-                !!children && buttonStyle["btn-icon"],
+          {isLoading ? (
+            <SpinnerIcon />
+          ) : (
+            <>
+              {" "}
+              {icon && (
+                <motion.i
+                  variants={createIconVariant(noAnimation)}
+                  initial={createIconVariant(noAnimation).init}
+                  className={classNames(
+                    icon,
+                    !!children && buttonStyle["btn-icon"],
+                  )}
+                ></motion.i>
               )}
-            ></motion.i>
-          )}
-          {isLoading && <SpinnerIcon />}
-          {children && (
-            <motion.span
-              variants={createTextVariant(noAnimation)}
-              initial={createTextVariant(noAnimation).init}
-              className={buttonStyle["button-text"]}
-            >
-              {children}
-            </motion.span>
+              {children && (
+                <motion.span
+                  variants={createTextVariant(noAnimation)}
+                  initial={createTextVariant(noAnimation).init}
+                  className={buttonStyle["button-text"]}
+                >
+                  {children}
+                </motion.span>
+              )}
+            </>
           )}
         </motion.button>
       </div>

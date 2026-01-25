@@ -7,7 +7,7 @@ import { ModalContext } from "./ModalContext";
 
 type ModalProps = {
   children: ReactNode;
-  size?: string;
+  size: "xs" | "lg";
   onClose: () => void;
   closeOnEscape?: boolean;
 };
@@ -73,7 +73,7 @@ const Modal = ({
         </motion.div>
       </ModalContext.Provider>
     </>,
-    document.getElementById("modal")!
+    document.getElementById("modal")!,
   );
 };
 
