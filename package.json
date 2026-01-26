@@ -17,6 +17,7 @@
     "camelcase-keys": "^10.0.1",
     "classnames": "^2.5.1",
     "motion": "^12.23.28",
+    "quill": "^2.0.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.1",
