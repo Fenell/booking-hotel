@@ -4,7 +4,7 @@ import checkBoxStyle from "./Checkbox.module.css";
 type CheckboxProps = {
   isChecked: boolean;
   label: string;
-  index?: number;
+  index?: string;
   value: string;
   onChecked: () => void;
 };

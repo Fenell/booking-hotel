@@ -21,7 +21,7 @@
   float: left;
   vertical-align: middle;
   transform: translate3d(0, 0, 0);
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255); */
 }
 .checkbox-wrapper-4 .cbx span:first-child {
   position: relative;

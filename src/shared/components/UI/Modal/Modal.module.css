@@ -5,6 +5,7 @@
   margin: 0 auto;
   border-radius: 8px;
   max-width: 90%;
+  max-height: 90%;
   width: fit-content;
   box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
   z-index: 10;
@@ -40,6 +41,7 @@
   background-color: var(--bgc-modal);
   font-size: 14px;
   border-radius: 6px;
+  overflow-y: auto;
 }
 
 .modal-close-btn {

@@ -1,8 +1,12 @@
-import React from "react";
 import RoomPageContent from "../components/RoomPageContent";
+import { RoomContextProvider } from "../store/RoomContext";
 
 const RoomPage = () => {
-  return <RoomPageContent></RoomPageContent>;
+  return (
+    <RoomContextProvider>
+      <RoomPageContent />
+    </RoomContextProvider>
+  );
 };
 
 export default RoomPage;
