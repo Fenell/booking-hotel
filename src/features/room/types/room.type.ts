@@ -1,19 +1,19 @@
 export interface RoomCreateRequest {
   roomTypeId: string;
-  roomNumber: number;
+  roomNumber: number | null;
   roomName: string;
   status: number;
   description?: string;
-  currentPrice: number;
-  acreage: number;
-  priceWeekend: number;
+  currentPrice: number | null;
+  acreage: number | null;
+  priceWeekend: number | null;
   imageUrl?: string;
   location?: string;
-  numberAdults: number;
-  numberChild: number;
-  numberBedroom: number;
-  numberBathRoom: number;
-  numberBed: number;
+  numberAdults: number | null;
+  numberChild: number | null;
+  numberBedroom: number | null;
+  numberBathRoom: number | null;
+  numberBed: number | null;
   roomServices: RoomService[];
 }
 

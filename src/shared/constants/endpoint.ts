@@ -11,4 +11,7 @@ export const API_ENDPOINT = {
     CREATE_SERVICE: "/service/create",
     UPDATE_SERVICE: (id: string) => `/service/update/${id}`,
   },
+  ROOM: {
+    CREATE_ROOM: "/room",
+  },
 };

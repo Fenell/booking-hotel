@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { ServiceResponse } from "@features/service/types/service.type";
 import { getDynamicData } from "@shared/services/dynamic";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
-import { Controller, set, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ const ServicesInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
   const { watch, setValue } = methods;
   const [checkAll, setCheckAll] = useState(true);
-  const roomServices = watch("roomServices") || [];
+  const roomServices = watch("roomServices");
 
   const { data } = useQuery({
     queryKey: ["services"],
@@ -78,6 +78,7 @@ const ServicesInput = () => {
           const checked = isChecked(service.id);
           return (
             <Checkbox
+              key={service.id}
               index={service.id}
               label={service.serviceName}
               isChecked={checked}
