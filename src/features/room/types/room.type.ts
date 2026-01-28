@@ -17,6 +17,6 @@ export interface RoomCreateRequest {
   roomServices: RoomService[];
 }
 
-interface RoomService {
+export interface RoomService {
   serviceId: string;
 }
