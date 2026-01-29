@@ -14,7 +14,7 @@ type FileInput = {
 };
 
 type DragAndDropImageProps = {
-  onImageList: (files: FileInput[]) => void;
+  onImageList?: (files: FileInput[]) => void;
 };
 
 const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
@@ -25,7 +25,7 @@ const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
   useEffect(() => {
     if (files.length) {
       if (files.length) {
-        onImageList(files);
+        onImageList?.(files);
       }
     }
   }, [files, onImageList]);
