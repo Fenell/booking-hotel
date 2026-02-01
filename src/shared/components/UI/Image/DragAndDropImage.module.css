@@ -1,11 +1,18 @@
 .drop-image {
   width: 100%;
   min-height: 200px;
-  border: 2px dashed rgb(192, 192, 192);
+  /* border: 2px dashed rgb(192, 192, 192); */
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
   padding: 1rem;
   cursor: pointer;
   margin: auto;
   background-color: var(--bgc-write);
+}
+
+.drop-box {
+  height: 40px;
+  margin-bottom: 6px;
 }
 
 .drop-image__title {
@@ -13,7 +20,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-block-start: 4rem;
 }
 
 .drop-image__list-image {
@@ -24,8 +30,10 @@
 
 .drop-image__item {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-tag);
   width: 180px;
+  height: 100%;
+  position: relative;
 }
 
 .drop-image__item img {
@@ -36,8 +44,8 @@
 
 .drop-image__image {
   padding: 0.6rem;
-  width: 175px;
-  height: 176px;
+  width: 180px;
+  height: 170px;
 }
 
 .drop-image_item-prop {
@@ -52,21 +60,27 @@
   margin: 0;
 }
 
-.drop-image_item-action {
+/* .drop-image_item-action { 
   border-top: 1px solid rgb(210, 210, 210);
-  display: flex;
-  justify-content: center;
-}
+} */
 
 .drop-image_item-action button {
-  padding: 0.5rem 1rem;
-  width: 100%;
+  padding: 2px;
+  /* width: 100%; */
   background-color: transparent;
   border: 0;
   cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drop-image_item-action button:hover {
   background-color: rgb(214, 214, 214);
-  border-radius: 0 0 8px 8px;
 }

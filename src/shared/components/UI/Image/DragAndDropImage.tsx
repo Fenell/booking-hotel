@@ -6,6 +6,7 @@ import {
   type MouseEvent,
 } from "react";
 import styles from "./DragAndDropImage.module.css";
+import { useFancybox } from "@shared/hooks/useFancybox";
 type FileInput = {
   id: number;
   url: string;
@@ -29,6 +30,8 @@ const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
       }
     }
   }, [files, onImageList]);
+
+  const [fancyboxRef] = useFancybox();
 
   const handleGetImage = (event: ChangeEvent<HTMLInputElement>) => {
     const images = event.target.files;
@@ -64,38 +67,41 @@ const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
   };
   return (
     <>
-      <div
-        className={styles["drop-image"]}
-        onClick={() => inputFileRef.current && inputFileRef.current.click()}
-      >
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          hidden
-          ref={inputFileRef}
-          onChange={handleGetImage}
-        />
-        {files.length === 0 && (
+      <div className={styles["drop-image"]}>
+        <div
+          className={styles["drop-box"]}
+          onClick={() => inputFileRef.current && inputFileRef.current.click()}
+        >
           <div className={styles["drop-image__title"]}>
-            <p>Thêm một ảnh vào đây </p>
-            <p>Kéo thả ảnh vào đây, hoặc bấm để chọn ảnh</p>
+            <p>Kéo thả tệp vào đây </p>
+            {/* <p>Kéo thả ảnh vào đây, hoặc bấm để chọn ảnh</p> */}
           </div>
-        )}
-        <div className={styles["drop-image__list-image"]}>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            hidden
+            ref={inputFileRef}
+            onChange={handleGetImage}
+          />
+        </div>
+
+        <div ref={fancyboxRef} className={styles["drop-image__list-image"]}>
           {files.map((file) => (
             <div className={styles["drop-image__item"]} key={file.id}>
+              <div className={styles["drop-image_item-action"]}>
+                <button onClick={(e) => handleRemoveImage(e, file.id)}>
+                  <i className="fa-regular fa-xmark"></i>
+                </button>
+              </div>
               <div className={styles["drop-image__image"]}>
-                <img src={file.url} alt="image" />
+                <a data-fancybox="gallery" href={file.url}>
+                  <img src={file.url} alt="image" />
+                </a>
               </div>
               <div className={styles["drop-image_item-prop"]}>
                 <p>{file.name}</p>
                 {/* <p>{file.size} MB</p> */}
-              </div>
-              <div className={styles["drop-image_item-action"]}>
-                <button onClick={(e) => handleRemoveImage(e, file.id)}>
-                  Xóa
-                </button>
               </div>
             </div>
           ))}
