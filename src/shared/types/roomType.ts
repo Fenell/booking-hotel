@@ -1,4 +1,4 @@
-export type RoomTypeResponse = {
+export type RoomType = {
   id: string;
   typeName: string;
   typeCode: string;

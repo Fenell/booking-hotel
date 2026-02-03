@@ -13,5 +13,11 @@ export const API_ENDPOINT = {
   },
   ROOM: {
     CREATE_ROOM: "/room",
+    GET_PAGING: (
+      pageNumber: number = 1,
+      pageSize: number = 100,
+      searchKey: string = "",
+    ) =>
+      `/room?pageNumber=${pageNumber}&pageSize=${pageSize}&searchKey=${searchKey}`,
   },
 };

@@ -41,13 +41,14 @@ const defaultValues: RoomCreateRequest = {
 
 const CreateAndUpdateRoom = () => {
   const methods = useForm<RoomCreateRequest>({ defaultValues });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   const { openDialog } = useRoomContext();
   const toast = useToast();
   const handleSuccess = (response: ResponseApi<string>) => {
     console.log(response);
     if (response.isSuccess) {
       toast.success("Thêm mới thành công");
+      reset(defaultValues);
     } else {
       toast.warning("Thêm mới thất bại T_T");
     }

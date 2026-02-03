@@ -9,7 +9,7 @@ import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useQuery } from "@tanstack/react-query";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 import { getDynamicData } from "@shared/services/dynamic";
-import type { RoomTypeResponse } from "@shared/types/roomType";
+import type { RoomType } from "@shared/types/roomType";
 
 // type InputRoomFormProp = {
 //   control: Control<RoomCreateRequest>;
@@ -56,7 +56,7 @@ const BaseInfoInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
   const { data } = useQuery({
     queryKey: ["typeRooms"],
-    queryFn: () => getDynamicData<RoomTypeResponse[]>(roomTypeRequest),
+    queryFn: () => getDynamicData<RoomType[]>(roomTypeRequest),
   });
 
   const optionRoomType = data?.data.map((a) => ({

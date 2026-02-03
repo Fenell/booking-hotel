@@ -1,10 +1,12 @@
 import CreateAndUpdateRoom from "./CreateAndUpdateRoom";
 import roomStyle from "../style/room.module.css";
 import { Button } from "@shared/components/UI";
-import { useRoomContext } from "../store/RoomContext";
+import { AgGridReact } from "ag-grid-react";
+import { useRoomGrid } from "../hook/useRoomGrid";
 
 const RoomPageContent = () => {
-  const { isOpen, openDialog } = useRoomContext();
+  const { colDefs, defaultColDef, data, isPending, isOpen, openDialog } =
+    useRoomGrid();
   return (
     <>
       {isOpen && <CreateAndUpdateRoom />}
@@ -13,6 +15,14 @@ const RoomPageContent = () => {
           <Button noAnimation status="success" onClick={() => openDialog(true)}>
             Thêm mới
           </Button>
+        </div>
+        <div className={roomStyle.boxData}>
+          <AgGridReact
+            loading={isPending}
+            columnDefs={colDefs}
+            rowData={data?.data}
+            defaultColDef={defaultColDef}
+          />
         </div>
       </div>
     </>
