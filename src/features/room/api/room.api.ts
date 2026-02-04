@@ -4,6 +4,7 @@ import type { ResponseApi } from "@shared/types/common";
 import { API_ENDPOINT } from "@shared/constants/endpoint";
 import type { AxiosRequestConfig } from "axios";
 import type { RoomModel } from "@shared/types/room";
+import type { PagingResponse } from "@shared/types/dynamic";
 
 export const createRoom = async (createRequest: RoomCreateRequest) => {
   try {
@@ -28,7 +29,9 @@ export const getPagingRoom = async (
   request: RoomPagingRequest,
 ) => {
   try {
-    const response = await axiosInstance.get<ResponseApi<RoomModel[]>>(
+    const response = await axiosInstance.get<
+      ResponseApi<PagingResponse<RoomModel[]>>
+    >(
       API_ENDPOINT.ROOM.GET_PAGING(
         request.pageNumber,
         request.pageSize,
@@ -38,6 +41,23 @@ export const getPagingRoom = async (
         signal,
       },
     );
+    return response.data.data;
+  } catch (err) {
+    throw new Error(JSON.stringify(err));
+  }
+};
+
+type ChangeStatusRequest = {
+  id: string;
+  status: number;
+};
+
+export const changeStatus = async (request: ChangeStatusRequest) => {
+  try {
+    const response = await axiosInstance.patch<ResponseApi<RoomModel>>(
+      API_ENDPOINT.ROOM.CHANGE_STATUS(request.id, request.status),
+    );
+
     return response.data.data;
   } catch (err) {
     throw new Error(JSON.stringify(err));

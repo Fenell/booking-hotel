@@ -1,31 +1,86 @@
 import type { RoomModel } from "@shared/types/room";
-import { useQuery } from "@tanstack/react-query";
-import { type ColDef } from "ag-grid-community";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  type ColDef,
+  type GridApi,
+  type GridReadyEvent,
+} from "ag-grid-community";
 
 import { useRoomContext } from "../store/RoomContext";
-import { useCallback, useMemo } from "react";
-import { getPagingRoom } from "../api/room.api";
+import { useCallback, useMemo, useRef } from "react";
+import { changeStatus, getPagingRoom } from "../api/room.api";
+import { formatNumber } from "@shared/utils/formatNumber";
+import StatusSwitch, {
+  type StatusSwitchProp,
+} from "../components/StatusSwitch";
+import type { CustomCellRendererProps } from "ag-grid-react";
+import { useToast } from "@shared/hooks/useToast";
 
 export const useRoomGrid = () => {
+  const toast = useToast();
   const { data, isPending } = useQuery({
     queryKey: ["rooms"],
     queryFn: (signal) =>
       getPagingRoom(signal, { pageNumber: 1, pageSize: 100, searchKey: "" }),
   });
+
+  const gridApiRef = useRef<GridApi<RoomModel> | null>(null);
+
+  const onGridReady = (params: GridReadyEvent) => {
+    gridApiRef.current = params.api;
+  };
+
+  const handleChangeStatusSuccess = (data: RoomModel) => {
+    toast.success("Đổi trạng thái thành công ^_^");
+    gridApiRef.current?.applyTransaction({
+      update: [data],
+    });
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: changeStatus,
+    onSuccess: (data) => handleChangeStatusSuccess(data),
+    onError: () => toast.success("Đổi trạng thái không thành công ^_^"),
+  });
   const { isOpen, openDialog } = useRoomContext();
 
-  const handleClickAction = useCallback(
-    (id?: string) => {
-      openDialog(true);
-      // console.log(id);
+  const handleToogle = useCallback(
+    (checked: boolean, id?: string) => {
+      console.log(checked);
+      if (id) {
+        mutate({ id, status: checked ? 0 : 1 });
+      }
     },
-    [openDialog],
+    [mutate],
   );
 
   const colDefs = useMemo<ColDef<RoomModel>[]>(
     () => [
-      { field: "roomName", headerName: "Tên phòng", maxWidth: 400 },
-      { field: "description", headerName: "Mô tả" },
+      { field: "roomName", headerName: "Tên phòng", maxWidth: 500, width: 400 },
+      {
+        field: "currentPrice",
+        headerName: "Giá phòng",
+        valueFormatter: (e) => formatNumber(e.value),
+      },
+      {
+        field: "priceWeekend",
+        headerName: "Giá cuối tuần",
+        valueFormatter: (e) => formatNumber(e.value),
+      },
+      {
+        field: "status",
+        headerName: "Trạng thái",
+        cellRenderer: StatusSwitch,
+        cellRendererParams: ({
+          data,
+        }: CustomCellRendererProps<RoomModel>): Pick<
+          StatusSwitchProp,
+          "onToggle"
+        > => ({
+          onToggle: (e) => handleToogle(e, data?.id),
+        }),
+        width: 100,
+      },
       {
         colId: "action",
         headerName: "Thao tác",
@@ -40,7 +95,7 @@ export const useRoomGrid = () => {
         // }),
       },
     ],
-    [],
+    [handleToogle],
   );
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -49,5 +104,14 @@ export const useRoomGrid = () => {
     };
   }, []);
 
-  return { colDefs, defaultColDef, data, isPending, isOpen, openDialog };
+  return {
+    colDefs,
+    defaultColDef,
+    data,
+    isPending,
+    isOpen,
+    openDialog,
+    gridApiRef,
+    onGridReady,
+  };
 };

@@ -2,6 +2,7 @@ import type { RoomImage } from "./roomImage";
 import type { RoomType } from "./roomType";
 
 export type RoomModel = {
+  id: string;
   roomTypeId: string;
   roomNumber: number | null;
   roomName: string;

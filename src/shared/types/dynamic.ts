@@ -35,23 +35,11 @@ export type DeleteDataRequest = {
   actionType: string;
 };
 
-// "tableNames": "",
-//   "ids": "",
-//   "searchTerm": "",
-//   "fields": "",
-//   "filters": [
-//     {
-//       "field": "",
-//       "operator": "",
-//       "value": ""
-//     }
-//   ],
-//   "sorts": [
-//     {
-//       "name": "",
-//       "direction": ""
-//     }
-//   ],
-//   "pageNumber": 1,
-//   "pageSize": 1,
-//   "searchFields": ""
+export type PagingResponse<T extends readonly unknown[]> = {
+  data: T;
+  totalRecord: bigint;
+  pageSize: number;
+  pageNumber: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+};

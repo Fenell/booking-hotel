@@ -1,12 +1,14 @@
 import { Button } from "@shared/components/UI";
 import Input from "@shared/components/UI/Input/Input";
 import { Modal, ModalContent, ModalHeader } from "@shared/components/UI/Modal";
+import Switch from "@shared/components/UI/Switch/Switch";
 import { useToast } from "@shared/hooks/useToast";
 import { useState } from "react";
 
 const DashBoard = () => {
   const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState(true);
   const handleTest = () => {
     // toast.error("okok");
     setIsOpen(true);
@@ -35,6 +37,7 @@ const DashBoard = () => {
       </Button>
 
       <Input placeholder="okeoej" />
+      <Switch checked={status} onToggle={(e) => setStatus(e)} />
     </div>
   );
 };

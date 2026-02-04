@@ -19,5 +19,7 @@ export const API_ENDPOINT = {
       searchKey: string = "",
     ) =>
       `/room?pageNumber=${pageNumber}&pageSize=${pageSize}&searchKey=${searchKey}`,
+    CHANGE_STATUS: (id: string, status: number) =>
+      `/room/${id}?status=${status}`,
   },
 };
