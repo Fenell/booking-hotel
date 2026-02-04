@@ -3,6 +3,7 @@ import roomStyle from "../style/room.module.css";
 import { Button } from "@shared/components/UI";
 import { AgGridReact } from "ag-grid-react";
 import { useRoomGrid } from "../hook/useRoomGrid";
+import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
 
 const RoomPageContent = () => {
   const {
@@ -14,7 +15,10 @@ const RoomPageContent = () => {
     openDialog,
     gridApiRef,
     onGridReady,
+    paginationPageSizeSelector,
   } = useRoomGrid();
+
+  const localText = AG_GRID_LOCALE_VN;
   return (
     <>
       {isOpen && <CreateAndUpdateRoom />}
@@ -27,10 +31,14 @@ const RoomPageContent = () => {
         <div className={roomStyle.boxData}>
           <AgGridReact
             loading={isPending}
+            localeText={localText}
             onGridReady={onGridReady}
             getRowId={(params) => params.data.id}
             columnDefs={colDefs}
             rowData={data?.data}
+            pagination={true}
+            paginationPageSizeSelector={paginationPageSizeSelector}
+            paginationPageSize={50}
             defaultColDef={defaultColDef}
           />
         </div>

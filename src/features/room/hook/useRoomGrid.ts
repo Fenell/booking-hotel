@@ -18,6 +18,7 @@ import { useToast } from "@shared/hooks/useToast";
 
 export const useRoomGrid = () => {
   const toast = useToast();
+  const { isOpen, openDialog } = useRoomContext();
   const { data, isPending } = useQuery({
     queryKey: ["rooms"],
     queryFn: (signal) =>
@@ -40,9 +41,8 @@ export const useRoomGrid = () => {
   const { mutate } = useMutation({
     mutationFn: changeStatus,
     onSuccess: (data) => handleChangeStatusSuccess(data),
-    onError: () => toast.success("Đổi trạng thái không thành công ^_^"),
+    onError: () => toast.success("Đổi trạng thái không thành công T_T"),
   });
-  const { isOpen, openDialog } = useRoomContext();
 
   const handleToogle = useCallback(
     (checked: boolean, id?: string) => {
@@ -54,22 +54,36 @@ export const useRoomGrid = () => {
     [mutate],
   );
 
+  const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
+    return [50, 100, 200];
+  }, []);
+
   const colDefs = useMemo<ColDef<RoomModel>[]>(
     () => [
       { field: "roomName", headerName: "Tên phòng", maxWidth: 500, width: 400 },
       {
         field: "currentPrice",
         headerName: "Giá phòng",
+        type: "numericColumn",
         valueFormatter: (e) => formatNumber(e.value),
       },
       {
         field: "priceWeekend",
         headerName: "Giá cuối tuần",
+        type: "numericColumn",
         valueFormatter: (e) => formatNumber(e.value),
       },
+      //      {
+      //   field: "crea. ",
+      //   headerName: "Thời gian tạo",
+      //   type: "numericColumn",
+      //   valueFormatter: (e) => formatNumber(e.value),
+      // },
       {
         field: "status",
         headerName: "Trạng thái",
+        cellClass: "ag-center-aligned-cell",
+        headerClass: "ag-center-aligned-header",
         cellRenderer: StatusSwitch,
         cellRendererParams: ({
           data,
@@ -113,5 +127,6 @@ export const useRoomGrid = () => {
     openDialog,
     gridApiRef,
     onGridReady,
+    paginationPageSizeSelector,
   };
 };
