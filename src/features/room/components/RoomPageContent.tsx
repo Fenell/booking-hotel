@@ -4,38 +4,38 @@ import { Button } from "@shared/components/UI";
 import { AgGridReact } from "ag-grid-react";
 import { useRoomGrid } from "../hook/useRoomGrid";
 import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
+import { useRoomLogic } from "../hook/useRoomLogic";
 
 const RoomPageContent = () => {
-  const {
-    colDefs,
-    defaultColDef,
-    data,
-    isPending,
-    isOpen,
-    openDialog,
-    gridApiRef,
-    onGridReady,
-    paginationPageSizeSelector,
-  } = useRoomGrid();
+  const logic = useRoomLogic();
+
+  const { colDefs, defaultColDef, paginationPageSizeSelector } = useRoomGrid({
+    onEditRoom: logic.handleEditRoom,
+    onToogleStatus: logic.handleToogle,
+  });
 
   const localText = AG_GRID_LOCALE_VN;
   return (
     <>
-      {isOpen && <CreateAndUpdateRoom />}
+      {logic.isOpen && <CreateAndUpdateRoom />}
       <div className={roomStyle.box}>
         <div className={roomStyle.actionBar}>
-          <Button noAnimation status="success" onClick={() => openDialog(true)}>
+          <Button
+            noAnimation
+            status="success"
+            onClick={() => logic.openDialog(true)}
+          >
             Thêm mới
           </Button>
         </div>
         <div className={roomStyle.boxData}>
           <AgGridReact
-            loading={isPending}
+            loading={logic.isPending}
             localeText={localText}
-            onGridReady={onGridReady}
+            onGridReady={logic.onGridReady}
             getRowId={(params) => params.data.id}
             columnDefs={colDefs}
-            rowData={data?.data}
+            rowData={logic.data?.data}
             pagination={true}
             paginationPageSizeSelector={paginationPageSizeSelector}
             paginationPageSize={50}

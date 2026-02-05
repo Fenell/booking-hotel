@@ -6,19 +6,20 @@ type RoomState = {
 };
 
 type RoomContextValue = RoomState & {
-  openDialog: (isOpen: boolean) => void;
+  openDialog: (isOpen: boolean, idRoom?: string) => void;
 };
 
 type OpenOrCloseDialog = {
   type: "OPEN_OR_CLOSE";
   isOpen: boolean;
+  idRoom?: string;
 };
 
 type RoomAction = OpenOrCloseDialog;
 
 const roomReducer = (state: RoomState, action: RoomAction): RoomState => {
   if (action.type === "OPEN_OR_CLOSE") {
-    return { ...state, isOpen: action.isOpen };
+    return { ...state, isOpen: action.isOpen, id: action.idRoom };
   }
 
   return state;
@@ -39,12 +40,13 @@ export const RoomContextProvider = ({ children }: { children: ReactNode }) => {
     isOpen: false,
   });
 
-  const openDialog = (isOpen: boolean) => {
-    dispatch({ type: "OPEN_OR_CLOSE", isOpen });
+  const openDialog = (isOpen: boolean, idRoom?: string) => {
+    dispatch({ type: "OPEN_OR_CLOSE", isOpen, idRoom });
   };
 
   const ctx: RoomContextValue = {
     isOpen: roomState.isOpen,
+    id: roomState.id,
     openDialog,
   };
 

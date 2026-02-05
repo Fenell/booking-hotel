@@ -18,7 +18,7 @@ const ServicesInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
   const { watch, setValue } = methods;
   const [checkAll, setCheckAll] = useState(true);
-  const roomServices = watch("roomServices");
+  const roomServices = watch("roomServices") ?? [];
 
   const { data } = useQuery({
     queryKey: ["services"],

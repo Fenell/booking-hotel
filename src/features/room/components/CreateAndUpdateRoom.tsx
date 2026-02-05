@@ -18,10 +18,12 @@ import {
 import type { RoomCreateRequest } from "../types/room.type";
 import BaseInfoInput from "./BaseInfoInput";
 import ServicesInput from "./ServicesInput";
-import { useMutation } from "@tanstack/react-query";
-import { createRoom } from "../api/room.api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createRoom, getRoomDetail } from "../api/room.api";
 import type { ResponseApi } from "@shared/types/common";
 import { useToast } from "@shared/hooks/useToast";
+import Spinner from "@shared/components/Spinner/Spinner";
+import { useEffect } from "react";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -42,7 +44,7 @@ const defaultValues: RoomCreateRequest = {
 const CreateAndUpdateRoom = () => {
   const methods = useForm<RoomCreateRequest>({ defaultValues });
   const { handleSubmit, reset } = methods;
-  const { openDialog } = useRoomContext();
+  const { openDialog, id } = useRoomContext();
   const toast = useToast();
   const handleSuccess = (response: ResponseApi<string>) => {
     console.log(response);
@@ -53,12 +55,23 @@ const CreateAndUpdateRoom = () => {
       toast.warning("Thêm mới thất bại T_T");
     }
   };
-
   const { mutate } = useMutation({
     mutationFn: createRoom,
     onSuccess: (data) => handleSuccess(data),
     onError: () => toast.warning("Thêm mới thất bại T_T"),
   });
+
+  const { data, isPending } = useQuery({
+    queryKey: ["rooms", id],
+    queryFn: ({ signal }) => getRoomDetail({ signal }, id),
+    enabled: !!id,
+  });
+
+  useEffect(() => {
+    if (!isPending && data) {
+      reset(data);
+    }
+  }, [isPending, data, reset]);
 
   const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {
     console.log(data);
@@ -71,24 +84,28 @@ const CreateAndUpdateRoom = () => {
       <ModalHeader title="Thêm mới" />
       <ModalContent>
         <FormProvider {...methods}>
-          <form
-            id="room-form"
-            autoComplete="off"
-            style={{ height: "100%" }}
-            onSubmit={handleSubmit(onsubmit)}
-          >
-            <div className={roomStlye.roomForm}>
-              <div className={roomStlye.moreInfo}>
-                <BaseInfoInput />
-                <ServicesInput />
-              </div>
+          {!!id && isPending ? (
+            <Spinner />
+          ) : (
+            <form
+              id="room-form"
+              autoComplete="off"
+              style={{ height: "100%" }}
+              onSubmit={handleSubmit(onsubmit)}
+            >
+              <div className={roomStlye.roomForm}>
+                <div className={roomStlye.moreInfo}>
+                  <BaseInfoInput />
+                  <ServicesInput />
+                </div>
 
-              <div>
-                <p className={roomStlye.title}>Hình ảnh</p>
-                <DragAndDropImage />
+                <div>
+                  <p className={roomStlye.title}>Hình ảnh</p>
+                  <DragAndDropImage />
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          )}
         </FormProvider>
       </ModalContent>
       <ModalFooter>

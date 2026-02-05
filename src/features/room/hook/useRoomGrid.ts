@@ -1,59 +1,25 @@
 import type { RoomModel } from "@shared/types/room";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  type ColDef,
-  type GridApi,
-  type GridReadyEvent,
-} from "ag-grid-community";
+import { type ColDef } from "ag-grid-community";
 
-import { useRoomContext } from "../store/RoomContext";
-import { useCallback, useMemo, useRef } from "react";
-import { changeStatus, getPagingRoom } from "../api/room.api";
+import { useMemo } from "react";
 import { formatNumber } from "@shared/utils/formatNumber";
 import StatusSwitch, {
   type StatusSwitchProp,
 } from "../components/StatusSwitch";
 import type { CustomCellRendererProps } from "ag-grid-react";
-import { useToast } from "@shared/hooks/useToast";
+import GridRowAction, {
+  type ActionCellRendererProps,
+} from "@shared/components/UI/GridRowAction/GridRowAction";
 
-export const useRoomGrid = () => {
-  const toast = useToast();
-  const { isOpen, openDialog } = useRoomContext();
-  const { data, isPending } = useQuery({
-    queryKey: ["rooms"],
-    queryFn: (signal) =>
-      getPagingRoom(signal, { pageNumber: 1, pageSize: 100, searchKey: "" }),
-  });
+type UseRoomGridProps = {
+  onToogleStatus: (checked: boolean, id?: string) => void;
+  onEditRoom: (id: string) => void;
+};
 
-  const gridApiRef = useRef<GridApi<RoomModel> | null>(null);
-
-  const onGridReady = (params: GridReadyEvent) => {
-    gridApiRef.current = params.api;
-  };
-
-  const handleChangeStatusSuccess = (data: RoomModel) => {
-    toast.success("Đổi trạng thái thành công ^_^");
-    gridApiRef.current?.applyTransaction({
-      update: [data],
-    });
-  };
-
-  const { mutate } = useMutation({
-    mutationFn: changeStatus,
-    onSuccess: (data) => handleChangeStatusSuccess(data),
-    onError: () => toast.success("Đổi trạng thái không thành công T_T"),
-  });
-
-  const handleToogle = useCallback(
-    (checked: boolean, id?: string) => {
-      console.log(checked);
-      if (id) {
-        mutate({ id, status: checked ? 0 : 1 });
-      }
-    },
-    [mutate],
-  );
-
+export const useRoomGrid = ({
+  onToogleStatus,
+  onEditRoom,
+}: UseRoomGridProps) => {
   const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
     return [50, 100, 200];
   }, []);
@@ -73,12 +39,7 @@ export const useRoomGrid = () => {
         type: "numericColumn",
         valueFormatter: (e) => formatNumber(e.value),
       },
-      //      {
-      //   field: "crea. ",
-      //   headerName: "Thời gian tạo",
-      //   type: "numericColumn",
-      //   valueFormatter: (e) => formatNumber(e.value),
-      // },
+
       {
         field: "status",
         headerName: "Trạng thái",
@@ -91,7 +52,7 @@ export const useRoomGrid = () => {
           StatusSwitchProp,
           "onToggle"
         > => ({
-          onToggle: (e) => handleToogle(e, data?.id),
+          onToggle: (e) => onToogleStatus(e, data?.id),
         }),
         width: 100,
       },
@@ -101,15 +62,20 @@ export const useRoomGrid = () => {
         pinned: "right",
         // type: "rightAligned",
         width: 200,
-        // cellRenderer: ActionServiceCol,
-        // cellRendererParams: (
-        //   params: CustomCellRendererProps<ServiceResponse>,
-        // ): Pick<ActionServiceColProps, "onClick"> => ({
-        //   onClick: () => handleClickAction(params.data?.id),
-        // }),
+        cellRenderer: GridRowAction,
+        cellRendererParams: ({
+          data,
+        }: CustomCellRendererProps<RoomModel>): Pick<
+          ActionCellRendererProps<RoomModel>,
+          "actions" | "onEdit" | "data"
+        > => ({
+          onEdit: (data) => onEditRoom(data.id),
+          actions: ["edit"],
+          data: data,
+        }),
       },
     ],
-    [handleToogle],
+    [onEditRoom, onToogleStatus],
   );
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -121,12 +87,6 @@ export const useRoomGrid = () => {
   return {
     colDefs,
     defaultColDef,
-    data,
-    isPending,
-    isOpen,
-    openDialog,
-    gridApiRef,
-    onGridReady,
     paginationPageSizeSelector,
   };
 };
