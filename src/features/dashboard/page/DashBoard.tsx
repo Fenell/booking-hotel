@@ -1,3 +1,8 @@
+import Tab from "@shared/components/Tab/Tab";
+import TabContentItem from "@shared/components/Tab/TabContentItem";
+import TabContent from "@shared/components/Tab/TabContext";
+import TabHeader from "@shared/components/Tab/TabHeader";
+import TabHeaderItem from "@shared/components/Tab/TabHeaderItem";
 import { Button } from "@shared/components/UI";
 import Input from "@shared/components/UI/Input/Input";
 import { Modal, ModalContent, ModalHeader } from "@shared/components/UI/Modal";
@@ -38,6 +43,17 @@ const DashBoard = () => {
 
       <Input placeholder="okeoej" />
       <Switch checked={status} onToggle={(e) => setStatus(e)} />
+
+      <Tab onChangeTab={(e) => console.log(e)}>
+        <TabHeader>
+          <TabHeaderItem title="1234" idTab="1" selectDefault />
+          <TabHeaderItem title="vssdffg4" idTab="3" />
+        </TabHeader>
+        <TabContent>
+          <TabContentItem idTab="1">sdjfksjdfksdjf</TabContentItem>
+          <TabContentItem idTab="3">s12312312312321</TabContentItem>
+        </TabContent>
+      </Tab>
     </div>
   );
 };

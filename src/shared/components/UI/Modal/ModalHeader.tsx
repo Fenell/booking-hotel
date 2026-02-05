@@ -19,7 +19,7 @@ const ModalHeader = ({
       {children ? (
         children
       ) : (
-        <h3 className={modalStyle["modal-title"]}>{title}</h3>
+        <p className={modalStyle["modal-title"]}>{title}</p>
       )}
       {hasCloseButton && (
         <button
