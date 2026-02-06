@@ -1,7 +1,7 @@
 .modal {
-  /* top: 35%; */
+  position: fixed;
+  top: 20px;
   border: 0;
-  /* padding: 18px 24px 24px 24px; */
   margin: 0 auto;
   border-radius: var(--border-radius-tag);
   max-width: 90%;
