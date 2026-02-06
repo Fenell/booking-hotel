@@ -22,11 +22,12 @@
 
 .tab-custom__header-button {
   /* font-size: 0rem; */
-  padding: 8px 4px;
+  padding: 4px 16px;
   background-color: transparent;
   font-size: 14px;
+  font-weight: 500;
   border: 0;
-  color: rgb(104, 103, 103);
+  color: #15171a;
   cursor: pointer;
 }
 
@@ -37,7 +38,7 @@
 
 .tab-custom__header-button--focused,
 .tab-custom__header-button--focused * {
-  color: #00caff;
+  color: #0070f4;
 }
 
 .tab-custom__active-tab-indicator {
