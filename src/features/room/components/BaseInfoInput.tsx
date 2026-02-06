@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
 import { Input } from "@shared/components/UI/Input";
-import Editor from "@shared/components/UI/RichText/RichText";
 import { formatNumber, parseNumber } from "@shared/utils/formatNumber";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useQuery } from "@tanstack/react-query";
@@ -67,7 +66,6 @@ const BaseInfoInput = () => {
   const { control } = methods;
   return (
     <div className={roomStlye.baseInfo}>
-      <p className={roomStlye.title}>Thông tin cơ bản</p>
       <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
         <label htmlFor="roomName">Tên phòng</label>
         <Controller
@@ -85,7 +83,7 @@ const BaseInfoInput = () => {
             render={({ field }) => (
               <SelectCustom
                 {...field}
-                id="status"
+                inputId="status"
                 options={statusOption}
                 value={statusOption.find((a) => a.value === field.value)}
                 onChange={(e) => field.onChange(e?.value)}
@@ -101,7 +99,7 @@ const BaseInfoInput = () => {
             render={({ field }) => (
               <SelectCustom
                 {...field}
-                id="roomTypeId"
+                inputId="roomTypeId"
                 options={optionRoomType}
                 value={optionRoomType?.find((c) => c.value === field.value)}
                 onChange={(e) => field.onChange(e?.value)}
@@ -244,10 +242,6 @@ const BaseInfoInput = () => {
           name="location"
           render={({ field }) => <Input id="location" {...field} />}
         />
-      </div>
-      <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
-        <label htmlFor="description">Mô tả</label>
-        <Editor />
       </div>
     </div>
   );

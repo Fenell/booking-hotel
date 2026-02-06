@@ -7,7 +7,7 @@
 }
 
 .tab-custom__header {
-  /* margin-bottom: 0.6rem; */
+  margin-bottom: 10px;
 }
 
 .tab-custom__header {
@@ -48,4 +48,7 @@
 
 .tab-custom__tab-content-item {
   height: 100%;
+}
+.tab-custom__tab-content-item.hide {
+  display: none;
 }

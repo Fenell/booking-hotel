@@ -38,12 +38,12 @@
 
 .modal-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .modal-content {
   margin: 0px 12px 12px 12px;
-  background-color: var(--bgc-modal);
+  /* background-color: var(--bgc-modal); */
   font-size: 14px;
   border-radius: 6px;
   overflow-y: auto;

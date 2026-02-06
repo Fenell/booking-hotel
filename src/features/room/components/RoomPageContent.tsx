@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import { useRoomGrid } from "../hook/useRoomGrid";
 import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
 import { useRoomLogic } from "../hook/useRoomLogic";
+import { useGridTheme } from "@shared/lib/agGrid.config";
 
 const RoomPageContent = () => {
   const logic = useRoomLogic();
@@ -13,6 +14,8 @@ const RoomPageContent = () => {
     onEditRoom: logic.handleEditRoom,
     onToogleStatus: logic.handleToogle,
   });
+
+  const theme = useGridTheme();
 
   const localText = AG_GRID_LOCALE_VN;
   return (
@@ -32,6 +35,7 @@ const RoomPageContent = () => {
           <AgGridReact
             loading={logic.isPending}
             localeText={localText}
+            theme={theme}
             onGridReady={logic.onGridReady}
             getRowId={(params) => params.data.id}
             columnDefs={colDefs}

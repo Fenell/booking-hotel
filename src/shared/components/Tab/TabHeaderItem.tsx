@@ -30,6 +30,7 @@ export const TabHeaderItem = ({
   return (
     <li className={tabStyle["tab-custom__header-item"]} key={idTab}>
       <button
+        type="button"
         className={classNames(tabStyle["tab-custom__header-button"], {
           [tabStyle["tab-custom__header-button--focused"]]: isTabSelected,
         })}

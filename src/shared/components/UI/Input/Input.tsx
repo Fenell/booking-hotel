@@ -13,8 +13,9 @@ const Input = ({ smallType = false, ...props }: InputProps) => {
         <input
           className={classNames(
             inputStyle["input-custom"],
-            smallType && inputStyle["smallType"]
+            smallType && inputStyle["smallType"],
           )}
+          onFocus={(e) => e.target.select()}
           {...props}
           //value={field.value || ""}
         />

@@ -33,6 +33,12 @@
   color: rgb(188, 188, 188);
 }
 
+.input-custom::selection {
+  background-color: rgb(35, 126, 255);
+  color: rgb(249, 252, 255);
+  font-weight: 500;
+}
+
 .input-error {
   position: absolute;
   top: 100%;

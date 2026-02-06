@@ -1,6 +1,6 @@
 import Tab from "@shared/components/Tab/Tab";
 import TabContentItem from "@shared/components/Tab/TabContentItem";
-import TabContent from "@shared/components/Tab/TabContext";
+import TabContent from "@shared/components/Tab/TabContent";
 import TabHeader from "@shared/components/Tab/TabHeader";
 import TabHeaderItem from "@shared/components/Tab/TabHeaderItem";
 import { Button } from "@shared/components/UI";

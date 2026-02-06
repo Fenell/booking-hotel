@@ -7,22 +7,26 @@ import {
 } from "react";
 import styles from "./DragAndDropImage.module.css";
 import { useFancybox } from "@shared/hooks/useFancybox";
-type FileInput = {
+export type FileInput = {
   id: number;
   url: string;
-  name: string;
-  file: File;
+  fileName: string;
+  file?: File;
 };
 
 type DragAndDropImageProps = {
   onImageList?: (files: FileInput[]) => void;
+  images?: FileInput[];
 };
 
-const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
+const DragAndDropImage = ({
+  onImageList,
+  images = [],
+}: DragAndDropImageProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileInput[]>([]);
-
   //Dùng useEffect khi cần gọi hàm callback ngay sau khi upate state
+  console.log(images);
   useEffect(() => {
     if (files.length) {
       if (files.length) {
@@ -30,6 +34,12 @@ const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
       }
     }
   }, [files, onImageList]);
+
+  useEffect(() => {
+    if (images) {
+      setFiles(images);
+    }
+  }, [images]);
 
   const [fancyboxRef] = useFancybox();
 
@@ -39,11 +49,11 @@ const DragAndDropImage = ({ onImageList }: DragAndDropImageProps) => {
     setFiles((prev) => {
       const lstImgs: FileInput[] = [];
       Array.from(images).forEach((x) => {
-        if (prev.findIndex((img) => img.name === x.name) === -1) {
+        if (prev.findIndex((img) => img.fileName === x.name) === -1) {
           lstImgs.push({
             id: Math.random(),
             url: URL.createObjectURL(x),
-            name: x.name,
+            fileName: x.name,
             file: x,
             // size: (x.size / 1024 / 1024).toFixed(1),
           });

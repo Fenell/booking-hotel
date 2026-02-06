@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useTabContext } from "./TabProvider";
 import tabStyle from "./Tab.module.css";
+import classNames from "classnames";
 
 export const TabContentItem = ({
   idTab,
@@ -12,11 +13,16 @@ export const TabContentItem = ({
   const { tabOpen } = useTabContext();
   return (
     <>
-      {tabOpen === idTab && (
-        <div className={tabStyle["tab-custom__tab-content-item"]}>
-          {children}
-        </div>
-      )}
+      {/* { && (
+      )} */}
+      <div
+        className={classNames(
+          tabStyle["tab-custom__tab-content-item"],
+          tabOpen !== idTab && tabStyle["hide"],
+        )}
+      >
+        {children}
+      </div>
     </>
   );
 };

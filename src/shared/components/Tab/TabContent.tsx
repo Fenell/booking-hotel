@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import { type ReactNode } from "react";
 import tabStyle from "./Tab.module.css";
 
 const TabContent = ({ children }: { children: ReactNode }) => {

@@ -1,5 +1,7 @@
 import { Button } from "@shared/components/UI";
-import DragAndDropImage from "@shared/components/UI/Image/DragAndDropImage";
+import DragAndDropImage, {
+  type FileInput,
+} from "@shared/components/UI/Image/DragAndDropImage";
 import {
   Modal,
   ModalContent,
@@ -23,7 +25,15 @@ import { createRoom, getRoomDetail } from "../api/room.api";
 import type { ResponseApi } from "@shared/types/common";
 import { useToast } from "@shared/hooks/useToast";
 import Spinner from "@shared/components/Spinner/Spinner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Tab from "@shared/components/Tab/Tab";
+import TabHeader from "@shared/components/Tab/TabHeader";
+import {
+  TabContent,
+  TabContentItem,
+  TabHeaderItem,
+} from "@shared/components/Tab";
+import Editor from "@shared/components/UI/RichText/RichText";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -46,6 +56,7 @@ const CreateAndUpdateRoom = () => {
   const { handleSubmit, reset } = methods;
   const { openDialog, id } = useRoomContext();
   const toast = useToast();
+  const [images, setImages] = useState<FileInput[]>([]);
   const handleSuccess = (response: ResponseApi<string>) => {
     console.log(response);
     if (response.isSuccess) {
@@ -70,6 +81,8 @@ const CreateAndUpdateRoom = () => {
   useEffect(() => {
     if (!isPending && data) {
       reset(data);
+      const imgs: FileInput[] = data.roomImages.map((image) => ({ ...image }));
+      setImages(imgs);
     }
   }, [isPending, data, reset]);
 
@@ -94,15 +107,34 @@ const CreateAndUpdateRoom = () => {
               onSubmit={handleSubmit(onsubmit)}
             >
               <div className={roomStlye.roomForm}>
-                <div className={roomStlye.moreInfo}>
-                  <BaseInfoInput />
-                  <ServicesInput />
-                </div>
-
-                <div>
-                  <p className={roomStlye.title}>Hình ảnh</p>
-                  <DragAndDropImage />
-                </div>
+                <Tab>
+                  <TabHeader>
+                    <TabHeaderItem idTab="1" title="Thông tin" selectDefault />
+                    <TabHeaderItem idTab="2" title="Hình ảnh, mô tả" />
+                  </TabHeader>
+                  <TabContent>
+                    <TabContentItem idTab="1">
+                      <div className={roomStlye.moreInfo}>
+                        <BaseInfoInput />
+                        <ServicesInput />
+                      </div>
+                    </TabContentItem>
+                    <TabContentItem idTab="2">
+                      <div>
+                        <DragAndDropImage images={images} />
+                        <div
+                          className={classNames(
+                            roomStlye.fullField,
+                            roomStlye.inputField,
+                          )}
+                        >
+                          <label htmlFor="description">Mô tả</label>
+                          <Editor key="description" />
+                        </div>
+                      </div>
+                    </TabContentItem>
+                  </TabContent>
+                </Tab>
               </div>
             </form>
           )}

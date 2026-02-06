@@ -15,7 +15,7 @@
 }
 
 .roomForm {
-  padding: 10px;
+  /* padding: 10px; */
   width: 100%;
   /* height: fit-content; */
   overflow-y: auto;
@@ -39,6 +39,7 @@
 
 .baseInfo {
   height: 100%;
+  padding: 0 6px;
 }
 
 .unityRoom {
