@@ -34,7 +34,7 @@ const CreateAndUpdate = () => {
 
   return (
     <Modal onClose={() => openOrCloseDialog(false)}>
-      <ModalHeader>{title}</ModalHeader>
+      <ModalHeader title={title} />
       <ModalContent>
         <FormProvider {...methods}>
           <form id="icon-form" onSubmit={handleSubmit(onsubmit)}>

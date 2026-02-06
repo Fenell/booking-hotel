@@ -26,7 +26,7 @@ const DragAndDropImage = ({
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileInput[]>([]);
   //Dùng useEffect khi cần gọi hàm callback ngay sau khi upate state
-  console.log(images);
+  // console.log(images);
   useEffect(() => {
     if (files.length) {
       if (files.length) {
@@ -40,7 +40,7 @@ const DragAndDropImage = ({
       setFiles(images);
     }
   }, [images]);
-
+  console.log(files);
   const [fancyboxRef] = useFancybox();
 
   const handleGetImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +101,11 @@ const DragAndDropImage = ({
             <div className={styles["drop-image__item"]} key={file.id}>
               <div className={styles["drop-image_item-action"]}>
                 <button onClick={(e) => handleRemoveImage(e, file.id)}>
-                  <i className="fa-regular fa-xmark"></i>
+                  {/* <i className="fa-regular fa-xmark"></i> */}
+                  <i
+                    className="fa-solid fa-circle-x fa-lg"
+                    style={{ color: "#fe3442" }}
+                  ></i>
                 </button>
               </div>
               <div className={styles["drop-image__image"]}>
@@ -109,10 +113,10 @@ const DragAndDropImage = ({
                   <img src={file.url} alt="image" />
                 </a>
               </div>
-              <div className={styles["drop-image_item-prop"]}>
-                <p>{file.name}</p>
-                {/* <p>{file.size} MB</p> */}
-              </div>
+              {/* <div className={styles["drop-image_item-prop"]}>
+                <p>{file.fileName}</p>
+                <p>{file.size} MB</p>
+              </div> */}
             </div>
           ))}
         </div>

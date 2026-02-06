@@ -1,7 +1,4 @@
 import { Button } from "@shared/components/UI";
-import DragAndDropImage, {
-  type FileInput,
-} from "@shared/components/UI/Image/DragAndDropImage";
 import {
   Modal,
   ModalContent,
@@ -10,13 +7,7 @@ import {
 } from "@shared/components/UI/Modal";
 import { useRoomContext } from "../store/RoomContext";
 import roomStlye from "../style/room.module.css";
-import classNames from "classnames";
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  type SubmitHandler,
-} from "react-hook-form";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
 import BaseInfoInput from "./BaseInfoInput";
 import ServicesInput from "./ServicesInput";
@@ -25,7 +16,7 @@ import { createRoom, getRoomDetail } from "../api/room.api";
 import type { ResponseApi } from "@shared/types/common";
 import { useToast } from "@shared/hooks/useToast";
 import Spinner from "@shared/components/Spinner/Spinner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Tab from "@shared/components/Tab/Tab";
 import TabHeader from "@shared/components/Tab/TabHeader";
 import {
@@ -33,7 +24,7 @@ import {
   TabContentItem,
   TabHeaderItem,
 } from "@shared/components/Tab";
-import Editor from "@shared/components/UI/RichText/RichText";
+import MoreInfoInput from "./MoreInfoInput";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -56,7 +47,6 @@ const CreateAndUpdateRoom = () => {
   const { handleSubmit, reset } = methods;
   const { openDialog, id } = useRoomContext();
   const toast = useToast();
-  const [images, setImages] = useState<FileInput[]>([]);
   const handleSuccess = (response: ResponseApi<string>) => {
     console.log(response);
     if (response.isSuccess) {
@@ -81,15 +71,13 @@ const CreateAndUpdateRoom = () => {
   useEffect(() => {
     if (!isPending && data) {
       reset(data);
-      const imgs: FileInput[] = data.roomImages.map((image) => ({ ...image }));
-      setImages(imgs);
     }
   }, [isPending, data, reset]);
 
   const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {
     console.log(data);
     data.roomNumber = 111;
-    mutate(data);
+    // mutate(data);
   };
 
   return (
@@ -120,18 +108,7 @@ const CreateAndUpdateRoom = () => {
                       </div>
                     </TabContentItem>
                     <TabContentItem idTab="2">
-                      <div>
-                        <DragAndDropImage images={images} />
-                        <div
-                          className={classNames(
-                            roomStlye.fullField,
-                            roomStlye.inputField,
-                          )}
-                        >
-                          <label htmlFor="description">Mô tả</label>
-                          <Editor key="description" />
-                        </div>
-                      </div>
+                      <MoreInfoInput roomImages={data?.roomImages} />
                     </TabContentItem>
                   </TabContent>
                 </Tab>

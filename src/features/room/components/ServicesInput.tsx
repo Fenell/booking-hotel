@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import type { ServiceResponse } from "@features/service/types/service.type";
 import { getDynamicData } from "@shared/services/dynamic";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
 import { useState } from "react";
+import type { RoomModel } from "@shared/types/room";
 
 const servicesRequest: DyanmicDataPagingRequest = {
   tableNames: "services",
@@ -16,9 +17,14 @@ const servicesRequest: DyanmicDataPagingRequest = {
 
 const ServicesInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
-  const { watch, setValue } = methods;
+  const { setValue } = methods;
   const [checkAll, setCheckAll] = useState(true);
-  const roomServices = watch("roomServices") ?? [];
+  // const roomServices = watch("roomServices") ?? [];
+
+  const roomServices = useWatch({
+    name: "roomServices",
+    control: methods.control,
+  });
 
   const { data } = useQuery({
     queryKey: ["services"],

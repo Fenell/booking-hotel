@@ -7,7 +7,7 @@ export type StatusSwitchProp = CustomDetailCellRendererProps<RoomModel> & {
 };
 
 const StatusSwitch = ({ value, onToggle }: StatusSwitchProp) => {
-  const checked: boolean = value === 0;
+  const checked: boolean = value === 1;
   return <Switch checked={checked} onToggle={(e) => onToggle(e)} />;
 };
 

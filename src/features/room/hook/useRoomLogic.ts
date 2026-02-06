@@ -39,7 +39,7 @@ export const useRoomLogic = () => {
     (checked: boolean, id?: string) => {
       console.log(checked);
       if (id) {
-        mutate({ id, status: checked ? 0 : 1 });
+        mutate({ id, status: checked ? 1 : 0 });
       }
     },
     [mutate],
