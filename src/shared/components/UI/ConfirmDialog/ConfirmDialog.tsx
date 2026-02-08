@@ -64,20 +64,22 @@ const ConfirmDialog = ({
         <div className={dialogStyle["modal-content"]}>{text}</div>
         <div className={dialogStyle["modal-footer"]}>
           <Button
-            onClick={() => onClose(false)}
-            noAnimation
-            small
-            status="dark"
-          >
-            {options?.falseButtonText ?? "Đóng"}
-          </Button>
-          <Button
             onClick={() => onClose(true)}
             noAnimation
             small
+            icon="fa-regular fa-check fa-lg"
             status="success"
           >
             {options?.trueButtonText ?? "Đồng ý"}
+          </Button>
+          <Button
+            onClick={() => onClose(false)}
+            noAnimation
+            small
+            icon="fa-regular fa-ban fa-lg"
+            status="dark"
+          >
+            {options?.falseButtonText ?? "Bỏ qua"}
           </Button>
         </div>
       </motion.dialog>

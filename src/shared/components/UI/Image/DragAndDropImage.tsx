@@ -7,6 +7,7 @@ import {
 } from "react";
 import styles from "./DragAndDropImage.module.css";
 import { useFancybox } from "@shared/hooks/useFancybox";
+import { customConfirm } from "../ConfirmDialog/ConfirmDialog";
 export type FileInput = {
   id: number;
   url: string;
@@ -19,10 +20,7 @@ type DragAndDropImageProps = {
   images?: FileInput[];
 };
 
-const DragAndDropImage = ({
-  onImageList,
-  images = [],
-}: DragAndDropImageProps) => {
+const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileInput[]>([]);
   //Dùng useEffect khi cần gọi hàm callback ngay sau khi upate state
@@ -64,14 +62,20 @@ const DragAndDropImage = ({
     });
   };
 
-  const handleRemoveImage = (
+  const handleRemoveImage = async (
     event: MouseEvent<HTMLButtonElement>,
     idImg: number,
   ) => {
-    setFiles((prev) => {
-      const newArr = prev.filter((img) => img.id !== idImg);
-      return newArr;
+    const isConfirm = await customConfirm({
+      title: "Xóa ảnh",
+      text: "Bạn có muốn xóa ảnh này không?",
     });
+    if (isConfirm) {
+      setFiles((prev) => {
+        const newArr = prev.filter((img) => img.id !== idImg);
+        return newArr;
+      });
+    }
     event.preventDefault();
     event.stopPropagation();
   };

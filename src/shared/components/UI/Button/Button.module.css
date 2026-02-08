@@ -65,7 +65,8 @@
 }
 .button[data-variant="success"] {
   --btn-clr: var(--success-clr);
-  & span {
+  & i,
+  span {
     color: #fff;
   }
 }
@@ -83,4 +84,8 @@
 }
 .button[data-variant="dark"] {
   --btn-clr: var(--dark-clr);
+  & i,
+  span {
+    color: #fff;
+  }
 }

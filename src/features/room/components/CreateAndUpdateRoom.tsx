@@ -61,11 +61,11 @@ const CreateAndUpdateRoom = () => {
     onSuccess: (data) => handleSuccess(data),
     onError: () => toast.warning("Thêm mới thất bại T_T"),
   });
-
+  const isEdit: boolean = Boolean(id);
   const { data, isPending } = useQuery({
     queryKey: ["rooms", id],
     queryFn: ({ signal }) => getRoomDetail({ signal }, id),
-    enabled: !!id,
+    enabled: isEdit,
   });
 
   useEffect(() => {

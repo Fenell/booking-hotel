@@ -8,7 +8,7 @@
   margin: auto;
   background-color: var(--bgc-write);
 
-  --width-image-box: 150px;
+  --width-image-box: 90px;
 }
 
 .drop-box {
@@ -26,7 +26,7 @@
 
 .drop-image__list-image {
   display: flex;
-  gap: 5px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -46,6 +46,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 6px;
 }
 
 .drop-image__image {
