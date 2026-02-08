@@ -8,10 +8,19 @@ import type { RoomImage } from "@shared/types/roomImage";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
+import { useMutation } from "@tanstack/react-query";
+import { deleteImage } from "@shared/services/image";
+import { useToast } from "@shared/hooks/useToast";
 
-const MoreInfoInput = ({ roomImages }: { roomImages?: RoomImage[] }) => {
+type MoreInfoInput = {
+  roomImages?: RoomImage[];
+  onAddImage?: (image: FileInput[]) => void;
+};
+
+const MoreInfoInput = ({ roomImages, onAddImage }: MoreInfoInput) => {
   const [images, setImages] = useState<FileInput[]>([]);
   const methods = useFormContext<RoomCreateRequest>();
+  const toast = useToast();
   const { control } = methods;
   useEffect(() => {
     const imgs: FileInput[] = roomImages?.map((image) => ({
@@ -22,9 +31,23 @@ const MoreInfoInput = ({ roomImages }: { roomImages?: RoomImage[] }) => {
     setImages(imgs);
   }, [roomImages]);
 
+  const { mutateAsync } = useMutation({
+    mutationFn: deleteImage,
+    onSuccess: () => toast.success("Xóa ảnh thành công"),
+    onError: () => toast.warning("Xóa thất bại"),
+  });
+
+  const handleDeleteImage = async (id: string) => {
+    await mutateAsync(id);
+  };
+
   return (
     <div>
-      <DragAndDropImage images={images} />
+      <DragAndDropImage
+        images={images}
+        onDelete={handleDeleteImage}
+        onImageList={onAddImage}
+      />
       <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
         <label htmlFor="description">Mô tả</label>
         <Controller

@@ -32,7 +32,7 @@ export const useRoomLogic = () => {
   const { mutate } = useMutation({
     mutationFn: changeStatus,
     onSuccess: (data) => handleChangeStatusSuccess(data),
-    onError: () => toast.success("Đổi trạng thái không thành công T_T"),
+    onError: () => toast.warning("Đổi trạng thái không thành công T_T"),
   });
 
   const handleToogle = useCallback(
@@ -54,6 +54,7 @@ export const useRoomLogic = () => {
     isOpen,
     data,
     isPending,
+    gridApiRef,
     openDialog,
     onGridReady,
     handleToogle,

@@ -29,6 +29,18 @@ export const createRoom = async (createRequest: RoomCreateRequest) => {
   }
 };
 
+export const updateRoom = async (updateRequest: RoomCreateRequest) => {
+  try {
+    const response = await axiosInstance.put<ResponseApi<RoomModel>>(
+      API_ENDPOINT.ROOM.UPDATE_ROOM(updateRequest.id),
+      updateRequest,
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(JSON.stringify(err));
+  }
+};
+
 export const getPagingRoom = async (
   { signal }: AxiosRequestConfig,
   request: RoomPagingRequest,

@@ -20,7 +20,9 @@ const RoomPageContent = () => {
   const localText = AG_GRID_LOCALE_VN;
   return (
     <>
-      {logic.isOpen && <CreateAndUpdateRoom />}
+      {logic.isOpen && (
+        <CreateAndUpdateRoom gridApi={logic.gridApiRef.current} />
+      )}
       <div className={roomStyle.box}>
         <div className={roomStyle.actionBar}>
           <Button

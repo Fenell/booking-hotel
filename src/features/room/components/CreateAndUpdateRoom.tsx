@@ -5,18 +5,11 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@shared/components/UI/Modal";
-import { useRoomContext } from "../store/RoomContext";
 import roomStlye from "../style/room.module.css";
-import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
-import type { RoomCreateRequest } from "../types/room.type";
+import { FormProvider } from "react-hook-form";
 import BaseInfoInput from "./BaseInfoInput";
 import ServicesInput from "./ServicesInput";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createRoom, getRoomDetail } from "../api/room.api";
-import type { ResponseApi } from "@shared/types/common";
-import { useToast } from "@shared/hooks/useToast";
 import Spinner from "@shared/components/Spinner/Spinner";
-import { useEffect } from "react";
 import Tab from "@shared/components/Tab/Tab";
 import TabHeader from "@shared/components/Tab/TabHeader";
 import {
@@ -25,67 +18,35 @@ import {
   TabHeaderItem,
 } from "@shared/components/Tab";
 import MoreInfoInput from "./MoreInfoInput";
+import { useRoomForm } from "../hook/useRoomForm";
+import { type GridApi } from "ag-grid-community";
+import type { RoomModel } from "@shared/types/room";
+import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 
-const defaultValues: RoomCreateRequest = {
-  roomName: "",
-  roomNumber: null,
-  currentPrice: null,
-  priceWeekend: null,
-  numberAdults: null,
-  numberBathRoom: null,
-  numberBed: null,
-  numberBedroom: null,
-  numberChild: null,
-  acreage: null,
-  location: "",
-  status: 1,
-  roomServices: [],
+type CreateAndUpdateRoomProps = {
+  gridApi?: GridApi<RoomModel> | null;
 };
 
-const CreateAndUpdateRoom = () => {
-  const methods = useForm<RoomCreateRequest>({ defaultValues });
-  const { handleSubmit, reset } = methods;
-  const { openDialog, id } = useRoomContext();
-  const toast = useToast();
-  const handleSuccess = (response: ResponseApi<string>) => {
-    console.log(response);
-    if (response.isSuccess) {
-      toast.success("Thêm mới thành công");
-      reset(defaultValues);
-    } else {
-      toast.warning("Thêm mới thất bại T_T");
-    }
-  };
-  const { mutate } = useMutation({
-    mutationFn: createRoom,
-    onSuccess: (data) => handleSuccess(data),
-    onError: () => toast.warning("Thêm mới thất bại T_T"),
-  });
-  const isEdit: boolean = Boolean(id);
-  const { data, isPending } = useQuery({
-    queryKey: ["rooms", id],
-    queryFn: ({ signal }) => getRoomDetail({ signal }, id),
-    enabled: isEdit,
-  });
+const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
+  const { isEdit, methods, isPending, data, openDialog, onsubmit } =
+    useRoomForm(gridApi!);
+  const { handleSubmit } = methods;
 
-  useEffect(() => {
-    if (!isPending && data) {
-      reset(data);
-    }
-  }, [isPending, data, reset]);
+  const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";
 
-  const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {
-    console.log(data);
-    data.roomNumber = 111;
-    // mutate(data);
-  };
+  // const handleGetImages = (imgs: FileInput[]) => {
+  //   console.log(imgs);
+  //   imgs.map(img=> {
+  //     data?.roomImages.push()
+  //   })
+  // };
 
   return (
     <Modal size="lg" onClose={() => openDialog(false)}>
-      <ModalHeader title="Thêm mới" />
+      <ModalHeader title={title} />
       <ModalContent>
         <FormProvider {...methods}>
-          {!!id && isPending ? (
+          {isEdit && isPending ? (
             <Spinner />
           ) : (
             <form
@@ -108,7 +69,10 @@ const CreateAndUpdateRoom = () => {
                       </div>
                     </TabContentItem>
                     <TabContentItem idTab="2">
-                      <MoreInfoInput roomImages={data?.roomImages} />
+                      <MoreInfoInput
+                        roomImages={data?.roomImages}
+                        onAddImage={handleGetImages}
+                      />
                     </TabContentItem>
                   </TabContent>
                 </Tab>

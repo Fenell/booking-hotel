@@ -8,8 +8,9 @@ import {
 import styles from "./DragAndDropImage.module.css";
 import { useFancybox } from "@shared/hooks/useFancybox";
 import { customConfirm } from "../ConfirmDialog/ConfirmDialog";
+
 export type FileInput = {
-  id: number;
+  id: string;
   url: string;
   fileName: string;
   file?: File;
@@ -17,14 +18,20 @@ export type FileInput = {
 
 type DragAndDropImageProps = {
   onImageList?: (files: FileInput[]) => void;
+  onDelete?: (id: string) => Promise<void>;
   images?: FileInput[];
 };
 
-const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
+const DragAndDropImage = ({
+  onImageList,
+  onDelete,
+  images,
+}: DragAndDropImageProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileInput[]>([]);
   //Dùng useEffect khi cần gọi hàm callback ngay sau khi upate state
   // console.log(images);
+  console.log(files.length);
   useEffect(() => {
     if (files.length) {
       if (files.length) {
@@ -49,7 +56,7 @@ const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
       Array.from(images).forEach((x) => {
         if (prev.findIndex((img) => img.fileName === x.name) === -1) {
           lstImgs.push({
-            id: Math.random(),
+            id: Math.random().toString(),
             url: URL.createObjectURL(x),
             fileName: x.name,
             file: x,
@@ -64,13 +71,14 @@ const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
 
   const handleRemoveImage = async (
     event: MouseEvent<HTMLButtonElement>,
-    idImg: number,
+    idImg: string,
   ) => {
     const isConfirm = await customConfirm({
       title: "Xóa ảnh",
       text: "Bạn có muốn xóa ảnh này không?",
     });
     if (isConfirm) {
+      await onDelete?.(idImg);
       setFiles((prev) => {
         const newArr = prev.filter((img) => img.id !== idImg);
         return newArr;
@@ -79,6 +87,7 @@ const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
     event.preventDefault();
     event.stopPropagation();
   };
+
   return (
     <>
       <div className={styles["drop-image"]}>
@@ -104,7 +113,10 @@ const DragAndDropImage = ({ onImageList, images }: DragAndDropImageProps) => {
           {files.map((file) => (
             <div className={styles["drop-image__item"]} key={file.id}>
               <div className={styles["drop-image_item-action"]}>
-                <button onClick={(e) => handleRemoveImage(e, file.id)}>
+                <button
+                  onClick={(e) => handleRemoveImage(e, file.id)}
+                  type="button"
+                >
                   {/* <i className="fa-regular fa-xmark"></i> */}
                   <i
                     className="fa-solid fa-circle-x fa-lg"

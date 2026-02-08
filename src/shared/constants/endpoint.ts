@@ -13,6 +13,7 @@ export const API_ENDPOINT = {
   },
   ROOM: {
     CREATE_ROOM: "/room",
+    UPDATE_ROOM: (id: string) => `/room/${id}`,
     GET_PAGING: (
       pageNumber: number = 1,
       pageSize: number = 100,
@@ -22,5 +23,10 @@ export const API_ENDPOINT = {
     GET_DETAIL: (id: string) => `/room/${id}`,
     CHANGE_STATUS: (id: string, status: number) =>
       `/room/${id}?status=${status}`,
+  },
+
+  IMAGE: {
+    DELETE_IMAGE: (id: string) => `file-data/delete-image/${id}`,
+    UPLOAD_IMAGE: "file-data/upload-image",
   },
 };
