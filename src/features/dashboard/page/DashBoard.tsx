@@ -9,6 +9,7 @@ import { Modal, ModalContent, ModalHeader } from "@shared/components/UI/Modal";
 import Switch from "@shared/components/UI/Switch/Switch";
 import { useToast } from "@shared/hooks/useToast";
 import { useState } from "react";
+import { customConfirm } from "@shared/components/UI/ConfirmDialog/ConfirmDialog";
 
 const DashBoard = () => {
   const toast = useToast();
@@ -19,8 +20,17 @@ const DashBoard = () => {
     setIsOpen(true);
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
+  const handleClose = async () => {
+    console.log("ok");
+    const ok = await customConfirm({
+      title: "Are you absolutely sure?",
+      text: "This action cannot be undone. This will permanently delete your account from our servers.",
+      // options: { trueButtonText: "ok", falseButtonText: "Thôi" },
+    });
+    console.log(ok);
+    if (ok) {
+      setIsOpen(false);
+    }
   };
   return (
     <div>
@@ -43,17 +53,6 @@ const DashBoard = () => {
 
       <Input placeholder="okeoej" />
       <Switch checked={status} onToggle={(e) => setStatus(e)} />
-
-      <Tab onChangeTab={(e) => console.log(e)}>
-        <TabHeader>
-          <TabHeaderItem title="1234" idTab="1" selectDefault />
-          <TabHeaderItem title="vssdffg4" idTab="3" />
-        </TabHeader>
-        <TabContent>
-          <TabContentItem idTab="1">sdjfksjdfksdjf</TabContentItem>
-          <TabContentItem idTab="3">s12312312312321</TabContentItem>
-        </TabContent>
-      </Tab>
     </div>
   );
 };
