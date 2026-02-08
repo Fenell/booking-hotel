@@ -17,7 +17,20 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  border: 1px solid var(--btn-clr);
 }
+
+.button[data-type="outline"]:hover {
+  background-color: var(--btn-clr);
+}
+
+.button:not([data-type="outline"]) {
+  background-color: var(--btn-clr);
+}
+
+/* .button:hover {
+  background-color: var(--btn-clr);
+} */
 
 .button:disabled,
 .button.disabled {
@@ -41,7 +54,32 @@
 .button .btn-icon {
   margin-right: 5px;
 }
-.button.default {
+
+/* Variants */
+.button[data-variant="default"] {
+  --btn-clr: var(--default-clr);
+}
+.button[data-variant="success"] {
+  --btn-clr: var(--success-clr);
+  color: var(--success-clr);
+}
+.button[data-variant="error"] {
+  --btn-clr: var(--error-clr);
+}
+.button[data-variant="warning"] {
+  --btn-clr: var(--warning-clr);
+}
+.button[data-variant="info"] {
+  --btn-clr: var(--info-clr);
+}
+.button[data-variant="primary"] {
+  --btn-clr: var(--bule-clr);
+}
+.button[data-variant="dark"] {
+  --btn-clr: var(--dark-clr);
+}
+
+/* .button.default {
   border: 1px solid var(--default-clr);
   &:hover {
     background-color: var(--default-clr);
@@ -91,4 +129,4 @@
   &:hover {
     background-color: var(--dark-clr);
   }
-}
+} */

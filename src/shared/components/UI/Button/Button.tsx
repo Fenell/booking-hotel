@@ -23,6 +23,7 @@ type RawButtonProps = {
   noAnimation?: boolean;
   small?: boolean;
   isLoading?: boolean;
+  typeButton?: "outline";
   children?: ReactNode | null;
 } & ComponentPropsWithRef<"button">;
 
@@ -111,6 +112,7 @@ const RawButton = forwardRef<HTMLButtonElement, RawButtonProps>(
       icon,
       small = false,
       noAnimation = false,
+      typeButton,
       isLoading = false,
       //cssCustom,
       ...props
@@ -133,9 +135,11 @@ const RawButton = forwardRef<HTMLButtonElement, RawButtonProps>(
           className={classNames(
             buttonStyle["button"],
             small && buttonStyle["small"],
-            buttonStyle[status] || buttonStyle["default"],
+            // buttonStyle[status] || buttonStyle[""],
             isLoading && buttonStyle["disabled"],
           )}
+          data-variant={status || "default"}
+          data-type={typeButton || undefined}
           {...props}
         >
           {isLoading ? (
