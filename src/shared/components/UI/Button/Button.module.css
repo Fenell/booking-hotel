@@ -1,5 +1,5 @@
 .button {
-  --success-clr: #73dc8a;
+  --success-clr: #00b63e;
   --warning-clr: #ffecb3;
   --error-clr: #ffe6e8;
   --info-clr: #d0e6ff;
@@ -28,6 +28,10 @@
   background-color: var(--btn-clr);
 }
 
+.button:not([data-type="outline"]):hover {
+  background-color: color-mix(in srgb, var(--btn-clr) 85%, black);
+}
+
 /* .button:hover {
   background-color: var(--btn-clr);
 } */
@@ -46,7 +50,7 @@
 
 .button-text {
   position: relative;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 13px;
   line-height: 18px;
 }
@@ -61,7 +65,9 @@
 }
 .button[data-variant="success"] {
   --btn-clr: var(--success-clr);
-  color: var(--success-clr);
+  & span {
+    color: #fff;
+  }
 }
 .button[data-variant="error"] {
   --btn-clr: var(--error-clr);
@@ -78,55 +84,3 @@
 .button[data-variant="dark"] {
   --btn-clr: var(--dark-clr);
 }
-
-/* .button.default {
-  border: 1px solid var(--default-clr);
-  &:hover {
-    background-color: var(--default-clr);
-  }
-}
-
-.button.success {
-  border: 1px solid var(--success-clr);
-  color: var(--success-clr);
-  &:hover {
-    background-color: var(--success-clr);
-  }
-}
-
-.button.error {
-  border: 1px solid var(--error-clr);
-  &:hover {
-    background-color: var(--error-clr);
-  }
-}
-
-.button.warning {
-  border: 1px solid var(--warning-clr);
-
-  &:hover {
-    background-color: var(--warning-clr);
-  }
-}
-
-.button.info {
-  border: 1px solid var(--info-clr);
-  &:hover {
-    background-color: var(--info-clr);
-  }
-}
-
-.button.primary {
-  border: 1px solid var(--bule-clr);
-
-  &:hover {
-    background-color: var(--bule-clr);
-  }
-}
-
-.button.dark {
-  border: 1px solid var(--dark-clr);
-  &:hover {
-    background-color: var(--dark-clr);
-  }
-} */
