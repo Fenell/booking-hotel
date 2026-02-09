@@ -13,3 +13,19 @@ export type RoomImage = {
   //     public int Status {get;set;}
   //     public string? Url { get; set; }
 };
+export type UploadImageRequest = {
+  roomCode: string;
+  imageFiles: File[];
+};
+export type UploadImageResponse = {
+  totalFile: number;
+  successCount: number;
+  failedCount: number;
+  fileData: FileData[];
+};
+
+type FileData = {
+  fileName: string;
+  isValid: boolean;
+  error?: string;
+};

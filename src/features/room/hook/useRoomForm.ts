@@ -4,11 +4,13 @@ import type { RoomCreateRequest } from "../types/room.type";
 import { useToast } from "@shared/hooks/useToast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createRoom, getRoomDetail, updateRoom } from "../api/room.api";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { RoomModel } from "@shared/types/room";
 import { type GridApi } from "ag-grid-community";
 import { uploadImages } from "@shared/services/image";
+import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
+import type { UploadImageRequest } from "@shared/types/roomImage";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -32,7 +34,12 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
   const toast = useToast();
   const { reset } = methods;
   const isEdit: boolean = Boolean(id);
-  const handleSuccess = (response: ResponseApi<string | RoomModel>) => {
+  const listImgCreate = useRef<UploadImageRequest>({
+    roomCode: "",
+    imageFiles: [],
+  });
+
+  const handleSuccess = async (response: ResponseApi<string | RoomModel>) => {
     console.log(response);
     if (response.isSuccess) {
       if (isEdit) {
@@ -40,6 +47,7 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
         girdApi?.applyTransaction({
           update: [response.data as RoomModel],
         });
+        await mutateImgAsync(listImgCreate.current);
       } else {
         toast.success("Thêm mới thành công ^_^");
         reset(defaultValues);
@@ -62,10 +70,10 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     onError: () => toast.warning("Cập nhật thất bại T_T"),
   });
 
-  const { mutate: mutateImg } = useMutation({
+  const { mutateAsync: mutateImgAsync } = useMutation({
     mutationFn: uploadImages,
-    onSuccess: () => toast.success("Thêm mới thành công ^_^"),
-    onError: () => toast.warning("Thêm mới thất bại T_T"),
+    // onSuccess: () => toast.success("Thêm mới thành công ^_^"),
+    // onError: () => toast.warning("Thêm mới thất bại T_T"),
   });
 
   const { data, isPending } = useQuery({
@@ -74,21 +82,44 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     enabled: isEdit,
   });
 
+  // let roomImageRequest: UploadImageRequest = { imageFiles: [] };
+
   useEffect(() => {
     if (!isPending && data) {
+      listImgCreate.current.roomCode = data.id;
       reset(data);
     }
   }, [isPending, data, reset]);
 
+  const handleGetImages = (imgs: FileInput[]) => {
+    console.log(imgs);
+    const listImgsCreate = imgs.filter(
+      (c) => !data?.roomImages.some((a) => a.id === c.id),
+    );
+
+    listImgCreate.current.imageFiles = listImgsCreate
+      .map((a) => a.file!)
+      .filter(Boolean);
+    console.log(listImgCreate.current);
+  };
+
   const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {
     console.log(data);
     if (isEdit) {
-      // mutateUpdate(data);
+      mutateUpdate(data);
     } else {
       data.roomNumber = 111;
       mutate(data);
     }
   };
 
-  return { isEdit, methods, isPending, data, openDialog, onsubmit };
+  return {
+    isEdit,
+    methods,
+    isPending,
+    data,
+    openDialog,
+    onsubmit,
+    handleGetImages,
+  };
 };

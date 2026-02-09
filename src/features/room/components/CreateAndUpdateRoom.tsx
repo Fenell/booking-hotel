@@ -28,17 +28,24 @@ type CreateAndUpdateRoomProps = {
 };
 
 const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
-  const { isEdit, methods, isPending, data, openDialog, onsubmit } =
-    useRoomForm(gridApi!);
+  const {
+    isEdit,
+    methods,
+    isPending,
+    data,
+    openDialog,
+    onsubmit,
+    handleGetImages,
+  } = useRoomForm(gridApi!);
   const { handleSubmit } = methods;
 
   const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";
 
   // const handleGetImages = (imgs: FileInput[]) => {
   //   console.log(imgs);
-  //   imgs.map(img=> {
-  //     data?.roomImages.push()
-  //   })
+  //   imgs.map((img) => {
+  //     data?.roomImages.push();
+  //   });
   // };
 
   return (
