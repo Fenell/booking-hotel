@@ -31,7 +31,7 @@ const DragAndDropImage = ({
   const [files, setFiles] = useState<FileInput[]>([]);
   //Dùng useEffect khi cần gọi hàm callback ngay sau khi upate state
   // console.log(images);
-  console.log(files.length);
+  // console.log(files.length);
   useEffect(() => {
     if (files.length) {
       if (files.length) {
@@ -45,7 +45,7 @@ const DragAndDropImage = ({
       setFiles(images);
     }
   }, [images]);
-  console.log(files);
+  // console.log(files);
   const [fancyboxRef] = useFancybox();
 
   const handleGetImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +78,9 @@ const DragAndDropImage = ({
       text: "Bạn có muốn xóa ảnh này không?",
     });
     if (isConfirm) {
-      await onDelete?.(idImg);
+      if (crypto.randomUUID().length === idImg.length) {
+        await onDelete?.(idImg);
+      }
       setFiles((prev) => {
         const newArr = prev.filter((img) => img.id !== idImg);
         return newArr;

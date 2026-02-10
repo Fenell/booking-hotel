@@ -41,13 +41,6 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
 
   const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";
 
-  // const handleGetImages = (imgs: FileInput[]) => {
-  //   console.log(imgs);
-  //   imgs.map((img) => {
-  //     data?.roomImages.push();
-  //   });
-  // };
-
   return (
     <Modal size="lg" onClose={() => openDialog(false)}>
       <ModalHeader title={title} />

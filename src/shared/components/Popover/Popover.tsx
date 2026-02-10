@@ -107,6 +107,8 @@ const Popover = ({
         top: rect.bottom + window.scrollY, // dưới trigger + 8px
         left: rect.right + window.scrollX,
       });
+      console.log(rect.bottom + window.scrollY);
+      console.log(rect.right);
     }
   }, [isVisible, triggerRef]);
   useEffect(() => {
@@ -136,9 +138,10 @@ const Popover = ({
   };
 
   const variants = {
-    initial: { opacity: 0, scale: 0.7, x: "-100%" },
-    animate: { opacity: 1, x: "-100%", scale: 1 },
-    exit: { opacity: 0, x: "-100%", scale: 0.7 },
+    initial: { opacity: 0, scale: 0.7, x: "-20%" },
+    // animate: { opacity: 1, x: "-100%", scale: 1 },
+    animate: { opacity: 1, x: "0", scale: 1 },
+    exit: { opacity: 0, x: "-20%", scale: 0.7 },
   };
   const transition = {
     type: "spring",

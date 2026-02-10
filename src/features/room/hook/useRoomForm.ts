@@ -40,14 +40,15 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
   });
 
   const handleSuccess = async (response: ResponseApi<string | RoomModel>) => {
-    console.log(response);
     if (response.isSuccess) {
       if (isEdit) {
         toast.success("Cập nhật thành công ^_^");
         girdApi?.applyTransaction({
           update: [response.data as RoomModel],
         });
-        await mutateImgAsync(listImgCreate.current);
+
+        if (listImgCreate.current.imageFiles.length > 0)
+          await mutateImgAsync(listImgCreate.current).catch(() => {});
       } else {
         toast.success("Thêm mới thành công ^_^");
         reset(defaultValues);
@@ -73,7 +74,7 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
   const { mutateAsync: mutateImgAsync } = useMutation({
     mutationFn: uploadImages,
     // onSuccess: () => toast.success("Thêm mới thành công ^_^"),
-    // onError: () => toast.warning("Thêm mới thất bại T_T"),
+    // onError: () => toast.warning("Có lỗi trong quá trình upload ảnh T_T"),
   });
 
   const { data, isPending } = useQuery({
@@ -81,8 +82,6 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     queryFn: ({ signal }) => getRoomDetail({ signal }, id),
     enabled: isEdit,
   });
-
-  // let roomImageRequest: UploadImageRequest = { imageFiles: [] };
 
   useEffect(() => {
     if (!isPending && data) {
@@ -92,7 +91,6 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
   }, [isPending, data, reset]);
 
   const handleGetImages = (imgs: FileInput[]) => {
-    console.log(imgs);
     const listImgsCreate = imgs.filter(
       (c) => !data?.roomImages.some((a) => a.id === c.id),
     );
@@ -100,7 +98,6 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     listImgCreate.current.imageFiles = listImgsCreate
       .map((a) => a.file!)
       .filter(Boolean);
-    console.log(listImgCreate.current);
   };
 
   const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {

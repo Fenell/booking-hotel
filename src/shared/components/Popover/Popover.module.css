@@ -15,8 +15,8 @@
 .popover-content {
   position: absolute;
   top: 100%;
-  left: 100%;
-  transform-origin: top right;
+  left: 0;
+  /* transform-origin: top right; */
   /* opacity: 0;
   transform: translateX(-50%) scale(0.9) translateY(-10px); */
   /* transform: translateX(-50%); */

@@ -28,6 +28,11 @@ export const useRoomGrid = ({
     () => [
       { field: "roomName", headerName: "Tên phòng", maxWidth: 500, width: 400 },
       {
+        field: "roomType.typeName",
+        headerName: "Loại",
+        valueFormatter: (e) => formatNumber(e.value),
+      },
+      {
         field: "currentPrice",
         headerName: "Giá phòng",
         type: "numericColumn",
