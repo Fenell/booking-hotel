@@ -37,7 +37,11 @@ const CreateAndUpdate = () => {
       <ModalHeader title={title} />
       <ModalContent>
         <FormProvider {...methods}>
-          <form id="icon-form" onSubmit={handleSubmit(onsubmit)}>
+          <form
+            id="icon-form"
+            autoComplete="off"
+            onSubmit={handleSubmit(onsubmit)}
+          >
             <div style={{ padding: "5px 10px" }}>
               <div
                 style={{
@@ -167,7 +171,7 @@ const CreateAndUpdate = () => {
           noAnimation
           type="submit"
           form="icon-form"
-          isLoading={isLoading}
+          isLoading={Boolean(isLoading)}
         >
           Cất giữ
         </Button>

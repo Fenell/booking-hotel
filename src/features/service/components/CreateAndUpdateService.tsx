@@ -20,15 +20,16 @@ const CreateAndUpdateService = () => {
     selectIcon,
   );
 
-  const { control, handleSubmit, reset } = methods;
+  const { control, handleSubmit } = methods;
 
   return (
-    <Modal onClose={() => openOrCloseDialog(false)}>
+    <Modal size="xs" onClose={() => openOrCloseDialog(false)}>
       <ModalHeader hasCloseButton title={title} />
       <ModalContent>
         <FormProvider {...methods}>
           <form
             id="service-form"
+            autoComplete="off"
             style={{ padding: "10px" }}
             onSubmit={handleSubmit(onsubmit)}
           >

@@ -22,7 +22,7 @@ const defaultIconValue: DefaultValues<IconResponse> = {
   description: "",
 };
 
-export const useIconForm: any = (id?: string) => {
+export const useIconForm = (id?: string) => {
   const toast = useToast();
   const methods = useForm<IconResponse>({
     defaultValues: defaultIconValue,
@@ -88,5 +88,6 @@ export const useIconForm: any = (id?: string) => {
     }
   };
   const isLoading = mutation.isPending || mutationUpdate.isPending;
+
   return [color, methods, isEdit, title, isLoading, onsubmit];
 };

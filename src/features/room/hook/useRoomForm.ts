@@ -59,19 +59,19 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     }
   };
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: pendingCreate } = useMutation({
     mutationFn: createRoom,
     onSuccess: (data) => handleSuccess(data),
     onError: () => toast.warning("Thêm mới thất bại T_T"),
   });
 
-  const { mutate: mutateUpdate } = useMutation({
+  const { mutate: mutateUpdate, isPending: pendingUpdate } = useMutation({
     mutationFn: updateRoom,
     onSuccess: (data) => handleSuccess(data),
     onError: () => toast.warning("Cập nhật thất bại T_T"),
   });
 
-  const { mutateAsync: mutateImgAsync } = useMutation({
+  const { mutateAsync: mutateImgAsync, isPending: pendingImage } = useMutation({
     mutationFn: uploadImages,
     // onSuccess: () => toast.success("Thêm mới thành công ^_^"),
     // onError: () => toast.warning("Có lỗi trong quá trình upload ảnh T_T"),
@@ -100,8 +100,10 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
       .filter(Boolean);
   };
 
+  const isProcessing = pendingCreate || pendingUpdate || pendingImage;
+
   const onsubmit: SubmitHandler<RoomCreateRequest> = (data) => {
-    console.log(data);
+    // console.log(data);
     if (isEdit) {
       mutateUpdate(data);
     } else {
@@ -114,6 +116,7 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     isEdit,
     methods,
     isPending,
+    isProcessing,
     data,
     openDialog,
     onsubmit,

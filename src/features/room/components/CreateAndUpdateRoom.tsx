@@ -32,6 +32,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
     isEdit,
     methods,
     isPending,
+    isProcessing,
     data,
     openDialog,
     onsubmit,
@@ -42,7 +43,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
   const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";
 
   return (
-    <Modal size="lg" onClose={() => openDialog(false)}>
+    <Modal size="xs" onClose={() => openDialog(false)}>
       <ModalHeader title={title} />
       <ModalContent>
         <FormProvider {...methods}>
@@ -82,7 +83,13 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
         </FormProvider>
       </ModalContent>
       <ModalFooter>
-        <Button status="success" noAnimation type="submit" form="room-form">
+        <Button
+          status="success"
+          noAnimation
+          type="submit"
+          isLoading={isProcessing}
+          form="room-form"
+        >
           Cất giữ
         </Button>
       </ModalFooter>

@@ -22,7 +22,7 @@ export const uploadImages = async (request: UploadImageRequest) => {
   try {
     const formData = new FormData();
     formData.append("roomCode", request.roomCode);
-    request.imageFiles.forEach((file) => formData.append("imageFile", file));
+    request.imageFiles.forEach((file) => formData.append("imageFiles", file));
 
     const response = await axiosInstance.post<ResponseApi<UploadImageResponse>>(
       API_ENDPOINT.IMAGE.UPLOAD_IMAGE,

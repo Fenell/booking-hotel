@@ -14,7 +14,7 @@ const ServicePageContent = () => {
       <div className={serviceStyle.box}>
         <div className={serviceStyle.actionBar}>
           <Button
-            status="info"
+            status="success"
             noAnimation
             onClick={() => openOrCloseDialog(true)}
           >
