@@ -2,7 +2,7 @@ import { API_ENDPOINT } from "@shared/constants/endpoint";
 import axiosInstance from "@shared/lib/axios.config";
 import type { LoginReponse, LoginRequest } from "@shared/types/auth";
 import type { ResponseApi } from "@shared/types/common";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export const setAccessToken = (token: string) => {
   localStorage.setItem("token", token);

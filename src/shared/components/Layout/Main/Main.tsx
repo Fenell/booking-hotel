@@ -10,7 +10,7 @@ const Main = ({ children, ...prop }: MainProps) => {
     <main className={mainStyle["main"]} {...prop}>
       <div className={mainStyle["container"]}>
         {/* <Breadcrumb /> */}
-        <section>{children}</section>
+        <section className={mainStyle["main-content"]}>{children}</section>
       </div>
     </main>
   );

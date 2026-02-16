@@ -224,7 +224,7 @@ h2 {
   margin-bottom: 22px;
 }
 
-label {
+.form-group label {
   display: block;
   color: white;
   font-size: 14px;

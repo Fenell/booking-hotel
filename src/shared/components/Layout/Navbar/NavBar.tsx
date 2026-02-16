@@ -16,23 +16,37 @@ const NavBar = () => {
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
         <Breadcrumb />
       </div>
-      <ul>
-        <li></li>
-        <li></li>
-        <li>
-          <a href="">
-            <span className={navBarStyle["notification"]}>
+      <ul className={navBarStyle.topNavBar}>
+        <li className={navBarStyle.navItem}></li>
+        <li className={navBarStyle.navItem}></li>
+        <li className={navBarStyle.navItem}>
+          <section>
+            <a className={navBarStyle["notification"]}>
               <span className={navBarStyle["noti-bage"]}>5</span>
               <i className="fa-light fa-bell fa-lg"></i>
-            </span>
-          </a>
+            </a>
+          </section>
         </li>
-        <li>
-          <a href="">
-            <span>
+        <li className={navBarStyle.navItem}>
+          <section className={navBarStyle["user-info"]}>
+            <a>
               <img src={boy} className={navBarStyle.avartar} />
-            </span>
-          </a>
+            </a>
+            <ul className={navBarStyle.userMenu}>
+              <li>
+                <a>
+                  <i className="fa-regular fa-user"></i>
+                  <span>Tài khoản</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i className="fa-regular fa-arrow-right-from-bracket"></i>
+                  <span>Đăng xuất</span>
+                </a>
+              </li>
+            </ul>
+          </section>
         </li>
       </ul>
     </motion.nav>
