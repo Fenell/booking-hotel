@@ -17,6 +17,7 @@
     "axios": "^1.13.2",
     "camelcase-keys": "^10.0.1",
     "classnames": "^2.5.1",
+    "jwt-decode": "^4.0.0",
     "motion": "^12.23.28",
     "quill": "^2.0.3",
     "react": "^19.2.0",

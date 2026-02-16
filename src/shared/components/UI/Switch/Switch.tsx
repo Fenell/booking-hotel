@@ -1,22 +1,34 @@
-import type { ChangeEvent } from "react";
 import switchStyle from "./Switch.module.css";
+import classNames from "classnames";
 
 type SwitchProps = {
   checked?: boolean;
   onToggle?: (checked: boolean) => void;
   id?: string;
+  isLoading?: boolean;
 };
 
-const Switch = ({ checked, id = "toggle", onToggle }: SwitchProps) => {
+const Switch = ({
+  checked,
+  id = "toggle",
+  isLoading = false,
+  onToggle,
+}: SwitchProps) => {
   return (
-    <label className={switchStyle["switch"]}>
+    <label className={classNames(switchStyle["switch"])}>
       <input
         type="checkbox"
+        disabled={isLoading}
         checked={checked}
         onChange={(e) => onToggle?.(e.target.checked)}
       />
 
-      <div className={switchStyle["slider"]}>
+      <div
+        className={classNames(
+          switchStyle["slider"],
+          isLoading && switchStyle["disabled"],
+        )}
+      >
         <div className={switchStyle["circle"]}>
           {/* ❌ icon */}
           <svg

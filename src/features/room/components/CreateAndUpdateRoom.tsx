@@ -54,6 +54,11 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
               id="room-form"
               autoComplete="off"
               style={{ height: "100%" }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
               onSubmit={handleSubmit(onsubmit)}
             >
               <div className={roomStlye.roomForm}>

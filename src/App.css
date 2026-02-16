@@ -3,8 +3,4 @@
   /* margin: 0 auto; */
   /* padding: 2rem; */
   /* text-align: center; */
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.4rem;
-  background-color: #f2f4f7;
 }

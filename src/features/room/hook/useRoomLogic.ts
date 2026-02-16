@@ -29,7 +29,7 @@ export const useRoomLogic = () => {
     });
   };
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: isChagingStt } = useMutation({
     mutationFn: changeStatus,
     onSuccess: (data) => handleChangeStatusSuccess(data),
     onError: () => toast.warning("Đổi trạng thái không thành công T_T"),
@@ -50,10 +50,12 @@ export const useRoomLogic = () => {
     openDialog(true, id);
   };
 
+  const isCallApi = isChagingStt;
   return {
     isOpen,
     data,
     isPending,
+    isCallApi,
     gridApiRef,
     openDialog,
     onGridReady,

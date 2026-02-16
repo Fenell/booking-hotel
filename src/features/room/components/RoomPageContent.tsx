@@ -13,6 +13,7 @@ const RoomPageContent = () => {
   const { colDefs, defaultColDef, paginationPageSizeSelector } = useRoomGrid({
     onEditRoom: logic.handleEditRoom,
     onToogleStatus: logic.handleToogle,
+    isProcessingUpdateStt: logic.isCallApi,
   });
 
   const theme = useGridTheme();

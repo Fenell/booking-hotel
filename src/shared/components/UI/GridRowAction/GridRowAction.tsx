@@ -12,6 +12,7 @@ type GridActionType = "edit" | "delete";
 type ActionCellRendererParams<T> = {
   actions: GridActionType[];
   onEdit?: (row: T) => void;
+  isPending?: boolean;
 };
 
 export type ActionCellRendererProps<T> = CustomCellRendererProps<T> &

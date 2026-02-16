@@ -14,11 +14,13 @@ import GridRowAction, {
 type UseRoomGridProps = {
   onToogleStatus: (checked: boolean, id?: string) => void;
   onEditRoom: (id: string) => void;
+  isProcessingUpdateStt: boolean;
 };
 
 export const useRoomGrid = ({
   onToogleStatus,
   onEditRoom,
+  isProcessingUpdateStt,
 }: UseRoomGridProps) => {
   const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
     return [50, 100, 200];
@@ -55,9 +57,10 @@ export const useRoomGrid = ({
           data,
         }: CustomCellRendererProps<RoomModel>): Pick<
           StatusSwitchProp,
-          "onToggle"
+          "onToggle" | "isLoading"
         > => ({
           onToggle: (e) => onToogleStatus(e, data?.id),
+          isLoading: isProcessingUpdateStt,
         }),
         width: 100,
       },
@@ -80,7 +83,7 @@ export const useRoomGrid = ({
         }),
       },
     ],
-    [onEditRoom, onToogleStatus],
+    [isProcessingUpdateStt, onEditRoom, onToogleStatus],
   );
   const defaultColDef = useMemo<ColDef>(() => {
     return {

@@ -29,4 +29,7 @@ export const API_ENDPOINT = {
     DELETE_IMAGE: (id: string) => `file-data/delete-image/${id}`,
     UPLOAD_IMAGE: "file-data/upload-image",
   },
+  AUTH: {
+    LOGIN: "/auth/login",
+  },
 };
