@@ -115,7 +115,7 @@ nav {
 
 .userMenu {
   position: absolute;
-  top: 50px;
+  top: 42px;
   right: 20px;
   z-index: 99;
   /* background-color: var(--bgc-write); */

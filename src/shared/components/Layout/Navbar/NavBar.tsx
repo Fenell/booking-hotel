@@ -3,6 +3,27 @@ import boy from "@assets/boy.png";
 import Breadcrumb from "./Breadcrumb";
 import navBarStyle from "./NavBar.module.css";
 import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
+
+const UserMenu = () => {
+  return createPortal(
+    <ul className={navBarStyle.userMenu}>
+      <li>
+        <a>
+          <i className="fa-regular fa-user"></i>
+          <span>Tài khoản</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <i className="fa-regular fa-arrow-right-from-bracket"></i>
+          <span>Đăng xuất</span>
+        </a>
+      </li>
+    </ul>,
+    document.getElementById("menu")!,
+  );
+};
 
 const NavBar = () => {
   const isCollapse = useCollapseSelector((state) => state.collapse.isCollapse);
@@ -32,20 +53,7 @@ const NavBar = () => {
             <a>
               <img src={boy} className={navBarStyle.avartar} />
             </a>
-            <ul className={navBarStyle.userMenu}>
-              <li>
-                <a>
-                  <i className="fa-regular fa-user"></i>
-                  <span>Tài khoản</span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <i className="fa-regular fa-arrow-right-from-bracket"></i>
-                  <span>Đăng xuất</span>
-                </a>
-              </li>
-            </ul>
+            <UserMenu />
           </section>
         </li>
       </ul>
