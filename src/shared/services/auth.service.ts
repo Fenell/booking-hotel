@@ -12,7 +12,7 @@ export const getAccessToken = (): string | null => {
   return localStorage.getItem("token");
 };
 
-const deleteAcessToken = () => {
+export const deleteAcessToken = () => {
   localStorage.removeItem("token");
 };
 

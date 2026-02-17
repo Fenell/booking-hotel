@@ -17,7 +17,7 @@
   --border-hover-blue: rgb(143, 206, 230);
   --box-shadow-focus-blue: 0px 0px 0 2px rgba(0, 123, 255, 0.3);
   --bgc-write: #fff;
-
+  --bgc-hover: #e7e7e7;
   --nav-height: 3em;
   --sidebar-width: 240px;
   --bgc-modal: #f5f7f8;
@@ -47,7 +47,7 @@ textarea {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: rgb(74, 74, 74);
+  /* color: rgb(74, 74, 74); */
 }
 
 body {

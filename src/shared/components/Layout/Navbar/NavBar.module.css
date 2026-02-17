@@ -35,6 +35,7 @@ nav {
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  cursor: pointer;
 }
 #nav-bar .navItem:hover {
   background-color: var(--hover-icon);
@@ -118,12 +119,29 @@ nav {
   top: 42px;
   right: 20px;
   z-index: 99;
-  /* background-color: var(--bgc-write); */
-  background-color: #cb4141;
+  background-color: var(--bgc-write);
+  /* background-color: #cb4141; */
   display: block;
   list-style: none;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 8px 0;
+  /* border-radius: 6px; */
+  min-width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  visibility: hidden;
+  /* pointer-events: none; */
+
+  transition: all 0.2s ease;
+}
+
+.userMenu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .userMenu a {
@@ -133,6 +151,13 @@ nav {
   gap: 10px;
 }
 
-.userMenu li {
+.userMenu a {
   font-size: 14px;
+  cursor: pointer;
+  padding: 8px 18px;
+  transition: background-color 0.5s ease-in;
+}
+
+.userMenu a:hover {
+  background-color: var(--bgc-hover);
 }

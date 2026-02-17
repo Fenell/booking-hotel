@@ -1,5 +1,9 @@
 import Spinner from "@shared/components/Spinner/Spinner";
-import { getAccessToken, setAccessToken } from "@shared/services/auth.service";
+import {
+  deleteAcessToken,
+  getAccessToken,
+  setAccessToken,
+} from "@shared/services/auth.service";
 import { jwtDecode } from "jwt-decode";
 import {
   createContext,
@@ -26,6 +30,7 @@ type AuthContextType = {
   authenticated: boolean;
   loading: boolean;
   onLogin: (token: string) => void;
+  onLogout: () => void;
 };
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -59,15 +64,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const handleLogin = (token: string) => {
-    console.log("oke");
+    // console.log("oke");
     setAccessToken(token);
     setAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setAuthenticated(false);
+    deleteAcessToken();
   };
 
   const value: AuthContextType = {
     authenticated,
     loading,
     onLogin: handleLogin,
+    onLogout: handleLogout,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
