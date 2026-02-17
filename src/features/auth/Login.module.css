@@ -283,6 +283,11 @@ h2 {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .sign-in-btn:hover {
@@ -293,6 +298,11 @@ h2 {
 
 .sign-in-btn:active {
   transform: translateY(0);
+}
+
+.sign-in-btn:disabled {
+  opacity: 0.7;
+  cursor: unset;
 }
 
 .divider {

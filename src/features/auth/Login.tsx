@@ -1,47 +1,8 @@
-import type { LoginReponse, LoginRequest } from "@shared/types/auth";
 import loginStyle from "./Login.module.css";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@shared/hooks/useToast";
-import { useAuthContext } from "@shared/context/AuthContext";
-import { login } from "@shared/services/auth.service";
-import { useNavigate } from "react-router";
 import classNames from "classnames";
-
-const defaultValues: LoginRequest = {
-  userName: "",
-  password: "",
-};
+import LoginForm from "./LoginForm";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues,
-  });
-  const navigate = useNavigate();
-  const context = useAuthContext();
-  const toast = useToast();
-  console.log("Login context", context);
-  const handleSuccess = (data: LoginReponse | string | undefined) => {
-    console.log(data);
-    if (data && typeof data === "string") {
-      toast.warning(data);
-    }
-    if (data && typeof data === "object") {
-      context.onLogin(data.token);
-      navigate("/", { replace: true });
-    }
-  };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: login,
-    onSuccess: (data) => handleSuccess(data),
-    onError: () => toast.warning("Đăng nhập thất bại"),
-  });
-
-  const onsubmit: SubmitHandler<LoginRequest> = (data) => {
-    console.log(data);
-    mutate(data);
-  };
   return (
     <>
       {/* Background decorative shapes  */}
@@ -80,35 +41,9 @@ const Login = () => {
       <div className={loginStyle["login-container"]}>
         <div className={loginStyle.logo}>Your logo</div>
 
-        <h2>Login</h2>
+        <h2>Đăng nhập</h2>
 
-        <form onSubmit={handleSubmit(onsubmit)}>
-          <div className={loginStyle["form-group"]}>
-            <label>Tài khoản</label>
-            <input
-              type="text"
-              placeholder="username@gmail.com"
-              {...register("userName")}
-            />
-          </div>
-
-          <div className={loginStyle["form-group"]}>
-            <label>Mật khẩu</label>
-            <input
-              type="password"
-              placeholder="Password"
-              {...register("password")}
-            />
-          </div>
-
-          <div className={loginStyle["forgot-password"]}>
-            <a href="#">Forgot Password?</a>
-          </div>
-
-          <button type="submit" className={loginStyle["sign-in-btn"]}>
-            Đăng nhập
-          </button>
-        </form>
+        <LoginForm />
 
         <div className={loginStyle["divider"]}>or continue with</div>
 
@@ -156,9 +91,9 @@ const Login = () => {
           </button>
         </div>
 
-        <div className={loginStyle["register-link"]}>
+        {/* <div className={loginStyle["register-link"]}>
           Don't have an account yet? <a href="#">Register for free</a>
-        </div>
+        </div> */}
       </div>
     </>
   );
