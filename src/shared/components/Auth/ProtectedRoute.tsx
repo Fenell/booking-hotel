@@ -4,11 +4,10 @@ import Spinner from "../Spinner/Spinner";
 
 const ProtectedRoute = () => {
   const context = useAuthContext();
-  console.log("ProtectedRoute context", context);
-  console.log("ProtectedRoute render:", context.authenticated);
-  console.log(context.authenticated);
-  // useEffect(() => {
-  // }, [authenticated]);
+  // console.log("ProtectedRoute context", context);
+  // console.log("ProtectedRoute render:", context.authenticated);
+  // console.log(context.authenticated);
+
   if (!context.authenticated) {
     return <Navigate to="/login" replace />;
   }
@@ -16,8 +15,6 @@ const ProtectedRoute = () => {
     return <Spinner />;
   }
 
-  // if (!authenticated) {
-  // }
   return <Outlet />;
 };
 

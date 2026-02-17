@@ -79,12 +79,18 @@ const NavBar = () => {
       </div>
       <ul className={navBarStyle.topNavBar}>
         <li className={navBarStyle.navItem}></li>
-        <li className={navBarStyle.navItem}></li>
         <li className={navBarStyle.navItem}>
           <section>
             <a className={navBarStyle["notification"]}>
               <span className={navBarStyle["noti-bage"]}>5</span>
               <i className="fa-light fa-bell fa-lg"></i>
+            </a>
+          </section>
+        </li>
+        <li className={navBarStyle.navItem}>
+          <section>
+            <a>
+              <i className="fa-regular fa-gear fa-lg"></i>
             </a>
           </section>
         </li>
