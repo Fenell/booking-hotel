@@ -28,11 +28,25 @@ export const useRoomGrid = ({
 
   const colDefs = useMemo<ColDef<RoomModel>[]>(
     () => [
-      { field: "roomName", headerName: "Tên phòng", maxWidth: 500, width: 400 },
+      {
+        field: "roomName",
+        headerName: "Tên phòng",
+        maxWidth: 500,
+        minWidth: 400,
+      },
       {
         field: "roomType.typeName",
         headerName: "Loại",
-        valueFormatter: (e) => formatNumber(e.value),
+      },
+      {
+        field: "numberAdults",
+        headerName: "Số người lớn",
+        type: "numericColumn",
+      },
+      {
+        field: "numberChild",
+        headerName: "Số trẻ em",
+        type: "numericColumn",
       },
       {
         field: "currentPrice",

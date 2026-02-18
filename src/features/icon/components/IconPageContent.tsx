@@ -8,6 +8,7 @@ import { getDynamicData } from "@shared/services/dynamic";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 import Spinner from "@shared/components/Spinner/Spinner";
 import type { IconResponse } from "../types/icon.type";
+import { AnimatePresence } from "motion/react";
 
 const iconRequest: DyanmicDataPagingRequest = {
   tableNames: "icons",
@@ -27,7 +28,7 @@ const IconPageContent = () => {
   const iconData = data?.data;
   return (
     <>
-      {isOpen && <CreateAndUpdate />}
+      <AnimatePresence>{isOpen && <CreateAndUpdate />}</AnimatePresence>
       <div style={{ width: "100%", height: "100%" }}>
         <div className={iconStyle.iconBox}>
           {iconData?.map((a) => (

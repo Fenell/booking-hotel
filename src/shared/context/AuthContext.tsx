@@ -45,13 +45,12 @@ export const useAuthContext = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  console.log("AuthContext file loaded");
+  // console.log("AuthContext file loaded");
 
   useEffect(() => {
     const token = getAccessToken();
     // console.log(token);
     if (token && !isTokenExpired(token)) {
-      console.log("oke");
       setAuthenticated(true);
     } else {
       setAuthenticated(false);

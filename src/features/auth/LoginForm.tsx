@@ -67,7 +67,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleSuccess = (data: LoginReponse | string | undefined) => {
-    console.log(data);
+    // console.log(data);
     if (data && typeof data === "string") {
       toast.warning(data);
     }

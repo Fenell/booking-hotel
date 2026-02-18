@@ -4,13 +4,14 @@ import { useServiceContext } from "../store/serviceContext";
 import CreateAndUpdateService from "./CreateAndUpdateService";
 import serviceStyle from "../style/service.module.css";
 import { Button } from "@shared/components/UI";
+import { AnimatePresence } from "motion/react";
 
 const ServicePageContent = () => {
   const { colDefs, defaultColDef, data, isPending } = useGridService();
   const { isOpen, openOrCloseDialog } = useServiceContext();
   return (
     <>
-      {isOpen && <CreateAndUpdateService />}
+      <AnimatePresence>{isOpen && <CreateAndUpdateService />}</AnimatePresence>
       <div className={serviceStyle.box}>
         <div className={serviceStyle.actionBar}>
           <Button

@@ -6,6 +6,7 @@ import { useRoomGrid } from "../hook/useRoomGrid";
 import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
 import { useRoomLogic } from "../hook/useRoomLogic";
 import { useGridTheme } from "@shared/lib/agGrid.config";
+import { AnimatePresence } from "motion/react";
 
 const RoomPageContent = () => {
   const logic = useRoomLogic();
@@ -21,9 +22,11 @@ const RoomPageContent = () => {
   const localText = AG_GRID_LOCALE_VN;
   return (
     <>
-      {logic.isOpen && (
-        <CreateAndUpdateRoom gridApi={logic.gridApiRef.current} />
-      )}
+      <AnimatePresence>
+        {logic.isOpen && (
+          <CreateAndUpdateRoom gridApi={logic.gridApiRef.current} />
+        )}
+      </AnimatePresence>
       <div className={roomStyle.box}>
         <div className={roomStyle.actionBar}>
           <Button

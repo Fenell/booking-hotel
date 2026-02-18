@@ -60,7 +60,8 @@
 }
 
 .modal-close-btn:hover {
-  background-color: #ececec;
+  /* background-color: #ececec; */
+  color: #888888;
 }
 
 /* .modal::backdrop {
