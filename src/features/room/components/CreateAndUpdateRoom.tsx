@@ -22,6 +22,7 @@ import { useRoomForm } from "../hook/useRoomForm";
 import { type GridApi } from "ag-grid-community";
 import type { RoomModel } from "@shared/types/room";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
+import RoomLocation from "./RoomLocation";
 
 type CreateAndUpdateRoomProps = {
   gridApi?: GridApi<RoomModel> | null;
@@ -66,6 +67,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
                   <TabHeader>
                     <TabHeaderItem idTab="1" title="Thông tin" selectDefault />
                     <TabHeaderItem idTab="2" title="Hình ảnh, mô tả" />
+                    <TabHeaderItem idTab="3" title="Vị trí" />
                   </TabHeader>
                   <TabContent>
                     <TabContentItem idTab="1">
@@ -79,6 +81,9 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
                         roomImages={data?.roomImages}
                         onAddImage={handleGetImages}
                       />
+                    </TabContentItem>
+                    <TabContentItem idTab="3">
+                      <RoomLocation />
                     </TabContentItem>
                   </TabContent>
                 </Tab>

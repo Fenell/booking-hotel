@@ -37,7 +37,7 @@ export const useRoomLogic = () => {
 
   const handleToogle = useCallback(
     (checked: boolean, id?: string) => {
-      console.log(checked);
+      // console.log(checked);
       if (id) {
         mutate({ id, status: checked ? 1 : 0 });
       }
@@ -46,7 +46,7 @@ export const useRoomLogic = () => {
   );
 
   const handleEditRoom = (id: RoomModel["id"]) => {
-    console.log(id);
+    // console.log(id);
     openDialog(true, id);
   };
 
