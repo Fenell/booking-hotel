@@ -13,7 +13,6 @@
     "@fancyapps/ui": "^6.1.10",
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/react-query": "^5.90.16",
-    "@vis.gl/react-google-maps": "^1.7.1",
     "ag-grid-react": "^35.0.0",
     "axios": "^1.13.2",
     "camelcase-keys": "^10.0.1",
