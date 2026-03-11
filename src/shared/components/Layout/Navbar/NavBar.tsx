@@ -2,7 +2,7 @@ import { useCollapseSelector } from "@app/store/hooks";
 import boy from "@assets/boy.png";
 import Breadcrumb from "./Breadcrumb";
 import navBarStyle from "./NavBar.module.css";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 import { useEffect, useRef, useState, type RefObject } from "react";

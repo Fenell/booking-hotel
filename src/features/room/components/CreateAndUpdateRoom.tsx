@@ -23,6 +23,7 @@ import { type GridApi } from "ag-grid-community";
 import type { RoomModel } from "@shared/types/room";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 import RoomLocation from "./RoomLocation";
+import { useState } from "react";
 
 type CreateAndUpdateRoomProps = {
   gridApi?: GridApi<RoomModel> | null;
@@ -42,7 +43,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
   const { handleSubmit } = methods;
 
   const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";
-
+  const [activeTab, setActiveTab] = useState("1");
   return (
     <Modal size="xs" onClose={() => openDialog(false)}>
       <ModalHeader title={title} />
@@ -63,7 +64,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
               onSubmit={handleSubmit(onsubmit)}
             >
               <div className={roomStlye.roomForm}>
-                <Tab>
+                <Tab onChangeTab={(e) => setActiveTab(e)}>
                   <TabHeader>
                     <TabHeaderItem idTab="1" title="Thông tin" selectDefault />
                     <TabHeaderItem idTab="2" title="Hình ảnh, mô tả" />
@@ -83,7 +84,10 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
                       />
                     </TabContentItem>
                     <TabContentItem idTab="3">
-                      <RoomLocation />
+                      <RoomLocation
+                        tabActived={activeTab === "3"}
+                        location={data?.location}
+                      />
                     </TabContentItem>
                   </TabContent>
                 </Tab>

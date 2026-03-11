@@ -1,6 +1,6 @@
 import sideBarStyle from "./Sidebar.module.css";
 import SubMenu from "./SubMenu";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { NavLink, useLocation } from "react-router";
 import classNames from "classnames";
 import ArrowDownIcon from "./ArrowDownIcon";
@@ -44,7 +44,7 @@ const SidebarItem = ({
         type="button"
         className={classNames(
           sideBarStyle["dropdown-btn"],
-          location.state?.parentMenu === menuName ? parentActiceStyle : ""
+          location.state?.parentMenu === menuName ? parentActiceStyle : "",
         )}
         onClick={() => dispatch(toogleCollapseSubMenu({ menuId: menuName }))}
       >

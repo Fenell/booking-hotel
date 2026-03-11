@@ -10,6 +10,7 @@ import Switch from "@shared/components/UI/Switch/Switch";
 import { useToast } from "@shared/hooks/useToast";
 import { useState } from "react";
 import { customConfirm } from "@shared/components/UI/ConfirmDialog/ConfirmDialog";
+import RoomLocation from "@features/room/components/RoomLocation";
 
 const DashBoard = () => {
   const toast = useToast();
@@ -53,6 +54,7 @@ const DashBoard = () => {
 
       <Input placeholder="okeoej" />
       <Switch checked={status} onToggle={(e) => setStatus(e)} />
+      <RoomLocation />
     </div>
   );
 };

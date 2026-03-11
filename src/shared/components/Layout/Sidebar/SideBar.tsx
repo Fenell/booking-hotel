@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import SidebarItem from "./SidebarItem";
 import sideBarStyle from "./Sidebar.module.css";
 // import { menus } from "@constants/menu";

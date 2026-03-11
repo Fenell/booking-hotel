@@ -235,14 +235,14 @@ const BaseInfoInput = () => {
           />
         </div>
       </div>
-      <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
+      {/* <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
         <label htmlFor="location">Vị trí</label>
         <Controller
           control={control}
           name="location"
           render={({ field }) => <Input id="location" {...field} />}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
