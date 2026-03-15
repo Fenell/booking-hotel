@@ -11,6 +11,9 @@ export type ServiceCreateAndUpdateModel = {
   serviceCode?: string;
   serviceName: string;
   description?: string;
+  price?: number ;
+  isFee: boolean;
+  unit: string;
   idIcon?: string;
 };
 

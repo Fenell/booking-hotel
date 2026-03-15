@@ -1,5 +1,5 @@
-export const formatNumber = (value: number | null) => {
-  if (value == null) return "";
+export const formatNumber = (value: number | null | undefined) => {
+  if (!value) return "";
   return value.toLocaleString("vi-VN");
 };
 

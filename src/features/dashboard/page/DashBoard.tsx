@@ -54,7 +54,6 @@ const DashBoard = () => {
 
       <Input placeholder="okeoej" />
       <Switch checked={status} onToggle={(e) => setStatus(e)} />
-      <RoomLocation />
     </div>
   );
 };

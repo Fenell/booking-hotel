@@ -1,13 +1,14 @@
 import classNames from "classnames";
 import checkBoxStyle from "./Checkbox.module.css";
+import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 
 type CheckboxProps = {
   isChecked: boolean;
   label: string;
   index?: string;
-  value: string;
-  onChecked: () => void;
-};
+  value?: string | boolean | undefined;
+  onChecked: (e: ChangeEvent<HTMLInputElement>) => void;
+} & ComponentPropsWithoutRef<"input">;
 
 const Checkbox = ({
   isChecked = false,
@@ -15,18 +16,20 @@ const Checkbox = ({
   index,
   value,
   onChecked,
+  ...props
 }: CheckboxProps) => {
   return (
     <div className={classNames(checkBoxStyle["checkbox-wrapper-4"])}>
       <input
         className={checkBoxStyle["inp-cbx"]}
-        id={`checkbox-${index}`}
+        id={`${index}`}
         type="checkbox"
         value={value}
         checked={isChecked}
         onChange={onChecked}
+        {...props}
       />
-      <label className={checkBoxStyle["cbx"]} htmlFor={`checkbox-${index}`}>
+      <label className={checkBoxStyle["cbx"]} htmlFor={`${index}`}>
         <span>
           <svg width="12px" height="10px">
             <use xlinkHref="#check-4"></use>

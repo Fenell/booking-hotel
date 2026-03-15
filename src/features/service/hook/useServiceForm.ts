@@ -3,7 +3,11 @@ import {
   type DefaultValues,
   type SubmitHandler,
 } from "react-hook-form";
-import type { ServiceResponse } from "../types/service.type";
+import type {
+  ServiceCreateAndUpdateModel,
+  ServiceResponse,
+  ServiceUpdateRequest,
+} from "../types/service.type";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createService, updateService } from "../api/service.api";
@@ -12,6 +16,7 @@ import { queryClient } from "@app/queryClient";
 import { getDynamicData } from "@shared/services/dynamic";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 import type { IconResponse } from "@features/icon/types/icon.type";
+import type { ResponseApi } from "@shared/types/common";
 
 const defaultValues: DefaultValues<ServiceResponse> = {
   id: "",
@@ -37,8 +42,8 @@ export const useServiceForm = (
       toast.success("Cập nhật dịch vụ thành công ^_^");
     } else {
       toast.success("Tạo mới dịch vụ thành công ^_^");
-      reset(defaultValues);
-      selectIcon(null);
+      // reset(defaultValues);
+      // selectIcon(null);
     }
     queryClient.invalidateQueries({ queryKey: ["services"] });
   };
@@ -54,6 +59,7 @@ export const useServiceForm = (
   const mutaionUpdate = useMutation({
     mutationFn: updateService,
     onSuccess: handleCreateSuccess,
+
     onError: () => {
       toast.warning("Cập nhật dịch vụ thất bại T_T");
     },
@@ -85,12 +91,11 @@ export const useServiceForm = (
     }
   }, [data, isEdit, isSuccess, reset]);
 
-  const onsubmit: SubmitHandler<ServiceResponse> = ({
-    id,
-    createDate,
-    isActive,
-    ...other
-  }) => {
+  const onsubmit: SubmitHandler<ServiceResponse> = (
+    { id, createDate, isActive, ...other },
+    action,
+  ) => {
+    console.log(action);
     if (isEdit) {
       mutaionUpdate.mutate({ id, ...other });
     } else mutaion.mutate(other);

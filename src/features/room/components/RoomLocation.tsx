@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import type { RoomCreateRequest } from "../types/room.type";
 import { useFormContext } from "react-hook-form";
 
-function FixMapSize(tabActived: { tabActived: boolean }) {
+const FixMapSize = (tabActived: { tabActived: boolean }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -24,11 +24,11 @@ function FixMapSize(tabActived: { tabActived: boolean }) {
   }, [tabActived, map]);
 
   return null;
-}
+};
 
 const DEFAULT_CENTER: LatLngExpression = [21.0285, 105.8542];
 
-const LocationMaker = ({ location }: { location: string }) => {
+const LocationMaker = ({ location }: { location?: string }) => {
   const { setValue } = useFormContext<RoomCreateRequest>();
 
   const [position, setPosition] = useState<LatLng | LatLngExpression | null>(
@@ -77,7 +77,7 @@ const RoomLocation = ({
   location,
 }: {
   tabActived: boolean;
-  location: string;
+  location?: string;
 }) => {
   const position1: LatLngExpression = [21.001, 105.81];
 
