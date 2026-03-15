@@ -10,26 +10,32 @@ import { motion, AnimatePresence } from "motion/react";
 import classNames from "classnames";
 import { Button } from "../UI";
 import type { StatusBtn } from "../UI/Button/Button";
-type PopoverPosition = "top" | "bottom" | "left" | "right";
+type PopoverPosition =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right";
 type PopoverProp = {
   content: ReactNode;
   noAnimation?: boolean;
   status: StatusBtn;
   icon?: string;
   children?: ReactNode;
-  position: PopoverPosition;
+  position?: PopoverPosition;
   btnProps?: ComponentPropsWithoutRef<"button">;
 };
 const getVariants = (position: string) => {
   switch (position) {
-    case "top":
+    case "top-left":
+    case "top-right":
       return {
         initial: { opacity: 0, scale: 0.8, y: "-20%" },
         animate: { opacity: 1, scale: 1, y: 0 },
         exit: { opacity: 0, scale: 0.8, y: "-20%" },
       };
 
-    case "bottom":
+    case "bottom-left":
+    case "bottom-right":
       return {
         initial: { opacity: 0, scale: 0.7, x: "-20%" },
         animate: { opacity: 1, x: "0", scale: 1 },
@@ -64,7 +70,7 @@ const Popover = ({
   status,
   icon,
   children,
-  position = "bottom",
+  position = "top-right",
   btnProps,
 }: PopoverProp) => {
   const [isVisible, setIsVisible] = useState(false);

@@ -30,14 +30,26 @@
   display: inline-block;
 }
 
-.popover-content.position-bottom {
+.popover-content.position-bottom-left {
   top: 100%;
   left: 0;
   margin-top: 10px;
 }
-.popover-content.position-top {
+.popover-content.position-bottom-right {
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+}
+
+.popover-content.position-top-left {
   bottom: 100%;
   left: 0;
+  margin-bottom: 10px;
+}
+
+.popover-content.position-top-right {
+  bottom: 100%;
+  right: 0;
   margin-bottom: 10px;
 }
 /* .popover-content.show {
