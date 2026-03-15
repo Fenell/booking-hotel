@@ -73,7 +73,6 @@ export const ServiceContextProvider = ({
     openOrCloseDialog,
     selectIcon,
   };
-
   return (
     <ServiceContext.Provider value={ctx}> {children}</ServiceContext.Provider>
   );

@@ -8,90 +8,63 @@ import {
 import styles from "./Popover.module.css";
 import { motion, AnimatePresence } from "motion/react";
 import classNames from "classnames";
-import { createPortal } from "react-dom";
 import { Button } from "../UI";
 import type { StatusBtn } from "../UI/Button/Button";
-
-// const PopoverPortal = ({ triggerRef, onClose, isVisible, children }) => {
-//   const popoverRef = useRef(null);
-//   const [pos, setPos] = useState({ top: 0, left: 0 });
-//   const variants = {
-//     initial: { opacity: 0, scale: 0.7, x: "-100%" },
-//     animate: { opacity: 1, scale: 1, x: "-100%" },
-//     exit: { opacity: 0, scale: 0.7, x: "-100%" },
-//   };
-//   const transition = {
-//     type: "spring",
-//     stiffness: 400,
-//     damping: 30,
-//     duration: 0.2,
-//   };
-
-//   useEffect(() => {
-//     if (isVisible && triggerRef.current) {
-//       const rect = triggerRef.current.getBoundingClientRect();
-//       // console.log(rect);
-//       setPos({
-//         top: rect.bottom + window.scrollY, // dưới trigger + 8px
-//         left: rect.right + window.scrollX,
-//       });
-//     }
-//   }, [isVisible, triggerRef]);
-
-//   useEffect(() => {
-//     const handeClickOutside = (event) => {
-//       if (!isVisible) return;
-//       if (
-//         popoverRef.current &&
-//         !popoverRef.current.contains(event.target) &&
-//         !triggerRef.current.contains(event.target)
-//       ) {
-//         onClose?.();
-//       }
-//     };
-//     document.addEventListener("mousedown", handeClickOutside);
-//     return () => {
-//       document.removeEventListener("mousedown", handeClickOutside);
-//     };
-//   }, [isVisible, onClose, triggerRef]);
-
-//   if (!isVisible) return null;
-//   return createPortal(
-//     <AnimatePresence>
-//       <motion.div
-//         style={{ top: pos.top, left: pos.left }}
-//         aria-modal="true"
-//         role="dialog"
-//         ref={popoverRef}
-//         className={classNames(styles["popover-content"])}
-//         variants={variants}
-//         initial="initial"
-//         animate="animate"
-//         exit="exit"
-//         transition={transition}
-//       >
-//         {children}
-//       </motion.div>
-//     </AnimatePresence>,
-//     document.body
-//   );
-// };
-
+type PopoverPosition = "top" | "bottom" | "left" | "right";
 type PopoverProp = {
   content: ReactNode;
   noAnimation?: boolean;
   status: StatusBtn;
   icon?: string;
   children?: ReactNode;
+  position: PopoverPosition;
   btnProps?: ComponentPropsWithoutRef<"button">;
 };
+const getVariants = (position: string) => {
+  switch (position) {
+    case "top":
+      return {
+        initial: { opacity: 0, scale: 0.8, y: "-20%" },
+        animate: { opacity: 1, scale: 1, y: 0 },
+        exit: { opacity: 0, scale: 0.8, y: "-20%" },
+      };
 
+    case "bottom":
+      return {
+        initial: { opacity: 0, scale: 0.7, x: "-20%" },
+        animate: { opacity: 1, x: "0", scale: 1 },
+        exit: { opacity: 0, x: "-20%", scale: 0.7 },
+      };
+
+    case "left":
+      return {
+        initial: { opacity: 0, scale: 0.8, x: 10 },
+        animate: { opacity: 1, scale: 1, x: 0 },
+        exit: { opacity: 0, scale: 0.8, x: 10 },
+      };
+
+    case "right":
+      return {
+        initial: { opacity: 0, scale: 0.8, x: -10 },
+        animate: { opacity: 1, scale: 1, x: 0 },
+        exit: { opacity: 0, scale: 0.8, x: -10 },
+      };
+
+    default:
+      return {
+        initial: { opacity: 0, scale: 0.8, y: -10 },
+        animate: { opacity: 1, scale: 1, y: 0 },
+        exit: { opacity: 0, scale: 0.8, y: -10 },
+      };
+  }
+};
 const Popover = ({
   content,
   noAnimation = false,
   status,
   icon,
   children,
+  position = "bottom",
   btnProps,
 }: PopoverProp) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -99,18 +72,19 @@ const Popover = ({
   const popoverRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ top: 0, left: 0 });
 
-  useEffect(() => {
-    if (isVisible && triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      // console.log(rect);
-      setPos({
-        top: rect.bottom + window.scrollY, // dưới trigger + 8px
-        left: rect.right + window.scrollX,
-      });
-      console.log(rect.bottom + window.scrollY);
-      console.log(rect.right);
-    }
-  }, [isVisible, triggerRef]);
+  // useEffect(() => {
+  //   if (isVisible && triggerRef.current) {
+  //     const rect = triggerRef.current.getBoundingClientRect();
+  //     // console.log(rect);
+  //     setPos({
+  //       top: rect.bottom + window.scrollY, // dưới trigger + 8px
+  //       left: rect.right + window.scrollX,
+  //     });
+  //     console.log(rect.bottom + window.scrollY);
+  //     console.log(rect.right);
+  //   }
+  // }, [isVisible, triggerRef]);
+
   useEffect(() => {
     const handeClickOutside = (event: MouseEvent) => {
       const target = event.target;
@@ -137,18 +111,22 @@ const Popover = ({
     setIsVisible(!isVisible);
   };
 
-  const variants = {
-    initial: { opacity: 0, scale: 0.7, x: "-20%" },
-    // animate: { opacity: 1, x: "-100%", scale: 1 },
-    animate: { opacity: 1, x: "0", scale: 1 },
-    exit: { opacity: 0, x: "-20%", scale: 0.7 },
-  };
+  // const variants = {
+  //   initial: { opacity: 0, scale: 0.7, x: "-20%" },
+  //   animate: { opacity: 1, x: "0", scale: 1 },
+  //   exit: { opacity: 0, x: "-20%", scale: 0.7 },
+  // };
+
+  const variants = getVariants(position);
+
   const transition = {
     type: "spring",
     stiffness: 400,
     damping: 30,
     duration: 0.2,
   };
+
+  const positionClass = `position-${position}`;
 
   return (
     <div className={styles["popover-container"]}>
@@ -172,11 +150,14 @@ const Popover = ({
             aria-modal="true"
             role="dialog"
             ref={popoverRef}
-            className={classNames(styles["popover-content"])}
+            className={classNames(
+              styles["popover-content"],
+              styles[positionClass],
+            )}
             variants={variants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial={variants.initial}
+            animate={variants.animate}
+            exit={variants.exit}
             transition={transition}
           >
             {content}
