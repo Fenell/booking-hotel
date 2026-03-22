@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# 🏨 Booking Hotel - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Đây là project **Frontend** cho hệ thống đặt phòng khách sạn (Hotel Booking System), được xây dựng bằng **React + TypeScript**.
 
-Currently, two official plugins are available:
+Ứng dụng cung cấp giao diện để người dùng tìm kiếm khách sạn, xem thông tin chi tiết và thực hiện đặt phòng thông qua API từ backend (được triển khai ở project khác).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Giới thiệu
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Project tập trung vào việc xây dựng giao diện người dùng hiện đại, dễ sử dụng cho hệ thống booking khách sạn.
 
-## Expanding the ESLint configuration
+Luồng hoạt động chính:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Các chức năng được thiết kế theo flow thực tế của một hệ thống đặt phòng:
+- Tìm kiếm khách sạn  
+- Xem chi tiết  
+- Chọn ngày và đặt phòng  
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ⚙️ Chức năng chính
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 🔍 Tìm kiếm khách sạn  
+- 🏨 Hiển thị danh sách khách sạn  
+- 📄 Xem chi tiết khách sạn  
+- 📅 Chọn ngày check-in / check-out  
+- 🛒 Thực hiện đặt phòng  
+- 👤 Đăng nhập / đăng ký (nếu có)  
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧩 Kiến trúc Frontend
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Project được tổ chức theo cấu trúc phổ biến của React:
+
+```bash
+src/
+│
+├── components/     # UI components tái sử dụng
+├── pages/          # Các trang chính (Home, Detail, Booking...)
+├── services/       # Gọi API tới backend
+├── hooks/          # Custom hooks
+├── types/          # Định nghĩa TypeScript types
+├── utils/          # Hàm tiện ích
+└── App.tsx
+
+## 🛠️ Công nghệ sử dụng
+
+- ⚛️ **React** – Xây dựng giao diện người dùng  
+- 🟦 **TypeScript** – Tăng tính an toàn kiểu dữ liệu  
+- 🌐 **REST API** – Giao tiếp với backend  
+- 📦 **Axios / Fetch** – Gửi request HTTP  
+- 🎨 **CSS / SCSS / Tailwind** – Thiết kế giao diện  
