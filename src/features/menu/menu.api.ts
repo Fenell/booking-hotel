@@ -11,6 +11,6 @@ export const getMenu = async ({ signal }: AxiosRequestConfig) => {
 
     return response.data.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 };

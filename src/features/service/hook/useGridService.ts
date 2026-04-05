@@ -8,6 +8,7 @@ import type { CustomCellRendererProps } from "ag-grid-react";
 import type { ActionServiceColProps } from "../components/ActionServiceCol";
 import ActionServiceCol from "../components/ActionServiceCol";
 import { useServiceContext } from "../store/serviceContext";
+import { useLoadConfigGrid } from "@shared/hooks/useLoadConfigGrid";
 
 const serviceRequest: DyanmicDataPagingRequest = {
   tableNames: "view_service_with_icon",
@@ -30,26 +31,51 @@ export const useGridService = () => {
     [openOrCloseDialog],
   );
 
-  const colDefs = useMemo<ColDef<ServiceResponse>[]>(
-    () => [
-      { field: "serviceCode", headerName: "Tên dịch vụ", maxWidth: 400 },
-      { field: "description", headerName: "Mô tả" },
-      {
-        colId: "action",
-        headerName: "Thao tác",
-        pinned: "right",
-        // type: "rightAligned",
-        width: 200,
-        cellRenderer: ActionServiceCol,
-        cellRendererParams: (
-          params: CustomCellRendererProps<ServiceResponse>,
-        ): Pick<ActionServiceColProps, "onClick"> => ({
-          onClick: () => handleClickAction(params.data?.id),
-        }),
-      },
-    ],
+  // const colDefs = useMemo<ColDef<ServiceResponse>[]>(
+  //   () => [
+  //     { field: "serviceCode", headerName: "Tên dịch vụ", maxWidth: 400 },
+  //     { field: "description", headerName: "Mô tả" },
+  //     {
+  //       colId: "action",
+  //       headerName: "Thao tác",
+  //       pinned: "right",
+  //       // type: "rightAligned",
+  //       width: 200,
+  //       cellRenderer: ActionServiceCol,
+  //       cellRendererParams: (
+  //         params: CustomCellRendererProps<ServiceResponse>,
+  //       ): Pick<ActionServiceColProps, "onClick"> => ({
+  //         onClick: () => handleClickAction(params.data?.id),
+  //       }),
+  //     },
+  //   ],
+  //   [handleClickAction],
+  // );
+
+  const { colDefs: colDefsConfig } =
+    useLoadConfigGrid<ServiceResponse>("service");
+
+  const customeCol = useMemo<ColDef<ServiceResponse>>(
+    () => ({
+      colId: "action",
+      headerName: "Thao tác",
+      pinned: "right",
+      // type: "rightAligned",
+      width: 200,
+      cellRenderer: ActionServiceCol,
+      cellRendererParams: (
+        params: CustomCellRendererProps<ServiceResponse>,
+      ): Pick<ActionServiceColProps, "onClick"> => ({
+        onClick: () => handleClickAction(params.data?.id),
+      }),
+    }),
     [handleClickAction],
   );
+
+  const colDefs = useMemo(() => {
+    return [...colDefsConfig, customeCol];
+  }, [colDefsConfig, customeCol]);
+
   const defaultColDef = useMemo<ColDef>(() => {
     return {
       editable: false,

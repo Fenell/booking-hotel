@@ -70,7 +70,7 @@ const Popover = ({
   status,
   icon,
   children,
-  position = "top-right",
+  position = "bottom-left",
   btnProps,
 }: PopoverProp) => {
   const [isVisible, setIsVisible] = useState(false);
