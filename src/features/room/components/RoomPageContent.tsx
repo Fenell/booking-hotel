@@ -7,16 +7,20 @@ import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
 import { useRoomLogic } from "../hook/useRoomLogic";
 import { useGridTheme } from "@shared/lib/agGrid.config";
 import { AnimatePresence } from "motion/react";
-import { useFetchDataRoom } from "../hook/useFetchDataRoom";
+
+import Popover from "@shared/components/Popover/Popover";
+import { ColumnSetting } from "@shared/components/Settings/ColumSetting";
+import type { RoomModel } from "@shared/types/room";
 
 const RoomPageContent = () => {
   const logic = useRoomLogic();
 
-  const { colDefs, defaultColDef, paginationPageSizeSelector } = useRoomGrid({
-    onEditRoom: logic.handleEditRoom,
-    onToogleStatus: logic.handleToogle,
-    isProcessingUpdateStt: logic.isCallApi,
-  });
+  const { colDefs, defaultColDef, paginationPageSizeSelector, setColConfig } =
+    useRoomGrid({
+      onEditRoom: logic.handleEditRoom,
+      onToogleStatus: logic.handleToogle,
+      isProcessingUpdateStt: logic.isCallApi,
+    });
 
   const theme = useGridTheme();
 
@@ -37,6 +41,19 @@ const RoomPageContent = () => {
           >
             Thêm mới
           </Button>
+          <Popover
+            noAnimation
+            content={
+              <ColumnSetting<RoomModel>
+                girdKey="room"
+                onChangeCol={(newCols) => setColConfig(newCols)}
+              />
+            }
+            status="success"
+            position="bottom-right"
+          >
+            <i className="fa-regular fa-list"></i>
+          </Popover>
         </div>
         <div className={roomStyle.boxData}>
           <AgGridReact

@@ -19,14 +19,17 @@ const Checkbox = ({
   ...props
 }: CheckboxProps) => {
   return (
-    <div className={classNames(checkBoxStyle["checkbox-wrapper-4"])}>
+    <div
+      className={classNames(checkBoxStyle["checkbox-wrapper-4"])}
+      style={props.style}
+    >
       <input
         className={checkBoxStyle["inp-cbx"]}
         id={`${index}`}
         type="checkbox"
         value={value}
         checked={isChecked}
-        onChange={onChecked}
+        onChange={(e) => onChecked(e)}
         {...props}
       />
       <label className={checkBoxStyle["cbx"]} htmlFor={`${index}`}>

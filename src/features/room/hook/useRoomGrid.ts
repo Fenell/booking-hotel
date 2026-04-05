@@ -1,7 +1,7 @@
 import type { RoomModel } from "@shared/types/room";
 import { type ColDef } from "ag-grid-community";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { formatNumber } from "@shared/utils/formatNumber";
 import StatusSwitch, {
   type StatusSwitchProp,
@@ -11,6 +11,7 @@ import GridRowAction, {
   type ActionCellRendererProps,
 } from "@shared/components/UI/GridRowAction/GridRowAction";
 import { useLoadConfigGrid } from "@shared/hooks/useLoadConfigGrid";
+import { loadConfigGrid } from "@shared/services/configGridSetting";
 
 type UseRoomGridProps = {
   onToogleStatus: (checked: boolean, id?: string) => void;
@@ -23,6 +24,14 @@ export const useRoomGrid = ({
   onEditRoom,
   isProcessingUpdateStt,
 }: UseRoomGridProps) => {
+  const [colConfig, setColConfig] = useState(() =>
+    loadConfigGrid<RoomModel>("room"),
+  );
+
+  const handleUpdateColDef = (newCols: ColDef[]) => {
+    setColConfig(newCols);
+  };
+
   const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
     return [50, 100, 200];
   }, []);
@@ -101,7 +110,7 @@ export const useRoomGrid = ({
   //   [isProcessingUpdateStt, onEditRoom, onToogleStatus],
   // );
 
-  const { colDefs: colConfig, isReady } = useLoadConfigGrid("room");
+  // const { colDefs: colConfig, isReady } = useLoadConfigGrid("room");
   const colStatus = useMemo<ColDef<RoomModel>>(
     () => ({
       field: "status",
@@ -161,5 +170,6 @@ export const useRoomGrid = ({
     colDefs,
     defaultColDef,
     paginationPageSizeSelector,
+    setColConfig: handleUpdateColDef,
   };
 };

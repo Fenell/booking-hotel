@@ -46,13 +46,20 @@ export const defaultRoomConfig: ColDef<RoomModel>[] = [
     headerName: "Giá phòng",
     type: "numericColumn",
     hide: false,
-    valueFormatter: (e) => formatNumber(e.value),
+    // valueFormatter: (e) => formatNumber(e.value),
   },
   {
     field: "priceWeekend",
     headerName: "Giá cuối tuần",
     type: "numericColumn",
     hide: false,
-    valueFormatter: (e) => formatNumber(e.value),
+    // valueFormatter: (e) => formatNumber(e.value),
   },
 ];
+
+// export const formatColNumber: ColDef[] = () => {
+//   return;
+//   {
+//     valueFormatter: (e) => formatNumber(e.value);
+//   }
+// };
