@@ -28,8 +28,16 @@ export const loadConfigGrid = <T>(config: string) => {
     }
   }
   const configObj: ColDef<T>[] = configData ? JSON.parse(configData) : [];
+  console.log("load local");
 
   return addFormatNumber(configObj);
+};
+
+export const loadCol = <T>(configKey: string) => {
+  const configData = localStorage.getItem(configKey);
+  const configObj: ColDef<T>[] = configData ? JSON.parse(configData) : [];
+
+  return configObj;
 };
 
 export const updateConfigGrid = <T>(
@@ -46,7 +54,7 @@ export const updateConfigGrid = <T>(
 
   localStorage.setItem(girdKey, JSON.stringify(newCols));
 
-  return newCols;
+  return addFormatNumber(newCols);
 };
 
 export const addFormatNumber = <T>(cols: ColDef<T>[]) => {
@@ -56,6 +64,5 @@ export const addFormatNumber = <T>(cols: ColDef<T>[]) => {
     }
     return col;
   });
-
   return newCols;
 };

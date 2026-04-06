@@ -2,10 +2,7 @@ import Checkbox from "../UI/Checkbox/Checkbox";
 import { type ColDef } from "ag-grid-community";
 
 import type { ChangeEvent } from "react";
-import {
-  loadConfigGrid,
-  updateConfigGrid,
-} from "@shared/services/configGridSetting";
+import { loadCol, updateConfigGrid } from "@shared/services/configGridSetting";
 
 export type ColumnSettingProps<T> = {
   girdKey: string;
@@ -16,18 +13,15 @@ export const ColumnSetting = <T,>({
   girdKey,
   onChangeCol,
 }: ColumnSettingProps<T>) => {
-  const colDefs = loadConfigGrid<T>(girdKey);
+  const colDefs = loadCol<T>(girdKey);
 
   const handleCheckSetting = (
     e: ChangeEvent<HTMLInputElement>,
-    field: keyof T,
+    field: string,
   ): void => {
-    console.log(field);
     const newCols = updateConfigGrid<T>(girdKey, colDefs, field);
     onChangeCol?.(newCols);
   };
-
-  // const fieldCol = colDefs.map((a) => a.headerName ?? "");
 
   return (
     <div
@@ -45,7 +39,7 @@ export const ColumnSetting = <T,>({
           index={c.field}
           isChecked={!c.hide}
           label={c.headerName ?? ""}
-          onChecked={(e) => handleCheckSetting(e, c.field as keyof T)}
+          onChecked={(e) => handleCheckSetting(e, c.field?.toString() ?? "")}
           style={{ flex: "0 0 160px" }}
         />
       ))}

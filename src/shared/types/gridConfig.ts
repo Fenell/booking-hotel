@@ -1,7 +1,6 @@
 import type { ServiceResponse } from "@features/service/types/service.type";
 import { type ColDef } from "ag-grid-community";
 import type { RoomModel } from "./room";
-import { formatNumber } from "@shared/utils/formatNumber";
 
 export const defaultServiceConfig: ColDef<ServiceResponse>[] = [
   {
@@ -46,14 +45,29 @@ export const defaultRoomConfig: ColDef<RoomModel>[] = [
     headerName: "Giá phòng",
     type: "numericColumn",
     hide: false,
-    // valueFormatter: (e) => formatNumber(e.value),
   },
   {
     field: "priceWeekend",
     headerName: "Giá cuối tuần",
     type: "numericColumn",
     hide: false,
-    // valueFormatter: (e) => formatNumber(e.value),
+  },
+  {
+    field: "numberBedroom",
+    headerName: "Số phòng ngủ",
+    type: "numericColumn",
+    hide: true,
+  },
+  {
+    field: "numberBathRoom",
+    headerName: "Số phòng tắm",
+    type: "numericColumn",
+    hide: true,
+  },
+  {
+    field: "description",
+    headerName: "Diễn giải",
+    hide: false,
   },
 ];
 
