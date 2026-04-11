@@ -4,6 +4,7 @@ import { RoomContextProvider } from "../store/RoomContext";
 const RoomPage = () => {
   return (
     <RoomContextProvider>
+      <title>Quản lý phòng</title>
       <RoomPageContent />
     </RoomContextProvider>
   );

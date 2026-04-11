@@ -106,6 +106,9 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
         >
           Cất giữ
         </Button>
+        <Button status="dark" noAnimation onClick={() => openDialog(false)}>
+          Hủy bỏ
+        </Button>
       </ModalFooter>
     </Modal>
   );
