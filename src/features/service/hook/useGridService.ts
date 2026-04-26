@@ -4,12 +4,10 @@ import type { ServiceResponse } from "../types/service.type";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 import { type ColDef } from "ag-grid-community";
 import { useCallback, useMemo } from "react";
-import type { CustomCellRendererProps } from "ag-grid-react";
-import type { ActionServiceColProps } from "../components/ActionServiceCol";
-import ActionServiceCol from "../components/ActionServiceCol";
 import { useServiceContext } from "../store/serviceContext";
 import { useLoadConfigGrid } from "@shared/hooks/useLoadConfigGrid";
-
+import type { ColumnDef } from "@shared/components/DataGrid";
+import { createServiceCol } from "../components/createServiceColumns";
 const serviceRequest: DyanmicDataPagingRequest = {
   tableNames: "view_service_with_icon",
   pageSize: 100,
@@ -23,58 +21,47 @@ export const useGridService = () => {
   });
   const { openOrCloseDialog } = useServiceContext();
 
-  const handleClickAction = useCallback(
-    (id?: string) => {
-      openOrCloseDialog(true, id);
-      // console.log(id);
-    },
-    [openOrCloseDialog],
-  );
+  // const handleClickAction = useCallback(
+  //   (id?: string) => {
+  //     openOrCloseDialog(true, id);
+  //     // console.log(id);
+  //   },
+  //   [openOrCloseDialog],
+  // );
 
-  // const colDefs = useMemo<ColDef<ServiceResponse>[]>(
-  //   () => [
-  //     { field: "serviceCode", headerName: "Tên dịch vụ", maxWidth: 400 },
-  //     { field: "description", headerName: "Mô tả" },
-  //     {
-  //       colId: "action",
-  //       headerName: "Thao tác",
-  //       pinned: "right",
-  //       // type: "rightAligned",
-  //       width: 200,
-  //       cellRenderer: ActionServiceCol,
-  //       cellRendererParams: (
-  //         params: CustomCellRendererProps<ServiceResponse>,
-  //       ): Pick<ActionServiceColProps, "onClick"> => ({
-  //         onClick: () => handleClickAction(params.data?.id),
-  //       }),
-  //     },
-  //   ],
+  const handleClickAction = (id?: string) => {
+    openOrCloseDialog(true, id);
+  };
+
+  const colDefs = createServiceCol(handleClickAction);
+  // const colDefs = useMemo<ColumnDef<ServiceResponse>[]>(
+  //   () => createServiceCol(handleClickAction),
   //   [handleClickAction],
   // );
 
-  const { colDefs: colDefsConfig } =
-    useLoadConfigGrid<ServiceResponse>("service");
+  // const { colDefs: colDefsConfig } =
+  //   useLoadConfigGrid<ServiceResponse>("service");
 
-  const customeCol = useMemo<ColDef<ServiceResponse>>(
-    () => ({
-      colId: "action",
-      headerName: "Thao tác",
-      pinned: "right",
-      // type: "rightAligned",
-      width: 200,
-      cellRenderer: ActionServiceCol,
-      cellRendererParams: (
-        params: CustomCellRendererProps<ServiceResponse>,
-      ): Pick<ActionServiceColProps, "onClick"> => ({
-        onClick: () => handleClickAction(params.data?.id),
-      }),
-    }),
-    [handleClickAction],
-  );
+  // const customeCol = useMemo<ColDef<ServiceResponse>>(
+  //   () => ({
+  //     colId: "action",
+  //     headerName: "Thao tác",
+  //     pinned: "right",
+  //     // type: "rightAligned",
+  //     width: 200,
+  //     cellRenderer: ActionServiceCol,
+  //     cellRendererParams: (
+  //       params: CustomCellRendererProps<ServiceResponse>,
+  //     ): Pick<ActionServiceColProps, "onClick"> => ({
+  //       onClick: () => handleClickAction(params.data?.id),
+  //     }),
+  //   }),
+  //   [handleClickAction],
+  // );
 
-  const colDefs = useMemo(() => {
-    return [...colDefsConfig, customeCol];
-  }, [colDefsConfig, customeCol]);
+  // const colDefs = useMemo(() => {
+  //   return [...colDefsConfig, customeCol];
+  // }, [colDefsConfig, customeCol]);
 
   const defaultColDef = useMemo<ColDef>(() => {
     return {

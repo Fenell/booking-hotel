@@ -5,6 +5,8 @@ import CreateAndUpdateService from "./CreateAndUpdateService";
 import serviceStyle from "../style/service.module.css";
 import { Button } from "@shared/components/UI";
 import { AnimatePresence } from "motion/react";
+import DataGrid from "@shared/components/DataGrid";
+import type { ServiceResponse } from "../types/service.type";
 
 const ServicePageContent = () => {
   const { colDefs, defaultColDef, data, isPending } = useGridService();
@@ -22,11 +24,14 @@ const ServicePageContent = () => {
             Thêm mới
           </Button>
         </div>
-        <AgGridReact
-          loading={isPending}
-          columnDefs={colDefs}
-          rowData={data?.data}
-          defaultColDef={defaultColDef}
+        <DataGrid<ServiceResponse>
+          isLoading={isPending}
+          contentHeight={500}
+          enableColumnFilters={false}
+          columns={colDefs}
+          data={data?.data ?? []}
+          serverSide={false}
+          pageSizeOptions={[5, 50, 100]}
         />
       </div>
     </>
