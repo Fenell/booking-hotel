@@ -47,6 +47,16 @@ function getAlignClassName(align: ColumnAlign | undefined) {
   return styles.alignLeft;
 }
 
+function getSummaryContentAlignClassName(align: ColumnAlign | undefined) {
+  if (align === "center") {
+    return styles.summaryCellContentCenter;
+  }
+  if (align === "right") {
+    return styles.summaryCellContentRight;
+  }
+  return styles.summaryCellContentLeft;
+}
+
 const getPinnedColumnStyles = <T extends GridRow>(
   column: Column<T>,
   offsets?: {
@@ -811,6 +821,10 @@ const DataGridTable = <T extends GridRow>({
                     const alignClassName = getAlignClassName(
                       header.column.columnDef.meta?.align,
                     );
+                    const summaryContentAlignClassName =
+                      getSummaryContentAlignClassName(
+                        header.column.columnDef.meta?.align,
+                      );
                     const pinnedStyles = getPinnedColumnStyles(
                       header.column,
                       pinnedOffsets,
@@ -859,7 +873,14 @@ const DataGridTable = <T extends GridRow>({
                             resolvedColumnWidths.widthMap[header.column.id],
                         }}
                       >
-                        <div className={styles.cellContent}>{displayValue}</div>
+                        <div
+                          className={cx(
+                            styles.summaryCellContent,
+                            summaryContentAlignClassName,
+                          )}
+                        >
+                          {displayValue}
+                        </div>
                       </td>
                     );
                   })}
@@ -949,7 +970,13 @@ const DataGridInner = <T extends GridRow>(
   }, [pageSizeMenuOpen]);
 
   return (
-    <div className={styles.wrap} style={{ width: props.width ?? "100%" }}>
+    <div
+      className={styles.wrap}
+      style={{
+        width: props.width ?? "100%",
+        height: props.contentHeight || "100%",
+      }}
+    >
       <div className={styles.gridFrame}>
         {props.isLoading && (
           <div className={styles.loadingOverlay}>
@@ -962,7 +989,7 @@ const DataGridInner = <T extends GridRow>(
         <DataGridTable
           contentHeight={props.contentHeight}
           emptyMessage={props.emptyMessage ?? "Không có dữ liệu phù hợp"}
-          enableColumnFilters={props.enableColumnFilters ?? true}
+          enableColumnFilters={props.enableColumnFilters ?? false}
           enableResize={props.enableResize ?? true}
           onRowClick={props.onRowClick}
           onRowDoubleClick={props.onRowDoubleClick}

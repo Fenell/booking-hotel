@@ -1,4 +1,11 @@
-import { createElement, useEffect, useMemo, useState } from "react";
+import {
+  createElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { ChangeEvent, MouseEvent, PointerEvent } from "react";
 import {
   getCoreRowModel,
@@ -19,6 +26,7 @@ import type {
 
 import type {
   ColumnDef,
+  DataGridCellRenderParams,
   DataGridApi,
   DataGridPaginationModel,
   DataGridProps,
@@ -27,12 +35,93 @@ import type {
   GridRow,
 } from "./DataGrid.types";
 
+const VIETNAMESE_COLLATOR = new Intl.Collator("vi", {
+  numeric: true,
+  sensitivity: "base",
+  ignorePunctuation: true,
+});
+
+const compareCellValues = (left: unknown, right: unknown): number => {
+  if (left == null && right == null) {
+    return 0;
+  }
+  if (left == null) {
+    return -1;
+  }
+  if (right == null) {
+    return 1;
+  }
+
+  if (typeof left === "number" && typeof right === "number") {
+    return left - right;
+  }
+
+  if (left instanceof Date && right instanceof Date) {
+    return left.getTime() - right.getTime();
+  }
+
+  if (typeof left === "boolean" && typeof right === "boolean") {
+    return Number(left) - Number(right);
+  }
+
+  return VIETNAMESE_COLLATOR.compare(String(left), String(right));
+};
+
+const formatCellValue = (
+  value: unknown,
+  valueFormatter?: string | ((value: unknown) => string),
+) => {
+  if (typeof valueFormatter === "function") {
+    return valueFormatter(value);
+  }
+  if (typeof valueFormatter === "string") {
+    return valueFormatter;
+  }
+  return String(value ?? "");
+};
+
+const getValueByFieldPath = (row: GridRow, fieldPath: string): unknown => {
+  if (!fieldPath) {
+    return undefined;
+  }
+
+  if (Object.hasOwn(row, fieldPath)) {
+    return row[fieldPath];
+  }
+
+  return fieldPath.split(".").reduce<unknown>((currentValue, segment) => {
+    if (currentValue === null || currentValue === undefined) {
+      return undefined;
+    }
+    if (typeof currentValue !== "object") {
+      return undefined;
+    }
+    return (currentValue as Record<string, unknown>)[segment];
+  }, row);
+};
+
+const resolveCellExtraProps = <T extends GridRow>(
+  cellProps:
+    | Record<string, unknown>
+    | ((params: DataGridCellRenderParams<T>) => Record<string, unknown>)
+    | undefined,
+  params: DataGridCellRenderParams<T>,
+) => {
+  if (!cellProps) {
+    return {};
+  }
+  if (typeof cellProps === "function") {
+    return cellProps(params);
+  }
+  return cellProps;
+};
+
 const resolveColumnId = <T extends GridRow>(
   column: ColumnDef<T>,
   index: number,
 ) => {
-  if ("id" in column && column.id) {
-    return String(column.id);
+  if ("field" in column && column.field) {
+    return String(column.field);
   }
   return `__checkbox_${index}`;
 };
@@ -51,7 +140,7 @@ const createTanStackColumns = <T extends GridRow>(
     if (column.cell === "checkBox") {
       return {
         id: columnId,
-        header: column.label ?? "",
+        header: column.headerName ?? "",
         cell: ({ row }) =>
           createElement("input", {
             "aria-label": `Select row ${row.id}`,
@@ -92,16 +181,42 @@ const createTanStackColumns = <T extends GridRow>(
 
     return {
       id: columnId,
-      accessorFn: (row) => row[column.id],
-      header: column.label,
+      accessorFn: (row) => getValueByFieldPath(row, String(column.field)),
+      header: column.headerName,
       cell: ({ row }) => {
+        const value = getValueByFieldPath(row.original, String(column.field));
+        const cellParams: DataGridCellRenderParams<T> = {
+          row: row.original,
+          value,
+          field: String(column.field),
+          rowIndex: row.index,
+        };
+
+        if (column.renderCell) {
+          return column.renderCell(cellParams);
+        }
+
+        if (column.cellComponent) {
+          const CellComponent = column.cellComponent;
+          const extraProps = resolveCellExtraProps(
+            column.cellProps,
+            cellParams,
+          );
+
+          return createElement(CellComponent, {
+            ...extraProps,
+            ...cellParams,
+          });
+        }
+
         if (column.cell) {
           return column.cell(row.original);
         }
-        const value = row.original[column.id];
-        return String(value ?? "");
+        return formatCellValue(value, column.valueFormatter);
       },
       enableSorting: column.sortable ?? false,
+      sortingFn: (rowA, rowB, colId) =>
+        compareCellValues(rowA.getValue(colId), rowB.getValue(colId)),
       enableColumnFilter: column.filterable ?? false,
       enableHiding: column.enableHiding ?? true,
       enablePinning: column.enablePinning ?? true,
@@ -201,7 +316,7 @@ export const useDataGridController = <T extends GridRow>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     () => getInitialColumnVisibility(columns),
   );
-  const [columnPinning] = useState<ColumnPinningState>(() =>
+  const [columnPinning, setColumnPinning] = useState<ColumnPinningState>(() =>
     getInitialColumnPinning(columns),
   );
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -215,7 +330,10 @@ export const useDataGridController = <T extends GridRow>({
       },
     );
 
-  const resolveRowId = (row: T) => String(getRowId ? getRowId(row) : row.id);
+  const resolveRowId = useCallback(
+    (row: T) => String(getRowId ? getRowId(row) : row.id),
+    [getRowId],
+  );
   const isRowSelected = (row: T) => Boolean(rowSelection[resolveRowId(row)]);
   const toggleRowSelected = (row: T, checked: boolean) => {
     const rowId = resolveRowId(row);
@@ -236,6 +354,11 @@ export const useDataGridController = <T extends GridRow>({
   useEffect(() => {
     setLocalRows(data);
   }, [data]);
+
+  useEffect(() => {
+    setColumnVisibility(getInitialColumnVisibility(columns));
+    setColumnPinning(getInitialColumnPinning(columns));
+  }, [columns]);
 
   const tanStackColumns = useMemo(
     () =>
@@ -370,53 +493,75 @@ export const useDataGridController = <T extends GridRow>({
     autoResetPageIndex: false,
   });
 
-  const applyTransaction = (
-    transaction: DataGridTransaction<T>,
-  ): DataGridTransactionResult<T> => {
-    const addItems = transaction.add ?? [];
-    const updateItems = transaction.update ?? [];
-    const removeItems = transaction.remove ?? [];
+  const localRowsRef = useRef(localRows);
+  const tableRef = useRef(table);
+  const onDataSourceChangeRef = useRef(onDataSourceChange);
 
-    const removeIdSet = new Set(removeItems.map((item) => resolveRowId(item)));
-    const updateMap = new Map(
-      updateItems.map((item) => [resolveRowId(item), item]),
-    );
+  useEffect(() => {
+    localRowsRef.current = localRows;
+  }, [localRows]);
 
-    const removedRows: T[] = [];
-    const updatedRows: T[] = [];
+  useEffect(() => {
+    tableRef.current = table;
+  }, [table]);
 
-    let nextRows = localRows.filter((row) => {
-      const rowId = resolveRowId(row);
-      if (removeIdSet.has(rowId)) {
-        removedRows.push(row);
-        return false;
+  useEffect(() => {
+    onDataSourceChangeRef.current = onDataSourceChange;
+  }, [onDataSourceChange]);
+
+  const applyTransaction = useCallback(
+    (transaction: DataGridTransaction<T>): DataGridTransactionResult<T> => {
+      const addItems = transaction.add ?? [];
+      const updateItems = transaction.update ?? [];
+      const removeItems = transaction.remove ?? [];
+
+      const removeIdSet = new Set(
+        removeItems.map((item) => resolveRowId(item)),
+      );
+      const updateMap = new Map(
+        updateItems.map((item) => [resolveRowId(item), item]),
+      );
+
+      const removedRows: T[] = [];
+      const updatedRows: T[] = [];
+
+      const currentRows = localRowsRef.current;
+
+      let nextRows = currentRows.filter((row) => {
+        const rowId = resolveRowId(row);
+        if (removeIdSet.has(rowId)) {
+          removedRows.push(row);
+          return false;
+        }
+        return true;
+      });
+
+      nextRows = nextRows.map((row) => {
+        const rowId = resolveRowId(row);
+        const updated = updateMap.get(rowId);
+        if (!updated) {
+          return row;
+        }
+        updatedRows.push(updated);
+        return updated;
+      });
+
+      if (addItems.length > 0) {
+        nextRows = [...nextRows, ...addItems];
       }
-      return true;
-    });
 
-    nextRows = nextRows.map((row) => {
-      const rowId = resolveRowId(row);
-      const updated = updateMap.get(rowId);
-      if (!updated) {
-        return row;
-      }
-      updatedRows.push(updated);
-      return updated;
-    });
+      localRowsRef.current = nextRows;
+      setLocalRows(nextRows);
+      onDataSourceChangeRef.current?.(nextRows);
 
-    if (addItems.length > 0) {
-      nextRows = [...nextRows, ...addItems];
-    }
-
-    setLocalRows(nextRows);
-    onDataSourceChange?.(nextRows);
-
-    return {
-      add: addItems,
-      remove: removedRows,
-      update: updatedRows,
-    };
-  };
+      return {
+        add: addItems,
+        remove: removedRows,
+        update: updatedRows,
+      };
+    },
+    [resolveRowId],
+  );
 
   const rows = table.getRowModel().rows;
   const resolvedRowCount = serverSide
@@ -470,10 +615,10 @@ export const useDataGridController = <T extends GridRow>({
       const columnId = resolveColumnId(column, index);
       let hasNumericValue = false;
       let total = 0;
-      const fieldId = column.id;
+      const fieldId = column.field;
 
       localRows.forEach((row) => {
-        const value = row[fieldId];
+        const value = getValueByFieldPath(row, String(fieldId));
         if (typeof value !== "number" || !Number.isFinite(value)) {
           return;
         }
@@ -496,35 +641,40 @@ export const useDataGridController = <T extends GridRow>({
     summaryColumns,
   ]);
 
-  const api: DataGridApi<T> = {
-    applyTransaction,
-    clearSelectedRows: () => {
-      table.toggleAllRowsSelected(false);
-    },
-    getSelectedRowIds: () =>
-      Object.entries(table.getState().rowSelection)
-        .filter(([, isSelected]) => Boolean(isSelected))
-        .map(([rowId]) => rowId),
-    getSelectedRows: () =>
-      table.getSelectedRowModel().flatRows.map((row) => row.original),
-    setGlobalFilter: (value: string) => {
-      table.setGlobalFilter(value);
-    },
-    setColumnsVisible: (keys, visible) => {
-      keys.forEach((key) => {
-        const column =
-          typeof key === "string"
-            ? table.getColumn(key)
-            : table.getColumn(key.id);
+  const api = useMemo<DataGridApi<T>>(
+    () => ({
+      applyTransaction,
+      clearSelectedRows: () => {
+        tableRef.current.toggleAllRowsSelected(false);
+      },
+      getSelectedRowIds: () =>
+        Object.entries(tableRef.current.getState().rowSelection)
+          .filter(([, isSelected]) => Boolean(isSelected))
+          .map(([rowId]) => rowId),
+      getSelectedRows: () =>
+        tableRef.current
+          .getSelectedRowModel()
+          .flatRows.map((row) => row.original),
+      setGlobalFilter: (value: string) => {
+        tableRef.current.setGlobalFilter(value);
+      },
+      setColumnsVisible: (keys, visible) => {
+        keys.forEach((key) => {
+          const column =
+            typeof key === "string"
+              ? tableRef.current.getColumn(key)
+              : tableRef.current.getColumn(key.id);
 
-        if (!column || !column.getCanHide()) {
-          return;
-        }
+          if (!column || !column.getCanHide()) {
+            return;
+          }
 
-        column.toggleVisibility(visible);
-      });
-    },
-  };
+          column.toggleVisibility(visible);
+        });
+      },
+    }),
+    [applyTransaction],
+  );
 
   return {
     api,

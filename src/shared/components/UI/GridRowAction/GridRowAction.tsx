@@ -1,10 +1,15 @@
 import type { ReactNode } from "react";
 import actionRow from "./GridRowAction.module.css";
 import type { CustomCellRendererProps } from "ag-grid-react";
+import type {
+  DataGridCellComponentProps,
+  GridRow,
+} from "@shared/components/DataGrid";
 
-export type GridRowActionProps<T extends object> =
-  CustomCellRendererProps<T> & {
-    onClick: (row: T) => void;
+export type GridRowActionProps<T extends GridRow> =
+  DataGridCellComponentProps<T> & {
+    data: T;
+    onClick?: (row: T) => void;
   };
 
 type GridActionType = "edit" | "delete";
@@ -15,7 +20,7 @@ type ActionCellRendererParams<T> = {
   isPending?: boolean;
 };
 
-export type ActionCellRendererProps<T> = CustomCellRendererProps<T> &
+export type ActionCellRendererProps<T extends GridRow> = GridRowActionProps<T> &
   ActionCellRendererParams<T>;
 
 type ActionConfig<T> = {

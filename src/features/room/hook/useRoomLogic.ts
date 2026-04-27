@@ -4,7 +4,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { changeStatus, getPagingRoom } from "../api/room.api";
 import type { RoomModel } from "@shared/types/room";
 import { useCallback, useRef } from "react";
-import { type GridApi, type GridReadyEvent } from "ag-grid-community";
+
+import type {
+  DataGridApi,
+  DataGridReadyEvent,
+} from "@shared/components/DataGrid";
 
 export const useRoomLogic = () => {
   const toast = useToast();
@@ -16,9 +20,9 @@ export const useRoomLogic = () => {
       getPagingRoom(signal, { pageNumber: 1, pageSize: 100, searchKey: "" }),
   });
 
-  const gridApiRef = useRef<GridApi<RoomModel> | null>(null);
+  const gridApiRef = useRef<DataGridApi<RoomModel> | null>(null);
 
-  const onGridReady = (params: GridReadyEvent) => {
+  const onGridReady = (params: DataGridReadyEvent<RoomModel>) => {
     gridApiRef.current = params.api;
   };
 

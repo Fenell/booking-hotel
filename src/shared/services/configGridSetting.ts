@@ -1,9 +1,9 @@
+import type { ColumnDef } from "@shared/components/DataGrid";
 import {
   defaultRoomConfig,
   defaultServiceConfig,
 } from "@shared/types/gridConfig";
 import { formatNumber } from "@shared/utils/formatNumber";
-import { type ColDef } from "ag-grid-community";
 
 export const loadConfigGrid = <T>(config: string) => {
   const configData = localStorage.getItem(config);
@@ -27,22 +27,23 @@ export const loadConfigGrid = <T>(config: string) => {
         throw new Error("Grid key not config");
     }
   }
-  const configObj: ColDef<T>[] = configData ? JSON.parse(configData) : [];
+  const configObj: ColumnDef<T>[] = configData ? JSON.parse(configData) : [];
   console.log("load local");
+  const colNew = addFormatNumber(configObj);
 
-  return addFormatNumber(configObj);
+  return colNew;
 };
 
 export const loadCol = <T>(configKey: string) => {
   const configData = localStorage.getItem(configKey);
-  const configObj: ColDef<T>[] = configData ? JSON.parse(configData) : [];
+  const configObj: ColumnDef<T>[] = configData ? JSON.parse(configData) : [];
 
   return configObj;
 };
 
 export const updateConfigGrid = <T>(
   girdKey: string,
-  colDefs: ColDef<T>[],
+  colDefs: ColumnDef<T>[],
   field: string | undefined,
 ) => {
   const newCols = colDefs.map((col) => {
@@ -57,10 +58,10 @@ export const updateConfigGrid = <T>(
   return addFormatNumber(newCols);
 };
 
-export const addFormatNumber = <T>(cols: ColDef<T>[]) => {
+export const addFormatNumber = <T>(cols: ColumnDef<T>[]) => {
   const newCols = cols.map((col) => {
     if (col.type === "numericColumn") {
-      return { ...col, valueFormatter: (e) => formatNumber(e.value) };
+      return { ...col, valueFormatter: (value) => formatNumber(value) };
     }
     return col;
   });

@@ -3,10 +3,11 @@ import { type ColDef } from "ag-grid-community";
 
 import type { ChangeEvent } from "react";
 import { loadCol, updateConfigGrid } from "@shared/services/configGridSetting";
+import type { ColumnDef, GridRow } from "../DataGrid";
 
-export type ColumnSettingProps<T> = {
+export type ColumnSettingProps<T extends GridRow> = {
   girdKey: string;
-  onChangeCol: (cols: ColDef<T>[]) => void;
+  onChangeCol: (cols: ColumnDef<T>[]) => void;
 };
 
 export const ColumnSetting = <T,>({

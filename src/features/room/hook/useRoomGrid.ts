@@ -1,17 +1,18 @@
 import type { RoomModel } from "@shared/types/room";
-import { type ColDef } from "ag-grid-community";
 
 import { useMemo, useState } from "react";
-import { formatNumber } from "@shared/utils/formatNumber";
-import StatusSwitch, {
-  type StatusSwitchProp,
-} from "../components/StatusSwitch";
-import type { CustomCellRendererProps } from "ag-grid-react";
+import { loadConfigGrid } from "@shared/services/configGridSetting";
+import type {
+  ColumnDef,
+  DataGridCellComponentProps,
+} from "@shared/components/DataGrid";
+
 import GridRowAction, {
   type ActionCellRendererProps,
 } from "@shared/components/UI/GridRowAction/GridRowAction";
-import { useLoadConfigGrid } from "@shared/hooks/useLoadConfigGrid";
-import { loadConfigGrid } from "@shared/services/configGridSetting";
+import StatusSwitch, {
+  type StatusSwitchProp,
+} from "../components/StatusSwitch";
 
 type UseRoomGridProps = {
   onToogleStatus: (checked: boolean, id?: string) => void;
@@ -24,29 +25,70 @@ export const useRoomGrid = ({
   onEditRoom,
   isProcessingUpdateStt,
 }: UseRoomGridProps) => {
-  const [colConfig, setColConfig] = useState(() =>
-    loadConfigGrid<RoomModel>("room"),
+  const [colConfig, setColConfig] = useState(
+    () => loadConfigGrid<RoomModel>("room") as ColumnDef<RoomModel>[],
   );
 
-  const handleUpdateColDef = (newCols: ColDef[]) => {
+  const handleUpdateColDef = (newCols: ColumnDef<RoomModel>[]) => {
     setColConfig(newCols);
   };
 
-  const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
+  const paginationPageSizeSelector = useMemo<number[]>(() => {
     return [50, 100, 200];
   }, []);
 
   // const { colDefs: colConfig, isReady } = useLoadConfigGrid("room");
-  const colStatus = useMemo<ColDef<RoomModel>>(
+  // const colStatus = useMemo<ColumnDef<RoomModel>>(
+  //   () => ({
+  //     field: "status",
+  //     headerName: "Trạng thái",
+  //     cellClass: "ag-center-aligned-cell",
+  //     headerClass: "ag-center-aligned-header",
+  //     cellRenderer: StatusSwitch,
+  //     cellRendererParams: ({
+  //       data,
+  //     }: CustomCellRendererProps<RoomModel>): Pick<
+  //       StatusSwitchProp,
+  //       "onToggle" | "isLoading"
+  //     > => ({
+  //       onToggle: (e) => onToogleStatus(e, data?.id),
+  //       isLoading: isProcessingUpdateStt,
+  //     }),
+  //     width: 100,
+  //   }),
+  //   [isProcessingUpdateStt, onToogleStatus],
+  // );
+
+  // const colAction = useMemo<ColumnDef<RoomModel>>(
+  //   () => ({
+  //     colId: "action",
+  //     headerName: "Thao tác",
+  //     pinned: "right",
+  //     // type: "rightAligned",
+  //     width: 200,
+  //     cellRenderer: GridRowAction,
+  //     cellRendererParams: ({
+  //       data,
+  //     }: CustomCellRendererProps<RoomModel>): Pick<
+  //       ActionCellRendererProps<RoomModel>,
+  //       "actions" | "onEdit" | "data"
+  //     > => ({
+  //       onEdit: (data) => onEditRoom(data.id),
+  //       actions: ["edit"],
+  //       data: data,
+  //     }),
+  //   }),
+  //   [onEditRoom],
+  // );
+
+  const colStatus = useMemo<ColumnDef<RoomModel>>(
     () => ({
       field: "status",
       headerName: "Trạng thái",
-      cellClass: "ag-center-aligned-cell",
-      headerClass: "ag-center-aligned-header",
-      cellRenderer: StatusSwitch,
-      cellRendererParams: ({
-        data,
-      }: CustomCellRendererProps<RoomModel>): Pick<
+      cellComponent: StatusSwitch,
+      cellProps: ({
+        row: data,
+      }: DataGridCellComponentProps<RoomModel>): Pick<
         StatusSwitchProp,
         "onToggle" | "isLoading"
       > => ({
@@ -58,17 +100,17 @@ export const useRoomGrid = ({
     [isProcessingUpdateStt, onToogleStatus],
   );
 
-  const colAction = useMemo<ColDef<RoomModel>>(
+  const colAction = useMemo<ColumnDef<RoomModel>>(
     () => ({
-      colId: "action",
+      field: "actions",
       headerName: "Thao tác",
       pinned: "right",
       // type: "rightAligned",
       width: 200,
-      cellRenderer: GridRowAction,
-      cellRendererParams: ({
-        data,
-      }: CustomCellRendererProps<RoomModel>): Pick<
+      cellComponent: GridRowAction,
+      cellProps: ({
+        row: data,
+      }: DataGridCellComponentProps<RoomModel>): Pick<
         ActionCellRendererProps<RoomModel>,
         "actions" | "onEdit" | "data"
       > => ({
@@ -85,16 +127,16 @@ export const useRoomGrid = ({
     [colAction, colConfig, colStatus],
   );
 
-  const defaultColDef = useMemo<ColDef>(() => {
-    return {
-      editable: false,
-      flex: 1,
-    };
-  }, []);
+  // const defaultColDef = useMemo<ColDef>(() => {
+  //   return {
+  //     editable: false,
+  //     flex: 1,
+  //   };
+  // }, []);
 
   return {
     colDefs,
-    defaultColDef,
+    // defaultColDef,
     paginationPageSizeSelector,
     setColConfig: handleUpdateColDef,
   };

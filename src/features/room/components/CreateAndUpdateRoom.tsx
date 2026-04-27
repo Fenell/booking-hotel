@@ -24,9 +24,10 @@ import type { RoomModel } from "@shared/types/room";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 import RoomLocation from "./RoomLocation";
 import { useState } from "react";
+import type { DataGridApi } from "@shared/components/DataGrid";
 
 type CreateAndUpdateRoomProps = {
-  gridApi?: GridApi<RoomModel> | null;
+  gridApi?: DataGridApi<RoomModel> | null;
 };
 
 const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {

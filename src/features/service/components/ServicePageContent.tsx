@@ -26,12 +26,15 @@ const ServicePageContent = () => {
         </div>
         <DataGrid<ServiceResponse>
           isLoading={isPending}
-          contentHeight={500}
-          enableColumnFilters={false}
+          // contentHeight={500}
+          enableResize
+          enableSort
+          enablePinning
+          getRowId={(row) => row.id}
           columns={colDefs}
           data={data?.data ?? []}
           serverSide={false}
-          pageSizeOptions={[5, 50, 100]}
+          pageSizeOptions={[20, 50, 100]}
         />
       </div>
     </>

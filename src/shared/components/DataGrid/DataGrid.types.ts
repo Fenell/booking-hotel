@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ComponentType, CSSProperties, ReactNode } from "react";
 import type {
   Column,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ export type GridRow = {
   id: number | string;
 } & Record<string, unknown>;
 
-export type ColumnId<T extends GridRow> =
+export type ColumnField<T extends GridRow> =
   | Extract<keyof T, string>
   | (string & {});
 export type ColumnFilterType = "select";
@@ -35,6 +35,7 @@ type SharedColumnOptions = {
   minWidth?: number;
   maxWidth?: number;
   wrapText?: boolean;
+  type?: string;
   align?: ColumnAlign;
   pinned?: "left" | "right";
   hide?: boolean;
@@ -43,20 +44,38 @@ type SharedColumnOptions = {
   enableResizing?: boolean;
 };
 
+export type DataGridCellRenderParams<T extends GridRow> = {
+  row: T;
+  value: unknown;
+  field: string;
+  rowIndex: number;
+};
+
+export type DataGridCellComponentProps<T extends GridRow> =
+  DataGridCellRenderParams<T>;
+
+type DataGridCellComponentExtraProps = Record<string, unknown>;
+
 type DataColumnDef<T extends GridRow> = {
-  id: ColumnId<T>;
-  label: string;
+  field: ColumnField<T>;
+  headerName: string;
   sortable?: boolean;
   filterable?: boolean;
   filterType?: ColumnFilterType;
   options?: readonly string[];
+  valueFormatter?: string | ((value: unknown) => string);
+  renderCell?: (params: DataGridCellRenderParams<T>) => ReactNode;
+  cellComponent?: ComponentType<any>;
+  cellProps?:
+    | DataGridCellComponentExtraProps
+    | ((params: DataGridCellRenderParams<T>) => DataGridCellComponentExtraProps);
   cell?: (row: T) => ReactNode;
 } & SharedColumnOptions;
 
 type CheckboxColumnDef = {
   cell: "checkBox";
-  id?: string;
-  label?: string;
+  field?: string;
+  headerName?: string;
 } & SharedColumnOptions;
 
 export type ColumnDef<T extends GridRow> = DataColumnDef<T> | CheckboxColumnDef;

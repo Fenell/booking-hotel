@@ -26,7 +26,8 @@ export const API_ENDPOINT = {
   },
 
   IMAGE: {
-    DELETE_IMAGE: (id: string) => `file-data/delete-image/${id}`,
+    DELETE_IMAGE: (id: string, entityType: string) =>
+      `file-data/delete-image/${id}?entityType=${entityType}`,
     UPLOAD_IMAGE: "file-data/upload-image",
   },
   AUTH: {

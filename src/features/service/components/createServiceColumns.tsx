@@ -5,11 +5,16 @@ import ActionServiceCol from "./ActionServiceCol";
 export const createServiceCol = (
   actionClick: (id: string) => void,
 ): ColumnDef<ServiceResponse>[] => [
-  { id: "serviceCode", label: "Tên dịch vụ", width: 500 },
-  { id: "description", label: "Mô tả", width: 710 },
   {
-    id: "actions",
-    label: "Thao tác",
+    field: "serviceCode",
+    headerName: "Tên dịch vụ",
+    width: 500,
+    sortable: true,
+  },
+  { field: "description", headerName: "Mô tả", width: 860 },
+  {
+    field: "actions",
+    headerName: "Thao tác",
     pinned: "right",
     // type: "rightAligned",
 

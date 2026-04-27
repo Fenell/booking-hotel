@@ -1,7 +1,6 @@
 import CreateAndUpdateRoom from "./CreateAndUpdateRoom";
 import roomStyle from "../style/room.module.css";
 import { Button } from "@shared/components/UI";
-import { AgGridReact } from "ag-grid-react";
 import { useRoomGrid } from "../hook/useRoomGrid";
 import { AG_GRID_LOCALE_VN } from "@shared/utils/vi-VN";
 import { useRoomLogic } from "../hook/useRoomLogic";
@@ -11,20 +10,18 @@ import { AnimatePresence } from "motion/react";
 import Popover from "@shared/components/Popover/Popover";
 import { ColumnSetting } from "@shared/components/Settings/ColumSetting";
 import type { RoomModel } from "@shared/types/room";
+import DataGrid from "@shared/components/DataGrid";
 
 const RoomPageContent = () => {
   const logic = useRoomLogic();
 
-  const { colDefs, defaultColDef, paginationPageSizeSelector, setColConfig } =
-    useRoomGrid({
-      onEditRoom: logic.handleEditRoom,
-      onToogleStatus: logic.handleToogle,
-      isProcessingUpdateStt: logic.isCallApi,
-    });
+  const { colDefs, paginationPageSizeSelector, setColConfig } = useRoomGrid({
+    onEditRoom: logic.handleEditRoom,
+    onToogleStatus: logic.handleToogle,
+    isProcessingUpdateStt: logic.isCallApi,
+  });
+  // console.log(colDefs);
 
-  const theme = useGridTheme();
-
-  const localText = AG_GRID_LOCALE_VN;
   return (
     <>
       <AnimatePresence>
@@ -55,21 +52,19 @@ const RoomPageContent = () => {
             <i className="fa-regular fa-list"></i>
           </Popover>
         </div>
-        <div className={roomStyle.boxData}>
-          <AgGridReact
-            loading={logic.isPending}
-            localeText={localText}
-            theme={theme}
-            onGridReady={logic.onGridReady}
-            getRowId={(params) => params.data.id}
-            columnDefs={colDefs}
-            rowData={logic.data?.data}
-            pagination={true}
-            paginationPageSizeSelector={paginationPageSizeSelector}
-            paginationPageSize={50}
-            defaultColDef={defaultColDef}
-          />
-        </div>
+
+        <DataGrid<RoomModel>
+          isLoading={logic.isPending}
+          onGridReady={logic.onGridReady}
+          getRowId={(row) => row.id}
+          columns={colDefs}
+          enableResize
+          enablePinning
+          enableSort
+          showSummary
+          data={logic.data?.data ?? []}
+          pageSizeOptions={paginationPageSizeSelector}
+        />
       </div>
     </>
   );

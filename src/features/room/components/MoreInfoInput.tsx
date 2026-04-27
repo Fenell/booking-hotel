@@ -38,7 +38,7 @@ const MoreInfoInput = ({ roomImages, onAddImage }: MoreInfoInput) => {
   });
 
   const handleDeleteImage = async (id: string) => {
-    await mutateAsync(id);
+    await mutateAsync({ id, entityType: "room" });
   };
 
   return (

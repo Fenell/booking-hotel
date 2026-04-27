@@ -1,8 +1,9 @@
 import type { ServiceResponse } from "@features/service/types/service.type";
-import { type ColDef } from "ag-grid-community";
-import type { RoomModel } from "./room";
 
-export const defaultServiceConfig: ColDef<ServiceResponse>[] = [
+import type { RoomModel } from "./room";
+import type { ColumnDef } from "@shared/components/DataGrid";
+
+export const defaultServiceConfig: ColumnDef<ServiceResponse>[] = [
   {
     field: "serviceCode",
     headerName: "Tên dịch vụ",
@@ -15,7 +16,7 @@ export const defaultServiceConfig: ColDef<ServiceResponse>[] = [
   { field: "description", headerName: "Ghi chus", hide: true },
 ];
 
-export const defaultRoomConfig: ColDef<RoomModel>[] = [
+export const defaultRoomConfig: ColumnDef<RoomModel>[] = [
   {
     field: "roomName",
     headerName: "Tên phòng",
@@ -38,18 +39,22 @@ export const defaultRoomConfig: ColDef<RoomModel>[] = [
     field: "numberChild",
     headerName: "Số trẻ em",
     type: "numericColumn",
+    width: 90,
     hide: false,
   },
   {
     field: "currentPrice",
     headerName: "Giá phòng",
     type: "numericColumn",
+    enableSummary: true,
+    align: "right",
     hide: false,
   },
   {
     field: "priceWeekend",
     headerName: "Giá cuối tuần",
     type: "numericColumn",
+    align: "right",
     hide: false,
   },
   {
@@ -67,8 +72,11 @@ export const defaultRoomConfig: ColDef<RoomModel>[] = [
   {
     field: "description",
     headerName: "Diễn giải",
+    width: 200,
     hide: false,
   },
+  // { field: "status", headerName: "Trạng thái", width: 150 },
+  // { field: "actions", headerName: "Thao tác", pinned: "right", width: 150 },
 ];
 
 // export const formatColNumber: ColDef[] = () => {

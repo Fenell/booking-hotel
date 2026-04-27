@@ -2,7 +2,8 @@ import Switch from "@shared/components/UI/Switch/Switch";
 import type { RoomModel } from "@shared/types/room";
 import type { CustomDetailCellRendererProps } from "ag-grid-react";
 
-export type StatusSwitchProp = CustomDetailCellRendererProps<RoomModel> & {
+export type StatusSwitchProp = {
+  data: RoomModel;
   onToggle: (checked: boolean) => void;
   isLoading: boolean;
 };

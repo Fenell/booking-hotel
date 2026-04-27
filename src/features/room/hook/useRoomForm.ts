@@ -4,13 +4,13 @@ import type { RoomCreateRequest } from "../types/room.type";
 import { useToast } from "@shared/hooks/useToast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createRoom, getRoomDetail, updateRoom } from "../api/room.api";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { RoomModel } from "@shared/types/room";
-import { type GridApi } from "ag-grid-community";
 import { uploadImages } from "@shared/services/image";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 import type { UploadImageRequest } from "@shared/types/roomImage";
+import type { DataGridApi } from "@shared/components/DataGrid";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -28,7 +28,7 @@ const defaultValues: RoomCreateRequest = {
   roomServices: [],
 };
 
-export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
+export const useRoomForm = (girdApi?: DataGridApi<RoomModel>) => {
   const methods = useForm<RoomCreateRequest>({ defaultValues });
   const { openDialog, id } = useRoomContext();
   const toast = useToast();
@@ -43,6 +43,7 @@ export const useRoomForm = (girdApi?: GridApi<RoomModel>) => {
     if (response.isSuccess) {
       if (isEdit) {
         toast.success("Cập nhật thành công ^_^");
+
         girdApi?.applyTransaction({
           update: [response.data as RoomModel],
         });
