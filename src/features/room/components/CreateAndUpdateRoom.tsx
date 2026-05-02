@@ -19,18 +19,18 @@ import {
 } from "@shared/components/Tab";
 import MoreInfoInput from "./MoreInfoInput";
 import { useRoomForm } from "../hook/useRoomForm";
-import { type GridApi } from "ag-grid-community";
-import type { RoomModel } from "@shared/types/room";
-import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
+
 import RoomLocation from "./RoomLocation";
 import { useState } from "react";
-import type { DataGridApi } from "@shared/components/DataGrid";
+import type { GridComponent } from "@syncfusion/ej2-react-grids";
+import type { RoomModel } from "@shared/types/room";
 
 type CreateAndUpdateRoomProps = {
-  gridApi?: DataGridApi<RoomModel> | null;
+  gridApi?: GridComponent | null;
+  onSuccess: (data: RoomModel) => void;
 };
 
-const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
+const CreateAndUpdateRoom = ({ onSuccess }: CreateAndUpdateRoomProps) => {
   const {
     isEdit,
     methods,
@@ -40,7 +40,7 @@ const CreateAndUpdateRoom = ({ gridApi }: CreateAndUpdateRoomProps) => {
     openDialog,
     onsubmit,
     handleGetImages,
-  } = useRoomForm(gridApi!);
+  } = useRoomForm(onSuccess);
   const { handleSubmit } = methods;
 
   const title = isEdit ? "Chỉnh sửa thông tin phòng" : "Thêm mới";

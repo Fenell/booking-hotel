@@ -10,7 +10,7 @@ import type { RoomModel } from "@shared/types/room";
 import { uploadImages } from "@shared/services/image";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 import type { UploadImageRequest } from "@shared/types/roomImage";
-import type { DataGridApi } from "@shared/components/DataGrid";
+import type { GridComponent } from "@syncfusion/ej2-react-grids";
 
 const defaultValues: RoomCreateRequest = {
   roomName: "",
@@ -28,7 +28,7 @@ const defaultValues: RoomCreateRequest = {
   roomServices: [],
 };
 
-export const useRoomForm = (girdApi?: DataGridApi<RoomModel>) => {
+export const useRoomForm = (onSuccess: (data: RoomModel) => void) => {
   const methods = useForm<RoomCreateRequest>({ defaultValues });
   const { openDialog, id } = useRoomContext();
   const toast = useToast();
@@ -44,9 +44,10 @@ export const useRoomForm = (girdApi?: DataGridApi<RoomModel>) => {
       if (isEdit) {
         toast.success("Cập nhật thành công ^_^");
 
-        girdApi?.applyTransaction({
-          update: [response.data as RoomModel],
-        });
+        // girdApi?.applyTransaction({
+        //   update: [response.data as RoomModel],
+        // });
+        onSuccess(response.data as RoomModel);
 
         if (listImgCreate.current.imageFiles.length > 0)
           await mutateImgAsync(listImgCreate.current).catch(() => {});

@@ -1,15 +1,23 @@
 import type { ServiceResponse } from "../types/service.type";
 import serviceStyle from "../style/service.module.css";
+import { useServiceContext } from "../store/serviceContext";
+import { useCallback } from "react";
 
-type ActionServiceColProps = {
-  row: ServiceResponse;
-  onClick: (id: string) => void;
-};
-
-const ActionServiceCol = ({ row, onClick }: ActionServiceColProps) => {
+const ActionServiceCol = (row: ServiceResponse) => {
   // const { id } = data?.;
+  const { openOrCloseDialog } = useServiceContext();
+
+  const handleClickAction = useCallback(
+    (id?: string) => {
+      openOrCloseDialog(true, id);
+    },
+    [openOrCloseDialog],
+  );
   return (
-    <button className={serviceStyle.actionRow} onClick={() => onClick(row.id)}>
+    <button
+      className={serviceStyle.actionRow}
+      onClick={() => handleClickAction(row.id)}
+    >
       <i className="fa-light fa-pen-to-square fa-xl"></i>
       Chỉnh sửa
     </button>

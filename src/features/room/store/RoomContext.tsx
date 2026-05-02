@@ -1,8 +1,10 @@
+import type { Grid, GridComponent } from "@syncfusion/ej2-react-grids";
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 
 type RoomState = {
   isOpen: boolean;
   id?: string;
+  isLoading: boolean;
 };
 
 type RoomContextValue = RoomState & {
@@ -15,7 +17,12 @@ type OpenOrCloseDialog = {
   idRoom?: string;
 };
 
-type RoomAction = OpenOrCloseDialog;
+type SetGridRef = {
+  type: "SET_GRID_REF";
+  gridRef?: Grid | null;
+};
+
+type RoomAction = OpenOrCloseDialog | SetGridRef;
 
 const roomReducer = (state: RoomState, action: RoomAction): RoomState => {
   if (action.type === "OPEN_OR_CLOSE") {
@@ -38,6 +45,7 @@ export const useRoomContext = () => {
 export const RoomContextProvider = ({ children }: { children: ReactNode }) => {
   const [roomState, dispatch] = useReducer(roomReducer, {
     isOpen: false,
+    isLoading: false,
   });
 
   const openDialog = (isOpen: boolean, idRoom?: string) => {
@@ -46,6 +54,7 @@ export const RoomContextProvider = ({ children }: { children: ReactNode }) => {
 
   const ctx: RoomContextValue = {
     isOpen: roomState.isOpen,
+    isLoading: roomState.isLoading,
     id: roomState.id,
     openDialog,
   };

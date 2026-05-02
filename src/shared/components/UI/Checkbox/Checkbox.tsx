@@ -4,10 +4,10 @@ import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 
 type CheckboxProps = {
   isChecked: boolean;
-  label: string;
+  label?: string;
   index?: string;
   value?: string | boolean | undefined;
-  onChecked: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChecked?: (e: ChangeEvent<HTMLInputElement>) => void;
 } & ComponentPropsWithoutRef<"input">;
 
 const Checkbox = ({
@@ -29,7 +29,7 @@ const Checkbox = ({
         type="checkbox"
         value={value}
         checked={isChecked}
-        onChange={(e) => onChecked(e)}
+        onChange={(e) => onChecked?.(e)}
         {...props}
       />
       <label className={checkBoxStyle["cbx"]} htmlFor={`${index}`}>

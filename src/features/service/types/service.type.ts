@@ -5,13 +5,14 @@ export type ServiceResponse = ServiceCreateAndUpdateModel & {
   iconCode?: string;
   sizeIcon?: string;
   color?: string;
+  nameTypeService: string;
 };
 
 export type ServiceCreateAndUpdateModel = {
   serviceCode?: string;
   serviceName: string;
   description?: string;
-  price?: number ;
+  price?: number;
   isFee: boolean;
   unit: string;
   idIcon?: string;

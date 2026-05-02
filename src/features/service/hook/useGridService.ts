@@ -2,12 +2,10 @@ import { getDynamicData } from "@shared/services/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { ServiceResponse } from "../types/service.type";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
-import { type ColDef } from "ag-grid-community";
-import { useCallback, useMemo } from "react";
+import { useCallback, useState } from "react";
 import { useServiceContext } from "../store/serviceContext";
-import { useLoadConfigGrid } from "@shared/hooks/useLoadConfigGrid";
-import type { ColumnDef } from "@shared/components/DataGrid";
-import { createServiceCol } from "../components/createServiceColumns";
+import { loadConfigGrid } from "@shared/services/configGridSetting";
+import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
 const serviceRequest: DyanmicDataPagingRequest = {
   tableNames: "view_service_with_icon",
   pageSize: 100,
@@ -21,6 +19,14 @@ export const useGridService = () => {
   });
   const { openOrCloseDialog } = useServiceContext();
 
+  const [colConfig, setColConfig] = useState(
+    () => loadConfigGrid("service") as GridColumnModel[],
+  );
+
+  const handleUpdateColDef = (newCols: GridColumnModel[]) => {
+    setColConfig(newCols);
+  };
+
   // const handleClickAction = useCallback(
   //   (id?: string) => {
   //     openOrCloseDialog(true, id);
@@ -29,46 +35,51 @@ export const useGridService = () => {
   //   [openOrCloseDialog],
   // );
 
-  const handleClickAction = (id?: string) => {
-    openOrCloseDialog(true, id);
-  };
-
-  const colDefs = createServiceCol(handleClickAction);
-  // const colDefs = useMemo<ColumnDef<ServiceResponse>[]>(
-  //   () => createServiceCol(handleClickAction),
-  //   [handleClickAction],
-  // );
-
+  const handleClickAction = useCallback(
+    (id?: string) => {
+      openOrCloseDialog(true, id);
+    },
+    [openOrCloseDialog],
+  );
   // const { colDefs: colDefsConfig } =
   //   useLoadConfigGrid<ServiceResponse>("service");
 
-  // const customeCol = useMemo<ColDef<ServiceResponse>>(
+  // const actionCol = useMemo<GridColumnModel>(
   //   () => ({
-  //     colId: "action",
+  //     field: "actions",
   //     headerName: "Thao tác",
   //     pinned: "right",
   //     // type: "rightAligned",
-  //     width: 200,
-  //     cellRenderer: ActionServiceCol,
-  //     cellRendererParams: (
-  //       params: CustomCellRendererProps<ServiceResponse>,
-  //     ): Pick<ActionServiceColProps, "onClick"> => ({
-  //       onClick: () => handleClickAction(params.data?.id),
+  //     width: 120,
+  //     cellComponent: ActionServiceCol,
+  //     cellProps: ({
+  //       row: data,
+  //     }: DataGridCellComponentProps<ServiceResponse>): Pick<
+  //       ActionCellRendererProps<ServiceResponse>,
+  //       "onClick"
+  //     > => ({
+  //       onClick: () => handleClickAction(data?.id),
   //     }),
   //   }),
   //   [handleClickAction],
   // );
 
   // const colDefs = useMemo(() => {
-  //   return [...colDefsConfig, customeCol];
-  // }, [colDefsConfig, customeCol]);
+  //   return [...colConfig, actionCol];
+  // }, [colConfig, actionCol]);
 
-  const defaultColDef = useMemo<ColDef>(() => {
-    return {
-      editable: false,
-      flex: 1,
-    };
-  }, []);
+  // const defaultColDef = useMemo<ColDef>(() => {
+  //   return {
+  //     editable: false,
+  //     flex: 1,
+  //   };
+  // }, []);
 
-  return { colDefs, defaultColDef, data, isPending };
+  return {
+    colConfig,
+
+    data,
+    isPending,
+    setColConfig: handleUpdateColDef,
+  };
 };

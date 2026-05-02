@@ -1,27 +1,36 @@
 import Checkbox from "../UI/Checkbox/Checkbox";
-import { type ColDef } from "ag-grid-community";
 
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, RefObject } from "react";
 import { loadCol, updateConfigGrid } from "@shared/services/configGridSetting";
-import type { ColumnDef, GridRow } from "../DataGrid";
+import type {
+  GridColumnModel,
+  GridComponent,
+} from "@syncfusion/ej2-react-grids";
 
-export type ColumnSettingProps<T extends GridRow> = {
+export type ColumnSettingProps = {
   girdKey: string;
-  onChangeCol: (cols: ColumnDef<T>[]) => void;
+  onChangeCol?: (cols: GridColumnModel[]) => void;
+  gridRef?: RefObject<GridComponent | null>;
 };
 
-export const ColumnSetting = <T,>({
+export const ColumnSetting = ({
   girdKey,
   onChangeCol,
-}: ColumnSettingProps<T>) => {
-  const colDefs = loadCol<T>(girdKey);
+  gridRef,
+}: ColumnSettingProps) => {
+  const colDefs = loadCol(girdKey);
 
   const handleCheckSetting = (
     e: ChangeEvent<HTMLInputElement>,
     field: string,
   ): void => {
-    const newCols = updateConfigGrid<T>(girdKey, colDefs, field);
+    const newCols = updateConfigGrid(girdKey, colDefs, field);
     onChangeCol?.(newCols);
+    if (e.target.checked) {
+      gridRef?.current?.showColumns(field, "field");
+    } else {
+      gridRef?.current?.hideColumns(field, "field");
+    }
   };
 
   return (
@@ -38,8 +47,8 @@ export const ColumnSetting = <T,>({
         <Checkbox
           key={c.field}
           index={c.field}
-          isChecked={!c.hide}
-          label={c.headerName ?? ""}
+          isChecked={c?.visible ?? true}
+          label={c.headerText ?? ""}
           onChecked={(e) => handleCheckSetting(e, c.field?.toString() ?? "")}
           style={{ flex: "0 0 160px" }}
         />

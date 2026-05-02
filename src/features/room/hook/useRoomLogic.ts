@@ -3,12 +3,6 @@ import { useRoomContext } from "../store/RoomContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { changeStatus, getPagingRoom } from "../api/room.api";
 import type { RoomModel } from "@shared/types/room";
-import { useCallback, useRef } from "react";
-
-import type {
-  DataGridApi,
-  DataGridReadyEvent,
-} from "@shared/components/DataGrid";
 
 export const useRoomLogic = () => {
   const toast = useToast();
@@ -20,50 +14,17 @@ export const useRoomLogic = () => {
       getPagingRoom(signal, { pageNumber: 1, pageSize: 100, searchKey: "" }),
   });
 
-  const gridApiRef = useRef<DataGridApi<RoomModel> | null>(null);
-
-  const onGridReady = (params: DataGridReadyEvent<RoomModel>) => {
-    gridApiRef.current = params.api;
-  };
-
-  const handleChangeStatusSuccess = (data: RoomModel) => {
-    toast.success("Đổi trạng thái thành công ^_^");
-    gridApiRef.current?.applyTransaction({
-      update: [data],
-    });
-  };
-
-  const { mutate, isPending: isChagingStt } = useMutation({
-    mutationFn: changeStatus,
-    onSuccess: (data) => handleChangeStatusSuccess(data),
-    onError: () => toast.warning("Đổi trạng thái không thành công T_T"),
-  });
-
-  const handleToogle = useCallback(
-    (checked: boolean, id?: string) => {
-      // console.log(checked);
-      if (id) {
-        mutate({ id, status: checked ? 1 : 0 });
-      }
-    },
-    [mutate],
-  );
-
   const handleEditRoom = (id: RoomModel["id"]) => {
     // console.log(id);
     openDialog(true, id);
   };
 
-  const isCallApi = isChagingStt;
+  // const isCallApi = isChagingStt;
   return {
     isOpen,
     data,
     isPending,
-    isCallApi,
-    gridApiRef,
     openDialog,
-    onGridReady,
-    handleToogle,
     handleEditRoom,
   };
 };

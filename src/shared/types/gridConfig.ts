@@ -1,79 +1,88 @@
-import type { ServiceResponse } from "@features/service/types/service.type";
+import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
 
-import type { RoomModel } from "./room";
-import type { ColumnDef } from "@shared/components/DataGrid";
-
-export const defaultServiceConfig: ColumnDef<ServiceResponse>[] = [
+export const defaultServiceConfig: GridColumnModel[] = [
   {
     field: "serviceCode",
-    headerName: "Tên dịch vụ",
+    headerText: "Tên dịch vụ",
     maxWidth: 400,
-    hide: false,
+    width: 250,
+    visible: true,
   },
-  { field: "description", headerName: "Mô tả", hide: false },
-  { field: "isFee", headerName: "Có phí", hide: true },
-  { field: "price", headerName: "Giá dịch vụ", hide: true },
-  { field: "description", headerName: "Ghi chus", hide: true },
+  { field: "nameTypeService", headerText: "Nhóm", visible: true, width: 150 },
+  {
+    field: "isFee",
+    headerText: "Có phí",
+    width: 60,
+    visible: false,
+    type: "boolean",
+  },
+
+  { field: "price", headerText: "Giá dịch vụ", visible: true, width: 150 },
+  { field: "description", headerText: "Ghi chú", visible: true },
 ];
 
-export const defaultRoomConfig: ColumnDef<RoomModel>[] = [
+export const defaultRoomConfig: GridColumnModel[] = [
+  {
+    field: "id",
+    isPrimaryKey: true,
+    visible: false,
+  },
   {
     field: "roomName",
-    headerName: "Tên phòng",
+    headerText: "Tên phòng",
     maxWidth: 500,
     minWidth: 400,
-    hide: false,
+    visible: true,
   },
   {
     field: "roomType.typeName",
-    headerName: "Loại",
-    hide: false,
+    headerText: "Loại",
+    visible: true,
   },
   {
     field: "numberAdults",
-    headerName: "Số người lớn",
+    headerText: "Số người lớn",
     type: "numericColumn",
-    hide: false,
+    visible: false,
   },
   {
     field: "numberChild",
-    headerName: "Số trẻ em",
+    headerText: "Số trẻ em",
     type: "numericColumn",
     width: 90,
-    hide: false,
+    visible: false,
   },
   {
     field: "currentPrice",
-    headerName: "Giá phòng",
+    headerText: "Giá phòng",
     type: "numericColumn",
-    enableSummary: true,
-    align: "right",
-    hide: false,
+    textAlign: "Right",
+    visible: true,
   },
   {
     field: "priceWeekend",
-    headerName: "Giá cuối tuần",
+    headerText: "Giá cuối tuần",
     type: "numericColumn",
-    align: "right",
-    hide: false,
+    textAlign: "Right",
+    visible: true,
   },
   {
     field: "numberBedroom",
-    headerName: "Số phòng ngủ",
+    headerText: "Số phòng ngủ",
     type: "numericColumn",
-    hide: true,
+    visible: true,
   },
   {
     field: "numberBathRoom",
-    headerName: "Số phòng tắm",
+    headerText: "Số phòng tắm",
     type: "numericColumn",
-    hide: true,
+    visible: true,
   },
   {
     field: "description",
-    headerName: "Diễn giải",
+    headerText: "Diễn giải",
     width: 200,
-    hide: false,
+    visible: false,
   },
   // { field: "status", headerName: "Trạng thái", width: 150 },
   // { field: "actions", headerName: "Thao tác", pinned: "right", width: 150 },
