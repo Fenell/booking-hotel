@@ -23,12 +23,8 @@ import { useRef } from "react";
 import Checkbox from "@shared/components/UI/Checkbox/Checkbox";
 
 const ServicePageContent = () => {
-  const { colConfig, data, isPending, setColConfig } = useGridService();
+  const { colConfig, pageOptions, data, setColConfig } = useGridService();
   const { isOpen, openOrCloseDialog } = useServiceContext();
-  const pageOptions: PageSettingsModel = {
-    pageSize: 20,
-    pageSizes: [20, 50, "All"],
-  };
 
   const gridRef = useRef<GridComponent | null>(null);
 

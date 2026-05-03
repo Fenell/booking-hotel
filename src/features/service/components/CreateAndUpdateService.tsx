@@ -14,7 +14,11 @@ import { useServiceForm } from "../hook/useServiceForm";
 import Checkbox from "@shared/components/UI/Checkbox/Checkbox";
 import { formatNumber, parseNumber } from "@shared/utils/formatNumber";
 import { useState } from "react";
-import { data } from "react-router";
+import SelectCustom from "@shared/components/UI/Select/SelectCustom";
+import { useQuery } from "@tanstack/react-query";
+import { getDynamicData } from "@shared/services/dynamic";
+import type { ServiceResponse, ServiceType } from "../types/service.type";
+import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
 
 const CreateAndUpdateService = () => {
   const { icon, id, openOrCloseDialog, selectIcon } = useServiceContext();
@@ -32,6 +36,22 @@ const CreateAndUpdateService = () => {
 
   const [submitAction, setSubmitAction] = useState<"save" | "saveAdd">("save");
 
+  const serviceTypeRq: DyanmicDataPagingRequest = {
+    tableNames: "type_services",
+    pageNumber: 1,
+    pageSize: 100,
+  };
+
+  const { data } = useQuery({
+    queryKey: ["serviceTypes"],
+    queryFn: () => getDynamicData<ServiceType[]>(serviceTypeRq),
+  });
+
+  const optionTypeService = data?.data.map((a) => ({
+    label: a.nameTypeService,
+    value: a.id,
+  }));
+
   return (
     <Modal size="xs" onClose={() => openOrCloseDialog(false)}>
       <ModalHeader hasCloseButton title={title} />
@@ -43,12 +63,40 @@ const CreateAndUpdateService = () => {
             style={{ padding: "10px" }}
             onSubmit={handleSubmit(onsubmit)}
           >
+            <div style={{ display: "flex", gap: "6px" }}>
+              <div style={{ width: "50%" }}>
+                <label htmlFor="serviceCode">Mã dịch vụ:</label>
+                <Controller
+                  name="serviceCode"
+                  control={control}
+                  render={({ field }) => <Input id="serviceCode" {...field} />}
+                />
+              </div>
+              <div style={{ width: "50%" }}>
+                <label htmlFor="serviceName">Tên dịch vụ:</label>
+                <Controller
+                  name="serviceName"
+                  control={control}
+                  render={({ field }) => <Input id="serviceName" {...field} />}
+                />
+              </div>
+            </div>
             <div>
-              <label htmlFor="serviceName">Tên dịch vụ:</label>
+              <label htmlFor="serviceName">Nhóm:</label>
               <Controller
-                name="serviceName"
                 control={control}
-                render={({ field }) => <Input id="serviceName" {...field} />}
+                name="idTypeService"
+                render={({ field }) => (
+                  <SelectCustom
+                    {...field}
+                    inputId="idTypeService"
+                    options={optionTypeService}
+                    value={optionTypeService?.find(
+                      (c) => c.value === field.value,
+                    )}
+                    onChange={(e) => field.onChange(e?.value)}
+                  />
+                )}
               />
             </div>
             <div>

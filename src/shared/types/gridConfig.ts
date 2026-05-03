@@ -3,8 +3,13 @@ import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
 export const defaultServiceConfig: GridColumnModel[] = [
   {
     field: "serviceCode",
+    headerText: "Mã dịch vụ",
+    width: 150,
+    visible: false,
+  },
+  {
+    field: "serviceName",
     headerText: "Tên dịch vụ",
-    maxWidth: 400,
     width: 250,
     visible: true,
   },
@@ -12,7 +17,7 @@ export const defaultServiceConfig: GridColumnModel[] = [
   {
     field: "isFee",
     headerText: "Có phí",
-    width: 60,
+    width: 100,
     visible: false,
     type: "boolean",
   },

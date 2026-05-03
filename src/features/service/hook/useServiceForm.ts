@@ -95,7 +95,6 @@ export const useServiceForm = (
     { id, createDate, isActive, ...other },
     action,
   ) => {
-    console.log(action);
     if (isEdit) {
       mutaionUpdate.mutate({ id, ...other });
     } else mutaion.mutate(other);

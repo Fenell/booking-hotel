@@ -16,10 +16,17 @@ export type ServiceCreateAndUpdateModel = {
   isFee: boolean;
   unit: string;
   idIcon?: string;
+  idTypeService: string;
 };
 
 export type ServiceUpdateRequest = ServiceCreateAndUpdateModel & {
   id: string;
+};
+
+export type ServiceType = {
+  id: string;
+  codeTypeService: string;
+  nameTypeService: string;
 };
 
 // id": "019b8497-de44-745a-a0ff-4995cd9c5ff0",

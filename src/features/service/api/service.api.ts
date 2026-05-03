@@ -9,7 +9,6 @@ import type { ResponseApi } from "@shared/types/common";
 
 export const createService = async (request: ServiceCreateAndUpdateModel) => {
   try {
-    request.serviceCode = request.serviceName;
     const response = await axiosInstance.post<ResponseApi<ServiceResponse>>(
       API_ENDPOINT.SERVICE.CREATE_SERVICE,
       request,
@@ -27,7 +26,6 @@ export const createService = async (request: ServiceCreateAndUpdateModel) => {
 
 export const updateService = async (request: ServiceUpdateRequest) => {
   try {
-    request.serviceCode = request.serviceName;
     const response = await axiosInstance.put<ResponseApi<string>>(
       API_ENDPOINT.SERVICE.UPDATE_SERVICE(request.id),
       request,

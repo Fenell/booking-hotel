@@ -2,7 +2,7 @@ import { getDynamicData } from "@shared/services/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { ServiceResponse } from "../types/service.type";
 import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useServiceContext } from "../store/serviceContext";
 import { loadConfigGrid } from "@shared/services/configGridSetting";
 import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
@@ -26,6 +26,13 @@ export const useGridService = () => {
   const handleUpdateColDef = (newCols: GridColumnModel[]) => {
     setColConfig(newCols);
   };
+
+  const pageOptions = useMemo(() => {
+    return {
+      pageSize: 20,
+      pageSizes: [20, 50, "All"],
+    };
+  }, []);
 
   // const handleClickAction = useCallback(
   //   (id?: string) => {
@@ -77,7 +84,7 @@ export const useGridService = () => {
 
   return {
     colConfig,
-
+    pageOptions,
     data,
     isPending,
     setColConfig: handleUpdateColDef,
