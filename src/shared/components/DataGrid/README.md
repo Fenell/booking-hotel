@@ -293,8 +293,35 @@ container cha đã giới hạn chiều cao.
 filter) và dòng tổng nằm trong viewport `overflow: hidden` cố định, vùng dữ
 liệu là viewport cuộn duy nhất → thanh cuộn dọc/ngang luôn nằm TRONG vùng dữ
 liệu, không chạy suốt cả grid. Cuộn ngang đồng bộ `scrollLeft` từ body sang
-header/footer; bề rộng thanh cuộn dọc được bù tự động bằng `padding-right`
-để cột không lệch.
+header/footer; bề rộng thanh cuộn dọc được bù bằng một spacer thật đặt cạnh
+header/footer viewport, đo qua ResizeObserver vào biến `--dg-sbw`.
+
+Vùng dữ liệu để `overflow-y: scroll` (luôn hiện thanh cuộn dọc) chứ **không**
+dùng `auto` hay `scrollbar-gutter: stable`. Lý do: dải bên phải phải luôn là
+thanh cuộn thật do trình duyệt vẽ. Để `auto` thì cột ghim phải nhảy 15px khi
+đổi giữa trang có và không có thanh cuộn; để `stable` thì có chừa chỗ nhưng
+không ai vẽ lên dải đó, mà nội dung cuộn ngang vẫn tràn qua → lộ dữ liệu ngay
+bên phải cột ghim.
+
+**Vì sao `overflow-y: scroll` là bắt buộc, không phải tùy chọn thẩm mỹ** —
+Chrome neo `position: sticky; right: 0` theo hai kiểu khác nhau:
+
+| Dải bên phải vùng cuộn | Chrome neo `right: 0` vào |
+|---|---|
+| Thanh cuộn **thật** | scrollport (đã trừ thanh cuộn) — đúng spec |
+| Chỗ trống do `scrollbar-gutter: stable` | padding box, **tính cả** dải trống |
+
+`getPinnedStyle` dùng chung cho `th`/`td`/`tfoot` nên chỉ đúng khi hai bên neo
+giống nhau. Header luôn `overflow: hidden` (không có thanh cuộn) nên neo ở mép
+phải viewport của nó; body chỉ neo trùng chỗ đó khi có thanh cuộn **thật**. Để
+body ở `auto` hoặc `scrollbar-gutter: stable` là rơi vào hàng thứ hai của bảng
+trên: cột ghim ở header và body lệch nhau đúng bề rộng thanh cuộn, và dải trống
+đó còn để lộ nội dung cột phía sau khi cuộn ngang.
+
+Đã thử bù bằng `right: calc(<offset>px + var(--dg-sbw, 0px))` cho riêng body —
+**không dùng được**, vì nó chỉ đúng cho hàng thứ hai; khi body có thanh cuộn
+thật thì thành lùi quá 15px và hở khe. Cách đúng là làm cho dải bên phải luôn
+là thanh cuộn thật, tức `overflow-y: scroll`.
 
 ## 12. Tùy biến giao diện
 

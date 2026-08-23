@@ -100,14 +100,19 @@
 
 /* Vùng cuộn body — tabIndex=0 sẵn cho keyboard navigation v2 */
 .scrollArea {
-  overflow: auto;
+  overflow-x: auto;
+  /* `scroll` chứ KHÔNG phải `auto`, và cũng KHÔNG dùng scrollbar-gutter: stable:
+     dải bên phải phải LUÔN là thanh cuộn thật do trình duyệt vẽ.
+     - `auto` → cột ghim phải nhảy 15px khi đổi giữa trang có/không thanh cuộn.
+     - `scrollbar-gutter: stable` → có chừa chỗ nhưng KHÔNG ai vẽ lên dải đó,
+       trong khi nội dung cuộn ngang vẫn tràn qua (clip ở padding box) → lộ dữ
+       liệu ngay bên phải cột ghim.
+     Luôn `scroll` thì dải đó không bao giờ trống, và --dg-sbw cũng ổn định. */
+  overflow-y: scroll;
   flex: 1;
   min-height: 0;
   position: relative;
   outline: none;
-  /* Luôn chừa chỗ thanh cuộn dọc kể cả khi chưa cần → cột không "nhảy"
-     khi đổi giữa trang có/không thanh cuộn (spacer header đo theo đây) */
-  scrollbar-gutter: stable;
 }
 
 /* Khi truyền prop `height`: tắt flex-grow để chiều cao inline thắng —
