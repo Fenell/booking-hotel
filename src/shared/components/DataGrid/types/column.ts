@@ -41,6 +41,12 @@ export type ColumnDef<T> = {
   resizable?: boolean;
   /** false/không khai báo = cột không có ô lọc */
   filter?: ColumnFilterConfig | false;
+  /**
+   * Hiện tooltip nội dung đầy đủ khi hover ô bị cắt (…).
+   * Không khai báo → theo `enableTooltip` của grid; đặt false để tắt riêng cột
+   * (vd cột nút hành động).
+   */
+  tooltip?: boolean;
   /** Cell template — nhận nguyên row, trả ReactNode */
   cell?: (row: T) => ReactNode;
   /**

@@ -3,6 +3,7 @@ import type { Header } from "@tanstack/react-table";
 import { useGridContext } from "../core/gridContext";
 import { SortAscIcon, SortDescIcon } from "../icons/icons";
 import styles from "../styles/header.module.css";
+import { overflowTooltipHandlers } from "../tooltip/overflow";
 import { getPinnedEdge, getPinnedStyle } from "../utils/pinning";
 import ColumnResizer from "./ColumnResizer";
 import SelectionCheckbox from "../body/SelectionCheckbox";
@@ -17,6 +18,10 @@ const HeaderCell = <T,>({ header }: HeaderCellProps<T>) => {
   const edge = getPinnedEdge(column);
   const canSort = ctx.enableSort && column.getCanSort();
   const sorted = column.getIsSorted();
+  const tooltipHandlers = overflowTooltipHandlers(
+    ctx.tooltip,
+    colDef?.tooltip !== false,
+  );
 
   return (
     <th
@@ -46,7 +51,7 @@ const HeaderCell = <T,>({ header }: HeaderCellProps<T>) => {
         </div>
       ) : (
         <div className={styles.thInner}>
-          <span className={styles.thLabel} title={colDef?.headerText}>
+          <span className={styles.thLabel} {...tooltipHandlers}>
             {colDef?.headerText}
           </span>
           {sorted === "asc" && <SortAscIcon className={styles.sortIcon} size={13} />}

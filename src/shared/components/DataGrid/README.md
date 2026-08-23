@@ -126,6 +126,7 @@ Các thuộc tính chính của `ColumnDef<T>`:
 | `pinned` | `"left" \| "right"` — ghim cột |
 | `sortable` / `resizable` | mặc định `true` |
 | `filter` | `{ type: "text" }` (contains) hoặc `{ type: "number", operators?: ["eq","gt","lt"] }` |
+| `tooltip` | `false` để tắt tooltip nội dung tràn của riêng cột (mặc định theo grid) |
 | `cell` | template — `(row: T) => ReactNode` |
 | `aggregate` | `"sum" \| "avg" \| "count"` hoặc hàm — fallback client cho dòng tổng |
 
@@ -233,14 +234,45 @@ const gridRef = useRef<DataGridRef<RoomRow>>(null);
 />
 ```
 
-## 9. Lưu cấu hình cột
+## 9. Tooltip nội dung bị cắt
+
+Ô (và tiêu đề cột) nào bị `text-overflow: ellipsis` cắt mất chữ thì hover vào
+sẽ hiện tooltip nội dung đầy đủ sau **300ms**. Ô hiển thị vừa đủ thì **không**
+hiện gì — grid đo `scrollWidth > clientWidth` ngay lúc hover chứ không đoán
+theo độ dài chuỗi.
+
+```tsx
+<DataGrid
+  enableTooltip          // mặc định true, đặt false để tắt cả grid
+  tooltipDelay={300}     // ms, mặc định 300
+  columns={[
+    { field: "note", headerText: "Ghi chú" },
+    { field: "action", headerText: "", cell: renderButtons, tooltip: false },
+  ]}
+/>
+```
+
+Chi tiết cài đặt:
+
+- Nội dung tooltip lấy từ `textContent` của ô → cell template cũng dùng được;
+  ô chỉ có icon (không có chữ) thì bỏ qua, không hiện tooltip rỗng.
+- Cả grid dùng **một** tooltip duy nhất (`tooltip/useCellTooltip.ts`), render
+  qua portal ra `document.body` vì `.root` có `overflow: hidden` sẽ cắt mất nó.
+  Vì nằm ngoài `.root`, style của nó (`styles/tooltip.module.css`) tự khai
+  báo màu/kích thước, **không** đọc token `--dg-*`.
+- Vị trí đo lại đúng lúc sắp hiện (không phải lúc hover), tự lật xuống dưới khi
+  sát mép trên và tự kẹp lại cho khỏi tràn ngang màn hình.
+- Cuộn body/cuộn trang/resize cửa sổ → tooltip ẩn ngay để không bị "mồ côi".
+- Hiệu ứng: mờ dần + trượt nhẹ 120ms; tôn trọng `prefers-reduced-motion`.
+
+## 10. Lưu cấu hình cột
 
 Truyền `gridKey` ⇒ tự lưu **thứ tự + ẩn/hiện + độ rộng** cột vào
 `localStorage["grid:<gridKey>"]` (debounce 500ms, schema có `version` để
 migrate sau). Cột mới thêm vào code tự nối cuối; cột bị xóa khỏi code tự bỏ.
 `ref.resetColumns()` xóa bản lưu và về mặc định. Không truyền `gridKey` = không lưu.
 
-## 10. Đặt grid vào layout — tránh thanh cuộn ngang "nhảy" ra page
+## 11. Đặt grid vào layout — tránh thanh cuộn ngang "nhảy" ra page
 
 Grid tự cuộn ngang bên trong (`.scrollArea` overflow auto). Nhưng nếu một
 **tổ tiên** của grid là flex/grid item mà không có `min-width: 0`, min-content
@@ -264,7 +296,7 @@ liệu, không chạy suốt cả grid. Cuộn ngang đồng bộ `scrollLeft` t
 header/footer; bề rộng thanh cuộn dọc được bù tự động bằng `padding-right`
 để cột không lệch.
 
-## 11. Tùy biến giao diện
+## 12. Tùy biến giao diện
 
 Toàn bộ token nằm trong `.root` của `styles/root.module.css` (`--dg-accent`,
 `--dg-header-bg`, `--dg-row-height`, `--dg-font-size`…). Muốn theme khác cho

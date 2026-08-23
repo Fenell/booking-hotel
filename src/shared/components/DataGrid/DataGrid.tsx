@@ -21,7 +21,11 @@ import BodyRows from "./body/BodyRows";
 import EmptyState from "./body/EmptyState";
 import LoadingOverlay from "./body/LoadingOverlay";
 import { buildColumns } from "./core/buildColumns";
-import { DEFAULT_PAGE_SIZES, SELECT_COL_ID } from "./core/constants";
+import {
+  DEFAULT_PAGE_SIZES,
+  SELECT_COL_ID,
+  TOOLTIP_DELAY_MS,
+} from "./core/constants";
 import { GridContextProvider } from "./core/gridContext";
 import type { GridContextValue } from "./core/gridContext";
 import { applyOverrides, inferColumns } from "./core/inferColumns";
@@ -34,6 +38,8 @@ import bodyStyles from "./styles/body.module.css";
 import overlayStyles from "./styles/overlay.module.css";
 import rootStyles from "./styles/root.module.css";
 import ColumnChooser from "./toolbar/ColumnChooser";
+import CellTooltip from "./tooltip/CellTooltip";
+import { useCellTooltip } from "./tooltip/useCellTooltip";
 import type { ColumnDef } from "./types/column";
 import type { PersistedColumnState } from "./types/persist";
 import type {
@@ -77,6 +83,8 @@ const DataGrid = <T,>(props: DataGridProps<T>) => {
     enableFilter = true,
     enableColumnChooser = true,
     enablePinning = true,
+    enableTooltip = true,
+    tooltipDelay = TOOLTIP_DELAY_MS,
     height,
     emptyMessage = "Không có dữ liệu",
     className,
@@ -94,8 +102,12 @@ const DataGrid = <T,>(props: DataGridProps<T>) => {
   const headerViewportRef = useRef<HTMLDivElement | null>(null);
   const footerViewportRef = useRef<HTMLDivElement | null>(null);
 
+  const tooltip = useCellTooltip(enableTooltip, tooltipDelay);
+
   /** Cuộn ngang ở body → kéo header/footer chạy theo */
   const handleBodyScroll = () => {
+    // Ô đang hover trượt đi mất → tooltip không còn đúng chỗ
+    tooltip.hide();
     const left = scrollRef.current?.scrollLeft ?? 0;
     if (headerViewportRef.current) headerViewportRef.current.scrollLeft = left;
     if (footerViewportRef.current) footerViewportRef.current.scrollLeft = left;
@@ -467,6 +479,7 @@ const DataGrid = <T,>(props: DataGridProps<T>) => {
     filterState,
     setFilter,
     colDefFor,
+    tooltip,
     emptyMessage,
     footerData,
     footerLabel,
@@ -559,6 +572,8 @@ const DataGrid = <T,>(props: DataGridProps<T>) => {
         </div>
 
         <Pager table={table} pageSizeOptions={pageSizeOptions} />
+
+        {tooltip.data && <CellTooltip data={tooltip.data} />}
       </div>
     </GridContextProvider>
   );

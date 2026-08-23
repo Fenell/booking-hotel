@@ -3,6 +3,7 @@ import type { Cell } from "@tanstack/react-table";
 import { useGridContext } from "../core/gridContext";
 import styles from "../styles/body.module.css";
 import { formatCell } from "../utils/formatCell";
+import { overflowTooltipHandlers } from "../tooltip/overflow";
 import { getPinnedEdge, getPinnedStyle } from "../utils/pinning";
 import SelectionCheckbox from "./SelectionCheckbox";
 
@@ -23,6 +24,11 @@ const BodyCell = <T,>({ cell, rowIndex, colIndex }: BodyCellProps<T>) => {
   const colDef = ctx.colDefFor(column.id);
   const meta = column.columnDef.meta;
   const edge = getPinnedEdge(column);
+  // Ô checkbox không có gì để cắt → khỏi gắn listener
+  const tooltipHandlers = overflowTooltipHandlers(
+    ctx.tooltip,
+    !meta?.isSelect && colDef?.tooltip !== false,
+  );
 
   return (
     <td
@@ -38,6 +44,7 @@ const BodyCell = <T,>({ cell, rowIndex, colIndex }: BodyCellProps<T>) => {
         [styles.alignCenter]: colDef?.align === "center" || meta?.isSelect,
       })}
       style={{ width: column.getSize(), ...getPinnedStyle(column) }}
+      {...tooltipHandlers}
     >
       {meta?.isSelect ? (
         <SelectionCheckbox

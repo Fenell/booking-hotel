@@ -55,6 +55,13 @@ export type DataGridProps<T> = {
   enableFilter?: boolean;
   enableColumnChooser?: boolean;
   enablePinning?: boolean;
+  /**
+   * Hover vào ô/tiêu đề bị cắt (…) thì hiện tooltip nội dung đầy đủ.
+   * Mặc định true — tắt riêng từng cột bằng `ColumnDef.tooltip = false`.
+   */
+  enableTooltip?: boolean;
+  /** Trễ trước khi tooltip xuất hiện (ms), mặc định 300 */
+  tooltipDelay?: number;
 
   /** Chiều cao vùng cuộn body; mặc định "auto" */
   height?: number | string;

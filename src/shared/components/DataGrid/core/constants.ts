@@ -32,3 +32,6 @@ export const NUMBER_OPERATOR_LABELS: Record<string, string> = {
   gt: ">",
   lt: "<",
 };
+
+/** Trễ trước khi hiện tooltip nội dung ô bị cắt (ms) */
+export const TOOLTIP_DELAY_MS = 300;

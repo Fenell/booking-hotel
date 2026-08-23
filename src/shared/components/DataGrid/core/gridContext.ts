@@ -3,6 +3,7 @@ import type { MouseEvent } from "react";
 import type { Table } from "@tanstack/react-table";
 import type { ColumnDef } from "../types/column";
 import type { GridFilterState } from "../types/props";
+import type { TooltipController } from "../tooltip/useCellTooltip";
 
 /**
  * Context nội bộ — điểm mở rộng state cho v2
@@ -22,6 +23,8 @@ export type GridContextValue<T> = {
   /** Đặt/gỡ filter một cột (value rỗng = gỡ) — debounce do component filter tự lo */
   setFilter: (field: string, operator: string, value: string) => void;
   colDefFor: (columnId: string) => ColumnDef<T> | undefined;
+  /** Tooltip dùng chung cho mọi ô/tiêu đề bị cắt nội dung */
+  tooltip: TooltipController;
   emptyMessage: string;
   footerData?: Partial<Record<string, number | string>>;
   footerLabel?: string;

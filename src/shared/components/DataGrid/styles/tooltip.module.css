@@ -1,0 +1,65 @@
+/* ===== Tooltip nội dung ô bị cắt =====
+   Render qua portal ra <body> nên KHÔNG đọc được token --dg-* của .root:
+   mọi giá trị ở đây phải khai báo tường minh. */
+.tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 420px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #181d1f;
+  color: #ffffff;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 400;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none; /* không chặn hover/click của ô bên dưới */
+}
+
+/* Mũi nhọn chỉ về phía ô */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+}
+
+.top {
+  transform: translate(-50%, -100%);
+  animation: dgTipTop 120ms ease-out;
+}
+
+.top::after {
+  top: 100%;
+  border-top-color: #181d1f;
+}
+
+.bottom {
+  transform: translate(-50%, 0);
+  animation: dgTipBottom 120ms ease-out;
+}
+
+.bottom::after {
+  bottom: 100%;
+  border-bottom-color: #181d1f;
+}
+
+/* Hiện dần + trượt nhẹ về phía ô (giữ nguyên translate của placement) */
+@keyframes dgTipTop {
+  from { opacity: 0; transform: translate(-50%, calc(-100% + 4px)); }
+  to { opacity: 1; transform: translate(-50%, -100%); }
+}
+
+@keyframes dgTipBottom {
+  from { opacity: 0; transform: translate(-50%, -4px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top, .bottom { animation: none; }
+}
