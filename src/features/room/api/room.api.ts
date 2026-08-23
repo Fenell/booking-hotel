@@ -1,9 +1,8 @@
 import axiosInstance from "@shared/lib/axios.config";
-import type { RoomCreateRequest } from "../types/room.type";
 import type { ResponseApi } from "@shared/types/common";
 import { API_ENDPOINT } from "@shared/constants/endpoint";
 import type { AxiosRequestConfig } from "axios";
-import type { RoomModel } from "@shared/types/room";
+import type { RoomCreateRequest, RoomModel } from "../types/room.type";
 import type { PagingResponse } from "@shared/types/dynamic";
 
 type RoomPagingRequest = {

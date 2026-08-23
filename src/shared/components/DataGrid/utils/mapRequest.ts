@@ -1,4 +1,4 @@
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import { OPERATORS } from "../core/constants";
 import type { ColumnDef } from "../types/column";
 import type { GridFilterState, ServerGridState } from "../types/props";
@@ -31,7 +31,7 @@ const escapeLike = (value: string) => value.replace(/[\\%_]/g, (c) => `\\${c}`);
 export const mapRequest = (
   opts: MapRequestOptions,
   state: ServerGridState,
-): DyanmicDataPagingRequest => {
+): DynamicDataPagingRequest => {
   const toServerField = (field: string) =>
     opts.serverFields?.[field] ?? camelToSnake(field);
 

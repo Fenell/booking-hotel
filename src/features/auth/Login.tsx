@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 const Login = () => {
   return (
     <>
+      <title>Đăng nhập</title>
       {/* Background decorative shapes  */}
       <div className={classNames(loginStyle.shape, loginStyle.shape1)}></div>
       <div className={classNames(loginStyle.shape, loginStyle.shape2)}></div>

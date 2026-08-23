@@ -4,7 +4,7 @@ import DemoGridPage from "@features/demo-grid/page/DemoGridPage";
 import IconPage from "@features/icon/page/IconPage";
 import RoomPage from "@features/room/page/RoomPage";
 import ServicePage from "@features/service/page/ServicePage";
-import TypeRoomPage from "@features/typeRoom/page/TypeRoomPage";
+import RoomTypePage from "@features/roomType/page/RoomTypePage";
 import AuthLayout from "@layouts/AuthLayout";
 import Root from "@layouts/RootLayout";
 import ProtectedRoute from "@shared/components/Auth/ProtectedRoute";
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
           { path: "dashboard", element: <DashBoard /> },
           { path: "icon", element: <IconPage /> },
           { path: "service", element: <ServicePage /> },
-          { path: "room-type", element: <TypeRoomPage /> },
+          { path: "room-type", element: <RoomTypePage /> },
           { path: "room", element: <RoomPage /> },
           { path: "demo-grid", element: <DemoGridPage /> },
           // { path: "order", element: <Order /> },

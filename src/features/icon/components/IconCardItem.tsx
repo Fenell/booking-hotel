@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useIconContext } from "../store/IconContext";
+import { useIconContext } from "../context/IconContext";
 import iconStyle from "../style/Icon.module.css";
 import type { IconResponse } from "../types/icon.type";
 import type { CSSProperties } from "react";

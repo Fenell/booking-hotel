@@ -1,18 +1,21 @@
 import type { ResponseApi } from "@shared/types/common";
-import { useRoomContext } from "../store/RoomContext";
-import type { RoomCreateRequest } from "../types/room.type";
+import { useRoomContext } from "../context/RoomContext";
+import type { RoomCreateRequest, RoomModel } from "../types/room.type";
 import { useToast } from "@shared/hooks/useToast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createRoom, getRoomDetail, updateRoom } from "../api/room.api";
 import { useEffect, useRef } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import type { RoomModel } from "@shared/types/room";
-import { uploadImages } from "@shared/services/image";
+import {
+  useForm,
+  type DefaultValues,
+  type SubmitHandler,
+} from "react-hook-form";
+import { uploadImages } from "../api/image.api";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
-import type { UploadImageRequest } from "@shared/types/roomImage";
+import type { UploadImageRequest } from "../types/image.type";
 import type { GridComponent } from "@syncfusion/ej2-react-grids";
 
-const defaultValues: RoomCreateRequest = {
+const defaultValues: DefaultValues<RoomCreateRequest> = {
   roomName: "",
   roomNumber: null,
   currentPrice: null,

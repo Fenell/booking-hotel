@@ -5,7 +5,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@shared/components/UI/Modal";
-import { useServiceContext } from "../store/serviceContext";
+import { useServiceContext } from "../context/ServiceContext";
 import { Input, TextArea } from "@shared/components/UI/Input";
 import Popover from "@shared/components/Popover/Popover";
 import IconSelect from "./IconSelect";
@@ -18,7 +18,7 @@ import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useQuery } from "@tanstack/react-query";
 import { getDynamicData } from "@shared/services/dynamic";
 import type { ServiceResponse, ServiceType } from "../types/service.type";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 
 const CreateAndUpdateService = () => {
   const { icon, id, openOrCloseDialog, selectIcon } = useServiceContext();
@@ -36,7 +36,7 @@ const CreateAndUpdateService = () => {
 
   const [submitAction, setSubmitAction] = useState<"save" | "saveAdd">("save");
 
-  const serviceTypeRq: DyanmicDataPagingRequest = {
+  const serviceTypeRq: DynamicDataPagingRequest = {
     tableNames: "type_services",
     pageNumber: 1,
     pageSize: 100,

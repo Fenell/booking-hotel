@@ -1,4 +1,4 @@
-export type DyanmicDataPagingRequest = {
+export type DynamicDataPagingRequest = {
   tableNames: string;
   ids?: string;
   searchTerm?: string;

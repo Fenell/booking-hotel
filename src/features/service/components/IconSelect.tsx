@@ -1,10 +1,10 @@
 import type { IconResponse } from "@features/icon/types/icon.type";
 import { getDynamicData } from "@shared/services/dynamic";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { CSSProperties } from "react";
 import serviceStyle from "../style/service.module.css";
-import { useServiceContext } from "../store/serviceContext";
+import { useServiceContext } from "../context/ServiceContext";
 import { useFormContext } from "react-hook-form";
 import type { ServiceResponse } from "../types/service.type";
 
@@ -33,7 +33,7 @@ const IconItem = ({ id, iconCode, sizeIcon, color, ...prop }: IconResponse) => {
   );
 };
 
-const iconRequest: DyanmicDataPagingRequest = {
+const iconRequest: DynamicDataPagingRequest = {
   tableNames: "icons",
   filters: [{ field: "is_active", operator: "=", value: "true" }],
   pageNumber: 1,

@@ -23,7 +23,7 @@ import { useRoomForm } from "../hook/useRoomForm";
 import RoomLocation from "./RoomLocation";
 import { useState } from "react";
 import type { GridComponent } from "@syncfusion/ej2-react-grids";
-import type { RoomModel } from "@shared/types/room";
+import type { RoomModel } from "../types/room.type";
 
 type CreateAndUpdateRoomProps = {
   gridApi?: GridComponent | null;

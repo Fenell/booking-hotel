@@ -5,10 +5,7 @@ import type { RoomCreateRequest } from "../types/room.type";
 import { Input } from "@shared/components/UI/Input";
 import { formatNumber, parseNumber } from "@shared/utils/formatNumber";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
-import { useQuery } from "@tanstack/react-query";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
-import { getDynamicData } from "@shared/services/dynamic";
-import type { RoomType } from "@shared/types/roomType";
+import { useRoomTypeOptions } from "@features/roomType";
 
 // type InputRoomFormProp = {
 //   control: Control<RoomCreateRequest>;
@@ -45,23 +42,10 @@ const statusOption = [
   { label: "Tắt hiển thị", value: 0 },
 ];
 
-const roomTypeRequest: DyanmicDataPagingRequest = {
-  tableNames: "room_types",
-  pageNumber: 1,
-  pageSize: 100,
-};
-
 const BaseInfoInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
-  const { data } = useQuery({
-    queryKey: ["typeRooms"],
-    queryFn: () => getDynamicData<RoomType[]>(roomTypeRequest),
-  });
-
-  const optionRoomType = data?.data.map((a) => ({
-    label: a.typeName,
-    value: a.id,
-  }));
+  // Feature Phòng không tự query bảng room_types nữa — hỏi feature Loại phòng
+  const { options: optionRoomType } = useRoomTypeOptions();
 
   const { control } = methods;
   return (
@@ -101,7 +85,7 @@ const BaseInfoInput = () => {
                 {...field}
                 inputId="roomTypeId"
                 options={optionRoomType}
-                value={optionRoomType?.find((c) => c.value === field.value)}
+                value={optionRoomType.find((c) => c.value === field.value)}
                 onChange={(e) => field.onChange(e?.value)}
               />
             )}

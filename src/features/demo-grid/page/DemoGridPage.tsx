@@ -5,6 +5,7 @@ import demoStyle from "../style/demoGrid.module.css";
 /** Trang demo DataGrid tự dựng — truy cập trực tiếp /demo-grid */
 const DemoGridPage = () => (
   <div className={demoStyle.page}>
+    <title>Demo DataGrid</title>
     <DemoServerGrid />
     <DemoClientGrid />
   </div>

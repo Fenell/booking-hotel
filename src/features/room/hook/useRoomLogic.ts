@@ -1,8 +1,8 @@
 import { useToast } from "@shared/hooks/useToast";
-import { useRoomContext } from "../store/RoomContext";
+import { useRoomContext } from "../context/RoomContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { changeStatus, getPagingRoom } from "../api/room.api";
-import type { RoomModel } from "@shared/types/room";
+import type { RoomModel } from "../types/room.type";
 
 export const useRoomLogic = () => {
   const toast = useToast();

@@ -5,7 +5,7 @@ import type {
   RoomImage,
   UploadImageRequest,
   UploadImageResponse,
-} from "@shared/types/roomImage";
+} from "../types/image.type";
 
 export const deleteImage = async ({
   id,

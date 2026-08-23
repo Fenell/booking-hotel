@@ -3,18 +3,12 @@ import axiosInstance from "@shared/lib/axios.config";
 import type { ResponseApi } from "@shared/types/common";
 import type {
   DeleteDataRequest,
-  DyanmicDataPagingRequest,
+  DynamicDataPagingRequest,
   DynamicDataPagingResponse,
 } from "@shared/types/dynamic";
-import camelcaseKeys from "camelcase-keys";
-
-axiosInstance.interceptors.response.use((response) => {
-  response.data = camelcaseKeys(response.data, { deep: true });
-  return response;
-});
 
 export const getDynamicData = async <T extends readonly unknown[]>(
-  request: DyanmicDataPagingRequest,
+  request: DynamicDataPagingRequest,
 ) => {
   try {
     const response = await axiosInstance.post<DynamicDataPagingResponse<T>>(

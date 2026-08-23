@@ -1,3 +1,22 @@
+// ---------------------------------------------------------------------------
+// PHẦN CÔNG BỐ RA NGOÀI (re-export ở features/service/index.ts)
+// Feature khác chỉ được dùng những type trong khối này.
+// ---------------------------------------------------------------------------
+
+/**
+ * Shape tối giản để feature khác đổ dịch vụ vào ô chọn (checkbox, select).
+ * Cố ý không mang tên field của Service: nơi dùng chỉ cần "chọn cái gì" chứ
+ * không cần biết dịch vụ có icon, giá hay loại gì.
+ */
+export type ServiceOption = {
+  value: string;
+  label: string;
+};
+
+// ---------------------------------------------------------------------------
+// PHẦN NỘI BỘ — chỉ dùng trong feature Dịch vụ, KHÔNG export ra ngoài feature.
+// ---------------------------------------------------------------------------
+
 export type ServiceResponse = ServiceCreateAndUpdateModel & {
   createDate: Date;
   isActive: boolean;
@@ -15,7 +34,7 @@ export type ServiceCreateAndUpdateModel = {
   price?: number;
   isFee: boolean;
   unit: string;
-  idIcon?: string;
+  idIcon?: string | null;
   idTypeService: string;
 };
 

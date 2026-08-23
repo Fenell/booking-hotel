@@ -1,24 +1,12 @@
 import Checkbox from "@shared/components/UI/Checkbox/Checkbox";
 import roomStlye from "../style/room.module.css";
-import { useQuery } from "@tanstack/react-query";
-import type { ServiceResponse } from "@features/service/types/service.type";
-import { getDynamicData } from "@shared/services/dynamic";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import { useServiceOptions } from "@features/service";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
-import { useState } from "react";
-import type { RoomModel } from "@shared/types/room";
-
-const servicesRequest: DyanmicDataPagingRequest = {
-  tableNames: "services",
-  pageNumber: 1,
-  pageSize: 100,
-};
 
 const ServicesInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
   const { setValue } = methods;
-  const [checkAll, setCheckAll] = useState(true);
   // const roomServices = watch("roomServices") ?? [];
 
   const roomServices = useWatch({
@@ -26,10 +14,8 @@ const ServicesInput = () => {
     control: methods.control,
   });
 
-  const { data } = useQuery({
-    queryKey: ["services"],
-    queryFn: () => getDynamicData<ServiceResponse[]>(servicesRequest),
-  });
+  // Feature Phòng không tự query bảng services nữa — hỏi thẳng feature Dịch vụ
+  const { options } = useServiceOptions();
 
   const isChecked = (serviceId: string) => {
     return roomServices.some((c) => c.serviceId === serviceId);
@@ -50,18 +36,26 @@ const ServicesInput = () => {
     }
   };
 
+  /**
+   * Suy ra từ chính giá trị form, KHÔNG giữ bằng useState riêng. Bản đầu dùng
+   * một state `checkAll` khởi tạo cứng bằng true nên nhãn không khớp thực tế.
+   *
+   * Chiều của nút cố ý ưu tiên "gỡ sạch": chỉ cần còn một tiện ích được chọn
+   * thì nút là "Bỏ chọn tất cả". Nếu theo chuẩn select-all (chỉ đổi chiều khi
+   * đã chọn ĐỦ hết) thì phòng gắn sẵn một phần dịch vụ sẽ hiện "Chọn tất cả",
+   * bấm vào lại gắn thêm toàn bộ dịch vụ của hệ thống vào phòng — đúng cái bẫy
+   * đã gặp.
+   */
+  const hasAnyChecked = roomServices.length > 0;
+
   const handleCheckAll = () => {
-    // console.log(checkAll);
-    if (checkAll && data) {
-      setValue(
-        "roomServices",
-        data.data.map((a) => ({ serviceId: a.id })),
-        { shouldDirty: true },
-      );
-    } else {
-      setValue("roomServices", []);
-    }
-    setCheckAll((prev) => !prev);
+    setValue(
+      "roomServices",
+      hasAnyChecked
+        ? []
+        : options.map((service) => ({ serviceId: service.value })),
+      { shouldDirty: true },
+    );
   };
 
   return (
@@ -77,19 +71,19 @@ const ServicesInput = () => {
         }}
         onClick={handleCheckAll}
       >
-        {checkAll ? "Chọn tất cả" : "Bỏ chọn tất cả "}
+        {hasAnyChecked ? "Bỏ chọn tất cả" : "Chọn tất cả"}
       </p>
       <div className={roomStlye.unityRoom}>
-        {data?.data.map((service) => {
-          const checked = isChecked(service.id);
+        {options.map((service) => {
+          const checked = isChecked(service.value);
           return (
             <Checkbox
-              key={service.id}
-              index={service.id}
-              label={service.serviceName}
+              key={service.value}
+              index={service.value}
+              label={service.label}
               isChecked={checked}
-              value={service.id}
-              onChecked={() => processCheckValue(checked, service.id)}
+              value={service.value}
+              onChecked={() => processCheckValue(checked, service.value)}
             />
           );
         })}

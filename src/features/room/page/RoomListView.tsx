@@ -1,4 +1,4 @@
-import CreateAndUpdateRoom from "./CreateAndUpdateRoom";
+import CreateAndUpdateRoom from "../components/CreateAndUpdateRoom";
 import roomStyle from "../style/room.module.css";
 import { Button } from "@shared/components/UI";
 import { useRoomGrid } from "../hook/useRoomGrid";
@@ -6,8 +6,8 @@ import { useRoomLogic } from "../hook/useRoomLogic";
 import { AnimatePresence } from "motion/react";
 
 import Popover from "@shared/components/Popover/Popover";
-import { ColumnSetting } from "@shared/components/Settings/ColumSetting";
-import type { RoomModel } from "@shared/types/room";
+import { ColumnSetting } from "@shared/components/Settings/ColumnSetting";
+import type { RoomModel } from "../types/room.type";
 import {
   ColumnDirective,
   ColumnsDirective,
@@ -19,11 +19,11 @@ import {
   Resize,
 } from "@syncfusion/ej2-react-grids";
 
-import StatusSwitch from "./StatusSwitch";
+import StatusSwitch from "../components/StatusSwitch";
 import { useRef, useState } from "react";
 import GridRowAction from "@shared/components/UI/GridRowAction/GridRowAction";
 
-const RoomPageContent = () => {
+const RoomListView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const logic = useRoomLogic();
   const gridRef = useRef<GridComponent | null>(null);
@@ -121,7 +121,6 @@ const RoomPageContent = () => {
             ref={(g) => (gridRef.current = g)}
             dataSource={logic.data?.data}
             allowResizing={true}
-            allowSelection={true}
             width="100%"
             height="100%"
             allowPaging={true}
@@ -160,4 +159,4 @@ const RoomPageContent = () => {
   );
 };
 
-export default RoomPageContent;
+export default RoomListView;

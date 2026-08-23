@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import iconStyle from "../style/Icon.module.css";
-import { useIconContext } from "../store/IconContext";
+import { useIconContext } from "../context/IconContext";
 
 const IconCreateItem = () => {
   const { openOrCloseDialog } = useIconContext();

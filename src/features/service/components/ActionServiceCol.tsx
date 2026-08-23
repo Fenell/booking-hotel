@@ -1,6 +1,6 @@
 import type { ServiceResponse } from "../types/service.type";
 import serviceStyle from "../style/service.module.css";
-import { useServiceContext } from "../store/serviceContext";
+import { useServiceContext } from "../context/ServiceContext";
 import { useCallback } from "react";
 
 const ActionServiceCol = (row: ServiceResponse) => {

@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import sideBarStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router";
-// import type { MenuItem } from "@constants/menu";
 import type { Menu } from "shared/types/menu";
 import { useCollapseSelector } from "@app/store/hooks";
 

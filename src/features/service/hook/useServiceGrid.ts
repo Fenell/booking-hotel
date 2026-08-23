@@ -1,20 +1,22 @@
 import { getDynamicData } from "@shared/services/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { ServiceResponse } from "../types/service.type";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import { useCallback, useMemo, useState } from "react";
-import { useServiceContext } from "../store/serviceContext";
+import { useServiceContext } from "../context/ServiceContext";
 import { loadConfigGrid } from "@shared/services/configGridSetting";
+import { serviceKeys } from "../api/service.keys";
 import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
-const serviceRequest: DyanmicDataPagingRequest = {
+
+const serviceRequest: DynamicDataPagingRequest = {
   tableNames: "view_service_with_icon",
   pageSize: 100,
   pageNumber: 1,
 };
 
-export const useGridService = () => {
+export const useServiceGrid = () => {
   const { data, isPending } = useQuery({
-    queryKey: ["services"],
+    queryKey: serviceKeys.grid(),
     queryFn: () => getDynamicData<ServiceResponse[]>(serviceRequest),
   });
   const { openOrCloseDialog } = useServiceContext();
@@ -48,8 +50,6 @@ export const useGridService = () => {
     },
     [openOrCloseDialog],
   );
-  // const { colDefs: colDefsConfig } =
-  //   useLoadConfigGrid<ServiceResponse>("service");
 
   // const actionCol = useMemo<GridColumnModel>(
   //   () => ({

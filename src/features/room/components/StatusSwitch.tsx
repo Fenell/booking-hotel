@@ -1,6 +1,6 @@
 import Switch from "@shared/components/UI/Switch/Switch";
 import { useToast } from "@shared/hooks/useToast";
-import type { RoomModel } from "@shared/types/room";
+import type { RoomModel } from "../types/room.type";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { changeStatus } from "../api/room.api";

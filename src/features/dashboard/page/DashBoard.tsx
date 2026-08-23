@@ -35,6 +35,7 @@ const DashBoard = () => {
   };
   return (
     <div>
+      <title>Tổng quan</title>
       {isOpen && (
         <Modal onClose={handleClose}>
           <ModalHeader hasCloseButton>Kaka</ModalHeader>

@@ -1,13 +1,12 @@
-import IconPageContent from "../components/IconPageContent";
-import { IconContextProvider } from "../store/IconContext";
+import IconListView from "./IconListView";
+import { IconContextProvider } from "../context/IconContext";
 
 const IconPage = () => {
   return (
-    <>
-      <IconContextProvider>
-        <IconPageContent />
-      </IconContextProvider>
-    </>
+    <IconContextProvider>
+      <title>Quản lý biểu tượng</title>
+      <IconListView />
+    </IconContextProvider>
   );
 };
 

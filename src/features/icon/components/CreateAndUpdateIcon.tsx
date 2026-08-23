@@ -4,7 +4,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@shared/components/UI/Modal";
-import { useIconContext } from "../store/IconContext";
+import { useIconContext } from "../context/IconContext";
 import { Button } from "@shared/components/UI";
 import { Controller, FormProvider } from "react-hook-form";
 import { Input, TextArea } from "@shared/components/UI/Input";
@@ -27,7 +27,7 @@ const iconSizeOption: IconOption[] = [
   { label: "none", value: "" },
 ];
 
-const CreateAndUpdate = () => {
+const CreateAndUpdateIcon = () => {
   const { openOrCloseDialog, id } = useIconContext();
   const [color, methods, isEdit, title, isLoading, onsubmit] = useIconForm(id);
   const { handleSubmit, control, setValue } = methods;
@@ -180,4 +180,4 @@ const CreateAndUpdate = () => {
   );
 };
 
-export default CreateAndUpdate;
+export default CreateAndUpdateIcon;

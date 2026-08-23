@@ -1,3 +1,9 @@
+/**
+ * Ảnh phòng. BE lưu qua bảng dùng chung `file_attachments` (liên kết mềm bằng
+ * cặp EntityType + EntityId), nhưng hiện chỉ có màn Phòng dùng nên type và
+ * hàm gọi API đều nằm trong feature này. Khi có entity thứ hai cần đính kèm
+ * file thì mới tách lên shared/.
+ */
 export type RoomImage = {
   id: string;
   roomId: string;
@@ -5,18 +11,13 @@ export type RoomImage = {
   isCover: boolean;
   sortOrder: number;
   url: string;
-
-  // RoomId
-  //    FileName {get;set;}
-  //     public bool IsCover {get;set;}
-  //     public int SortOrder {get;set;}
-  //     public int Status {get;set;}
-  //     public string? Url { get; set; }
 };
+
 export type UploadImageRequest = {
   roomCode: string;
   imageFiles: File[];
 };
+
 export type UploadImageResponse = {
   totalFile: number;
   successCount: number;

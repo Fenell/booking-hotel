@@ -1,6 +1,6 @@
-import { useGridService } from "../hook/useGridService";
-import { useServiceContext } from "../store/serviceContext";
-import CreateAndUpdateService from "./CreateAndUpdateService";
+import { useServiceGrid } from "../hook/useServiceGrid";
+import { useServiceContext } from "../context/ServiceContext";
+import CreateAndUpdateService from "../components/CreateAndUpdateService";
 import serviceStyle from "../style/service.module.css";
 import { Button } from "@shared/components/UI";
 import { AnimatePresence } from "motion/react";
@@ -8,6 +8,7 @@ import { AnimatePresence } from "motion/react";
 import {
   ColumnDirective,
   ColumnsDirective,
+  Edit,
   Freeze,
   GridComponent,
   Inject,
@@ -16,14 +17,14 @@ import {
   type PageSettingsModel,
 } from "@syncfusion/ej2-react-grids";
 import type { ServiceResponse } from "../types/service.type";
-import { ColumnSetting } from "@shared/components/Settings/ColumSetting";
+import { ColumnSetting } from "@shared/components/Settings/ColumnSetting";
 import Popover from "@shared/components/Popover/Popover";
-import ActionServiceCol from "./ActionServiceCol";
+import ActionServiceCol from "../components/ActionServiceCol";
 import { useRef } from "react";
 import Checkbox from "@shared/components/UI/Checkbox/Checkbox";
 
-const ServicePageContent = () => {
-  const { colConfig, pageOptions, data, setColConfig } = useGridService();
+const ServiceListView = () => {
+  const { colConfig, pageOptions, data, setColConfig } = useServiceGrid();
   const { isOpen, openOrCloseDialog } = useServiceContext();
 
   const gridRef = useRef<GridComponent | null>(null);
@@ -75,7 +76,6 @@ const ServicePageContent = () => {
             ref={(g) => (gridRef.current = g)}
             dataSource={data?.data}
             allowResizing={true}
-            allowSelection={true}
             width="100%"
             height="100%"
             allowPaging={true}
@@ -92,8 +92,6 @@ const ServicePageContent = () => {
                       width={a.width}
                       visible={a.visible}
                       textAlign={a.textAlign}
-                      isPrimaryKey={a.isPrimaryKey}
-                      format={"N0"}
                       template={checkBoxTemplate}
                     />
                   );
@@ -106,7 +104,8 @@ const ServicePageContent = () => {
                     visible={a.visible}
                     textAlign={a.textAlign}
                     isPrimaryKey={a.isPrimaryKey}
-                    format={"N0"}
+                    type={a.type}
+                    format={a.format}
                   />
                 );
               })}
@@ -117,7 +116,7 @@ const ServicePageContent = () => {
                 template={ActionServiceCol}
               />
             </ColumnsDirective>
-            <Inject services={[Resize, Page, Freeze]} />
+            <Inject services={[Resize, Page, Freeze, Edit]} />
           </GridComponent>
         </div>
       </div>
@@ -125,4 +124,4 @@ const ServicePageContent = () => {
   );
 };
 
-export default ServicePageContent;
+export default ServiceListView;

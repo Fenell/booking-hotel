@@ -4,12 +4,12 @@ import DragAndDropImage, {
 import classNames from "classnames";
 import Editor from "@shared/components/UI/RichText/RichText";
 import roomStlye from "../style/room.module.css";
-import type { RoomImage } from "@shared/types/roomImage";
+import type { RoomImage } from "../types/image.type";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import type { RoomCreateRequest } from "../types/room.type";
 import { useMutation } from "@tanstack/react-query";
-import { deleteImage } from "@shared/services/image";
+import { deleteImage } from "../api/image.api";
 import { useToast } from "@shared/hooks/useToast";
 
 type MoreInfoInput = {

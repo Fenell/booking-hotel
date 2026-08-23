@@ -12,9 +12,7 @@ export default defineConfig({
     alias: {
       "@assets": path.resolve(__dirname, "src/assets"),
       "@app": path.resolve(__dirname, "src/app"),
-      "@stores": path.resolve(__dirname, "src/stores"),
       "@layouts": path.resolve(__dirname, "src/layouts"),
-      "@services": path.resolve(__dirname, "src/services"),
       "@features": path.resolve(__dirname, "src/features"),
       "@shared": path.resolve(__dirname, "src/shared"),
     },

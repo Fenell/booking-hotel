@@ -3,20 +3,16 @@ import {
   type DefaultValues,
   type SubmitHandler,
 } from "react-hook-form";
-import type {
-  ServiceCreateAndUpdateModel,
-  ServiceResponse,
-  ServiceUpdateRequest,
-} from "../types/service.type";
+import type { ServiceResponse } from "../types/service.type";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { serviceKeys } from "../api/service.keys";
 import { createService, updateService } from "../api/service.api";
 import { useToast } from "@shared/hooks/useToast";
 import { queryClient } from "@app/queryClient";
 import { getDynamicData } from "@shared/services/dynamic";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import type { IconResponse } from "@features/icon/types/icon.type";
-import type { ResponseApi } from "@shared/types/common";
 
 const defaultValues: DefaultValues<ServiceResponse> = {
   id: "",
@@ -45,7 +41,7 @@ export const useServiceForm = (
       // reset(defaultValues);
       // selectIcon(null);
     }
-    queryClient.invalidateQueries({ queryKey: ["services"] });
+    queryClient.invalidateQueries({ queryKey: serviceKeys.all });
   };
 
   const mutaion = useMutation({
@@ -65,7 +61,7 @@ export const useServiceForm = (
     },
   });
 
-  const getServiceRequest: DyanmicDataPagingRequest = {
+  const getServiceRequest: DynamicDataPagingRequest = {
     tableNames: "view_service_with_icon",
     filters: [{ field: "id", operator: "=", value: id ?? "" }],
     pageSize: 10,
@@ -97,7 +93,10 @@ export const useServiceForm = (
   ) => {
     if (isEdit) {
       mutaionUpdate.mutate({ id, ...other });
-    } else mutaion.mutate(other);
+    } else {
+      if (!other.idIcon) other.idIcon = null;
+      mutaion.mutate(other);
+    }
   };
 
   useEffect(() => {

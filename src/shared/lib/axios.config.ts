@@ -1,4 +1,5 @@
 import axios from "axios";
+import camelcaseKeys from "camelcase-keys";
 import { API_BASE_URL } from "../../../config";
 
 const axiosInstance = axios.create({
@@ -20,6 +21,11 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    // Function get_data của Postgres trả snake_case, các endpoint REST trả
+    // camelCase — chuẩn hoá hết về camelCase ngay tại đây để phía trên chỉ
+    // phải biết một quy ước. Đặt cùng chỗ tạo instance thay vì trong một file
+    // service, nếu không hành vi của toàn app sẽ phụ thuộc thứ tự import.
+    response.data = camelcaseKeys(response.data, { deep: true });
     return response;
   },
   (error) => {

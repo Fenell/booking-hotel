@@ -1,13 +1,12 @@
 import { motion } from "motion/react";
 import SidebarItem from "./SidebarItem";
 import sideBarStyle from "./Sidebar.module.css";
-// import { menus } from "@constants/menu";
 import { useCollapseDispatch, useCollapseSelector } from "@app/store/hooks";
 import { toogleCollapse } from "@app/store/collapse-slice";
 import CollapseButton from "./CollapseButton";
 import { useMenu } from "@features/menu/useMenu";
 
-const SideBar = () => {
+const Sidebar = () => {
   const isCollapse = useCollapseSelector((state) => state.collapse.isCollapse);
   const dispatch = useCollapseDispatch();
   const { data, isPending } = useMenu();
@@ -62,4 +61,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

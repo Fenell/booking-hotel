@@ -5,7 +5,7 @@ import {
 } from "react-hook-form";
 import type { IconResponse } from "../types/icon.type";
 import { useToast } from "@shared/hooks/useToast";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { createIcon, updateIcon } from "../api/icon.api";
@@ -31,7 +31,7 @@ export const useIconForm = (id?: string) => {
   const color = watch("color");
   const isEdit = Boolean(id);
 
-  const getIconRequest: DyanmicDataPagingRequest = {
+  const getIconRequest: DynamicDataPagingRequest = {
     tableNames: "icons",
     filters: [{ field: "id", operator: "=", value: id ?? "" }],
     pageSize: 10,

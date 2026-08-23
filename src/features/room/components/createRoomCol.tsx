@@ -2,7 +2,7 @@ import type { ColumnDef } from "@shared/components/DataGrid";
 import GridRowAction from "@shared/components/UI/GridRowAction/GridRowAction";
 import Switch from "@shared/components/UI/Switch/Switch";
 import { loadConfigGrid } from "@shared/services/configGridSetting";
-import type { RoomModel } from "@shared/types/room";
+import type { RoomModel } from "../types/room.type";
 
 const createRoomCol = (
   isLoading: boolean,

@@ -5,7 +5,7 @@ import {
   InfoIcon,
   SuccessIcon,
   WarningIcon,
-} from "./IconToas";
+} from "./ToastIcons";
 import toastStyle from "./Toast.module.css";
 
 import { motion } from "motion/react";

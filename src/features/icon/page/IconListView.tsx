@@ -1,22 +1,22 @@
-import IconCardItem from "./IconCardItem";
-import IconCreateItem from "./IconCreateItem";
+import IconCardItem from "../components/IconCardItem";
+import IconCreateItem from "../components/IconCreateItem";
 import iconStyle from "../style/Icon.module.css";
-import { useIconContext } from "../store/IconContext";
-import CreateAndUpdate from "./CreateAndUpdate";
+import { useIconContext } from "../context/IconContext";
+import CreateAndUpdateIcon from "../components/CreateAndUpdateIcon";
 import { useQuery } from "@tanstack/react-query";
 import { getDynamicData } from "@shared/services/dynamic";
-import type { DyanmicDataPagingRequest } from "@shared/types/dynamic";
+import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 import Spinner from "@shared/components/Spinner/Spinner";
 import type { IconResponse } from "../types/icon.type";
 import { AnimatePresence } from "motion/react";
 
-const iconRequest: DyanmicDataPagingRequest = {
+const iconRequest: DynamicDataPagingRequest = {
   tableNames: "icons",
   pageNumber: 1,
   pageSize: 1000,
 };
 
-const IconPageContent = () => {
+const IconListView = () => {
   const { isOpen } = useIconContext();
   const { data, isPending } = useQuery({
     queryKey: ["icons"],
@@ -28,7 +28,7 @@ const IconPageContent = () => {
   const iconData = data?.data;
   return (
     <>
-      <AnimatePresence>{isOpen && <CreateAndUpdate />}</AnimatePresence>
+      <AnimatePresence>{isOpen && <CreateAndUpdateIcon />}</AnimatePresence>
       <div style={{ width: "100%", height: "100%" }}>
         <div className={iconStyle.iconBox}>
           {iconData?.map((a) => (
@@ -42,4 +42,4 @@ const IconPageContent = () => {
   );
 };
 
-export default IconPageContent;
+export default IconListView;

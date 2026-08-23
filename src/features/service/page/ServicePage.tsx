@@ -1,10 +1,11 @@
-import ServicePageContent from "../components/ServicePageContent";
-import { ServiceContextProvider } from "../store/serviceContext";
+import ServiceListView from "./ServiceListView";
+import { ServiceContextProvider } from "../context/ServiceContext";
 
 const ServicePage = () => {
   return (
     <ServiceContextProvider>
-      <ServicePageContent></ServicePageContent>
+      <title>Quản lý dịch vụ</title>
+      <ServiceListView />
     </ServiceContextProvider>
   );
 };
