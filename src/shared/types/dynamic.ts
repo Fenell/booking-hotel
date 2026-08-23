@@ -12,7 +12,8 @@ export type DyanmicDataPagingRequest = {
 
 export type DynamicDataPagingResponse<T extends readonly unknown[]> = {
   data: T;
-  tota: bigint;
+  /** Tổng số bản ghi — function get_data trả key `total` */
+  total: number;
   pageSize: number;
   pageNumber: number;
 };

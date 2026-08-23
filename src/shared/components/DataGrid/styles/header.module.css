@@ -1,0 +1,91 @@
+.th {
+  position: relative; /* neo cho .resizer */
+  height: var(--dg-header-height);
+  padding: 0 var(--dg-cell-px);
+  background: var(--dg-header-bg);
+  border-bottom: 1px solid var(--dg-border);
+  font-weight: 600;
+  font-size: var(--dg-font-size);
+  color: var(--dg-text);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.thPinned {
+  z-index: var(--dg-z-header-sticky);
+  background: var(--dg-header-bg);
+}
+/* getPinnedStyle đã set position: sticky + left/right cho ô ghim */
+
+.thInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  min-width: 0;
+}
+
+.thLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.alignRight .thInner { flex-direction: row-reverse; }
+.alignCenter .thInner { justify-content: center; }
+
+.sortable { cursor: pointer; }
+.sortable:hover { background: #eef1f6; }
+
+.sortIcon {
+  color: var(--dg-accent);
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sortIndex {
+  font-size: 10px;
+  color: var(--dg-text-secondary);
+}
+
+/* Tay kéo resize ở mép phải header */
+.resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 1;
+}
+
+.resizer::after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  right: 3px;
+  width: 1px;
+  background: var(--dg-border-strong);
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.th:hover .resizer::after,
+.resizing.resizer::after {
+  opacity: 1;
+}
+
+.resizing.resizer::after {
+  background: var(--dg-accent);
+  width: 2px;
+}
+
+/* Viền phân cách vùng ghim */
+.edgeLeft { border-right: 1px solid var(--dg-border-strong); }
+.edgeRight { border-left: 1px solid var(--dg-border-strong); }

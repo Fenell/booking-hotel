@@ -1,0 +1,145 @@
+/* ===== Khung gốc: TOÀN BỘ design tokens của grid nằm ở đây =====
+   Grid tự khép kín — không đọc biến CSS của repo, tự set font/line-height
+   để chặn `:root { line-height: 1.5rem }` và theme Syncfusion global. */
+.root {
+  /* Bảng màu — phỏng theme Quartz của AG Grid */
+  --dg-font: "Inter", system-ui, -apple-system, sans-serif;
+  --dg-font-size: 13px;
+  --dg-line-height: 1.4;
+  --dg-text: #181d1f;
+  --dg-text-secondary: #6b7280;
+  --dg-border: #dde2eb;
+  --dg-border-strong: #c4ccd8;
+  --dg-bg: #ffffff;
+  --dg-header-bg: #f8f9fb;
+  --dg-row-hover: #f1f5fb;
+  --dg-row-selected: #e8f1fd;
+  --dg-accent: #2563eb;
+  --dg-accent-soft: #dbeafe;
+  --dg-flash-bg: #fef3c7;
+  --dg-radius: 8px;
+  --dg-radius-sm: 5px;
+
+  /* Kích thước */
+  --dg-row-height: 40px;
+  --dg-header-height: 44px;
+  --dg-filter-row-height: 40px;
+  --dg-cell-px: 12px;
+
+  /* Z-index 4 lớp: body < body-pinned < header < header-pinned < overlay < popup */
+  --dg-z-sticky: 2;
+  --dg-z-header: 3;
+  --dg-z-header-sticky: 4;
+  --dg-z-overlay: 5;
+  --dg-z-popup: 6;
+
+  font-family: var(--dg-font);
+  font-size: var(--dg-font-size);
+  line-height: var(--dg-line-height);
+  color: var(--dg-text);
+  box-sizing: border-box;
+  background: var(--dg-bg);
+  border: 1px solid var(--dg-border);
+  border-radius: var(--dg-radius);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  overflow: hidden; /* bo góc ăn vào cả header/pager */
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+/* ===== Cấu trúc 3 viewport (kiểu AG Grid): header và footer đứng cố định
+   trong viewport overflow:hidden, body là viewport CUỘN DUY NHẤT — thanh cuộn
+   dọc/ngang chỉ nằm ở vùng dữ liệu. Cuộn ngang đồng bộ scrollLeft từ body
+   sang header/footer; bề rộng thanh cuộn dọc được bù bằng padding-right. ===== */
+.gridViewport {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Hàng header/footer = viewport cuộn (flex:1) + spacer bù thanh cuộn dọc.
+   LƯU Ý: scrollbar-gutter KHÔNG có hiệu lực với overflow:hidden (spec chỉ áp
+   dụng cho auto/scroll) nên phải bù bằng spacer element thật — spacer nằm
+   NGOÀI viewport cuộn nên nội dung cuộn ngang không bao giờ lộ vào. */
+.headerBar,
+.footerBar {
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 0;
+  background: var(--dg-header-bg);
+}
+
+.footerBar {
+  border-top: 1px solid var(--dg-border-strong);
+}
+
+.headerViewport,
+.footerViewport {
+  overflow: hidden; /* vẫn là scroll container → set scrollLeft bằng JS được */
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Bề rộng = thanh cuộn dọc của body, đo bằng ResizeObserver → --dg-sbw */
+.viewportSpacer {
+  flex: 0 0 var(--dg-sbw, 0px);
+}
+
+.viewportSpacerHeader {
+  border-bottom: 1px solid var(--dg-border);
+}
+
+/* Vùng cuộn body — tabIndex=0 sẵn cho keyboard navigation v2 */
+.scrollArea {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  outline: none;
+  /* Luôn chừa chỗ thanh cuộn dọc kể cả khi chưa cần → cột không "nhảy"
+     khi đổi giữa trang có/không thanh cuộn (spacer header đo theo đây) */
+  scrollbar-gutter: stable;
+}
+
+/* Khi truyền prop `height`: tắt flex-grow để chiều cao inline thắng —
+   flex: 1 có flex-basis 0% nên height bị flex bỏ qua, grid sẽ giãn theo
+   nội dung thay vì hiện thanh cuộn dọc */
+.scrollAreaFixed {
+  flex: 0 0 auto;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  /* Hẹp hơn khung → giãn phủ hết chiều ngang; rộng hơn (resize cột) →
+     vượt min-width, .scrollArea (overflow: auto) hiện thanh cuộn ngang */
+  min-width: 100%;
+}
+
+/* Thanh công cụ trên cùng (column chooser + slot tùy biến) */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--dg-border);
+  background: var(--dg-bg);
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+}

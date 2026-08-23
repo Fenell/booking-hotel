@@ -1,5 +1,6 @@
 import Login from "@features/auth/Login";
 import DashBoard from "@features/dashboard/page/DashBoard";
+import DemoGridPage from "@features/demo-grid/page/DemoGridPage";
 import IconPage from "@features/icon/page/IconPage";
 import RoomPage from "@features/room/page/RoomPage";
 import ServicePage from "@features/service/page/ServicePage";
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
           { path: "service", element: <ServicePage /> },
           { path: "room-type", element: <TypeRoomPage /> },
           { path: "room", element: <RoomPage /> },
+          { path: "demo-grid", element: <DemoGridPage /> },
           // { path: "order", element: <Order /> },
           // { path: "sales", element: <Sales /> },
           // { path: "image", element: <Image /> },

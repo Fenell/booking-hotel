@@ -2,6 +2,10 @@ main {
   margin-top: var(--nav-height);
   max-width: calc(100wh - var(--sidebar-width));
   height: calc(100vh - var(--nav-height));
+  /* main là grid item của track 1fr (root-layout) — mặc định min-width: auto
+     nên không co dưới min-content của nội dung: bảng/grid rộng sẽ đẩy cả trang
+     có thanh cuộn ngang. min-width: 0 để nội dung rộng tự cuộn TRONG chính nó. */
+  min-width: 0;
   /* background-color: #eaecf0; */
   border-radius: 10px 10px 0 0;
   /* overflow-y: auto; */

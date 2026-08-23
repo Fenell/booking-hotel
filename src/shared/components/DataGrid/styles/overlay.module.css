@@ -1,0 +1,35 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--dg-z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+/* Spinner CSS thuần */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--dg-accent-soft);
+  border-top-color: var(--dg-accent);
+  border-radius: 50%;
+  animation: dgSpin 0.7s linear infinite;
+}
+
+@keyframes dgSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Refetch giữ dữ liệu cũ → mờ nhẹ */
+.fetching { opacity: 0.55; transition: opacity 0.15s; }
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  color: var(--dg-text-secondary);
+  font-size: 13px;
+}

@@ -1,0 +1,57 @@
+.td {
+  height: var(--dg-row-height);
+  padding: 0 var(--dg-cell-px);
+  background: var(--dg-bg);
+  border-bottom: 1px solid var(--dg-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.tdPinned {
+  position: sticky;
+  z-index: var(--dg-z-sticky);
+}
+
+.alignRight { text-align: right; }
+.alignCenter { text-align: center; }
+
+/* Hover/selected phải set trên td (tr sticky trong suốt) */
+.tr:hover .td { background: var(--dg-row-hover); }
+.trSelected .td { background: var(--dg-row-selected); }
+.trClickable { cursor: pointer; }
+
+/* Flash sau updateRow — gắn class rồi gỡ khi animationend */
+@keyframes dgFlash {
+  0% { background: var(--dg-flash-bg); }
+  100% { background: var(--dg-bg); }
+}
+.trFlash .td { animation: dgFlash 1s ease-out; }
+
+.edgeLeft { border-right: 1px solid var(--dg-border-strong); }
+.edgeRight { border-left: 1px solid var(--dg-border-strong); }
+
+/* Checkbox tự vẽ — không input/label để né bug trùng id */
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: var(--dg-bg);
+  border: 1.5px solid var(--dg-border-strong);
+  border-radius: 4px;
+  cursor: pointer;
+  color: transparent;
+  vertical-align: middle;
+}
+
+.checkbox:hover { border-color: var(--dg-accent); }
+
+.checkboxChecked {
+  background: var(--dg-accent);
+  border-color: var(--dg-accent);
+  color: #fff;
+}
