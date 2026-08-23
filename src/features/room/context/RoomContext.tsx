@@ -1,5 +1,11 @@
-import type { Grid, GridComponent } from "@syncfusion/ej2-react-grids";
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  type ReactNode,
+} from "react";
 
 type RoomState = {
   isOpen: boolean;
@@ -17,12 +23,7 @@ type OpenOrCloseDialog = {
   idRoom?: string;
 };
 
-type SetGridRef = {
-  type: "SET_GRID_REF";
-  gridRef?: Grid | null;
-};
-
-type RoomAction = OpenOrCloseDialog | SetGridRef;
+type RoomAction = OpenOrCloseDialog;
 
 const roomReducer = (state: RoomState, action: RoomAction): RoomState => {
   if (action.type === "OPEN_OR_CLOSE") {
@@ -48,16 +49,21 @@ export const RoomContextProvider = ({ children }: { children: ReactNode }) => {
     isLoading: false,
   });
 
-  const openDialog = (isOpen: boolean, idRoom?: string) => {
+  // Giữ tham chiếu ổn định: bộ cột của lưới được useMemo theo openDialog,
+  // hàm mới mỗi render sẽ làm memo hoá đó vô nghĩa.
+  const openDialog = useCallback((isOpen: boolean, idRoom?: string) => {
     dispatch({ type: "OPEN_OR_CLOSE", isOpen, idRoom });
-  };
+  }, []);
 
-  const ctx: RoomContextValue = {
-    isOpen: roomState.isOpen,
-    isLoading: roomState.isLoading,
-    id: roomState.id,
-    openDialog,
-  };
+  const ctx: RoomContextValue = useMemo(
+    () => ({
+      isOpen: roomState.isOpen,
+      isLoading: roomState.isLoading,
+      id: roomState.id,
+      openDialog,
+    }),
+    [roomState.isOpen, roomState.isLoading, roomState.id, openDialog],
+  );
 
   return <RoomContext.Provider value={ctx}>{children}</RoomContext.Provider>;
 };

@@ -1,82 +1,51 @@
-import CreateAndUpdateRoom from "../components/CreateAndUpdateRoom";
-import roomStyle from "../style/room.module.css";
-import { Button } from "@shared/components/UI";
-import { useRoomGrid } from "../hook/useRoomGrid";
-import { useRoomLogic } from "../hook/useRoomLogic";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { AnimatePresence } from "motion/react";
-
-import Popover from "@shared/components/Popover/Popover";
-import { ColumnSetting } from "@shared/components/Settings/ColumnSetting";
-import type { RoomModel } from "../types/room.type";
 import {
-  ColumnDirective,
-  ColumnsDirective,
-  Edit,
-  Freeze,
-  GridComponent,
-  Inject,
-  Page,
-  Resize,
-} from "@syncfusion/ej2-react-grids";
-
-import StatusSwitch from "../components/StatusSwitch";
-import { useRef, useState } from "react";
-import GridRowAction from "@shared/components/UI/GridRowAction/GridRowAction";
+  DataGrid,
+  type DataGridRef,
+  type PersistedColumnState,
+} from "@shared/components/DataGrid";
+import { Button } from "@shared/components/UI";
+import Popover from "@shared/components/Popover/Popover";
+import { DataGridColumnSetting } from "@shared/components/Settings/DataGridColumnSetting";
+import CreateAndUpdateRoom from "../components/CreateAndUpdateRoom";
+import createRoomCol from "../components/createRoomCol";
+import { useRoomLogic } from "../hook/useRoomLogic";
+import type { RoomModel } from "../types/room.type";
+import roomStyle from "../style/room.module.css";
 
 const RoomListView = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const logic = useRoomLogic();
-  const gridRef = useRef<GridComponent | null>(null);
-  const { pageOptions, colConfig, setColConfig } = useRoomGrid({
-    onEditRoom: logic.handleEditRoom,
-  });
-  // console.log(colDefs);
+  const gridRef = useRef<DataGridRef<RoomModel>>(null);
+  const [colState, setColState] = useState<PersistedColumnState[]>([]);
 
-  const updateData = (dataUpdated: RoomModel) => {
-    const updatedDtSource = gridRef.current!.dataSource.map((c) =>
-      c.id === dataUpdated.id ? { ...c, ...dataUpdated } : c,
+  // Đọc trạng thái cột ngay trước lúc popover mở — trong handler sự kiện nên
+  // truy cập ref ở đây là hợp lệ (và grid chắc chắn đã mount xong).
+  const handleColumnPanelOpen = useCallback((open: boolean) => {
+    if (open) setColState(gridRef.current?.getColumnState() ?? []);
+  }, []);
+
+  const handleToggleColumn = useCallback((field: string, visible: boolean) => {
+    gridRef.current?.setColumnVisible(field, visible);
+    setColState((prev) =>
+      prev.map((col) => (col.field === field ? { ...col, visible } : col)),
     );
-    gridRef.current!.dataSource = updatedDtSource;
-  };
+  }, []);
 
-  const handleSuccessUpdateStatus = (
-    roomId: string,
-    updatedData: RoomModel,
-  ) => {
-    updateData(updatedData);
-  };
-
-  // Track loading state of each row
-  const handleLoadingChange = (roomId: string, isLoading: boolean) => {
-    setIsLoading(isLoading);
-  };
-
-  const statusTemplate = (props: RoomModel) => (
-    <StatusSwitch
-      data={props}
-      onSuccessUpdateStaus={(data) => handleSuccessUpdateStatus(props.id, data)}
-      onLoadingChange={(isLoading) => handleLoadingChange(props.id, isLoading)}
-    />
+  const columns = useMemo(
+    () =>
+      createRoomCol({
+        onEdit: logic.handleEditRoom,
+        onStatusUpdated: logic.applyRoomUpdate,
+      }),
+    [logic.handleEditRoom, logic.applyRoomUpdate],
   );
-
-  const actionTempplate = (props: RoomModel) => (
-    <GridRowAction
-      data={props}
-      actions={["edit"]}
-      onEdit={(row) => logic.handleEditRoom(row.id)}
-    />
-  );
-  const handleUpdateSuccess = (data: RoomModel): void => {
-    updateData(data);
-  };
 
   return (
     <>
       <AnimatePresence>
         {logic.isOpen && (
-          <CreateAndUpdateRoom
-            onSuccess={(data) => handleUpdateSuccess(data)}
-          />
+          <CreateAndUpdateRoom onSuccess={logic.applyRoomUpdate} />
         )}
       </AnimatePresence>
       <div className={roomStyle.box}>
@@ -90,69 +59,39 @@ const RoomListView = () => {
           </Button>
           <Popover
             noAnimation
-            content={
-              <ColumnSetting
-                gridRef={gridRef}
-                girdKey="room"
-                onChangeCol={(newCols) => setColConfig(newCols)}
-              />
-            }
             status="success"
             position="bottom-right"
+            onOpenChange={handleColumnPanelOpen}
+            content={
+              <DataGridColumnSetting
+                colState={colState}
+                columns={columns}
+                onToggle={handleToggleColumn}
+              />
+            }
           >
             <i className="fa-regular fa-list"></i>
           </Popover>
         </div>
 
-        {/* <DataGrid<RoomModel>
-          isLoading={logic.isPending}
-          onGridReady={logic.onGridReady}
-          getRowId={(row) => row.id}
-          columns={colDefs}
-          enableResize
-          enablePinning
-          enableSort
-          showSummary
-          data={logic.data?.data ?? []}
-          pageSizeOptions={paginationPageSizeSelector}
-        /> */}
-        <div style={{ minWidth: 0 }}>
-          <GridComponent
-            ref={(g) => (gridRef.current = g)}
-            dataSource={logic.data?.data}
-            allowResizing={true}
-            width="100%"
-            height="100%"
-            allowPaging={true}
-            pageSettings={pageOptions}
-          >
-            <ColumnsDirective>
-              {colConfig.map((a) => (
-                <ColumnDirective
-                  field={a.field}
-                  headerText={a.headerText}
-                  width={a.width}
-                  visible={a.visible}
-                  textAlign={a.textAlign}
-                  isPrimaryKey={a.isPrimaryKey}
-                  displayAsCheckBox={a.displayAsCheckBox}
-                  format={"N0"}
-                />
-              ))}
-              <ColumnDirective
-                headerText="Trạng thái"
-                width="120"
-                template={statusTemplate}
-              />
-              <ColumnDirective
-                template={actionTempplate}
-                headerText="Thao tác"
-                width="120"
-                freeze="Right"
-              />
-            </ColumnsDirective>
-            <Inject services={[Resize, Page, Freeze, Edit]} />
-          </GridComponent>
+        {/* Bọc một lớp flex có min-width/min-height 0: nếu thiếu, min-content
+            của bảng lan ngược lên làm thanh cuộn ngang nhảy ra ngoài page
+            (xem DataGrid/README mục 11). */}
+        <div className={roomStyle.gridWrap}>
+          <DataGrid<RoomModel>
+            ref={gridRef}
+            gridKey="room"
+            /* Nút chọn cột đã nằm ngoài, trên thanh hành động của trang */
+            enableColumnChooser={false}
+            className={roomStyle.grid}
+            columns={columns}
+            data={logic.data?.data ?? []}
+            getRowId={(row) => row.id}
+            isLoading={logic.isPending}
+            pageSizeOptions={[20, 50, 100]}
+            footerLabel="Tổng"
+            emptyMessage="Chưa có phòng nào"
+          />
         </div>
       </div>
     </>

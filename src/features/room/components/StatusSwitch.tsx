@@ -2,26 +2,21 @@ import Switch from "@shared/components/UI/Switch/Switch";
 import { useToast } from "@shared/hooks/useToast";
 import type { RoomModel } from "../types/room.type";
 import { useMutation } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { changeStatus } from "../api/room.api";
 
 export type StatusSwitchProp = {
   data: RoomModel;
-  onSuccessUpdateStaus: (data: RoomModel) => void;
-  onLoadingChange: (isLoading: boolean) => void;
+  onSuccessUpdateStatus: (data: RoomModel) => void;
 };
 
-const StatusSwitch = ({
-  data,
-  onLoadingChange,
-  onSuccessUpdateStaus,
-}: StatusSwitchProp) => {
+const StatusSwitch = ({ data, onSuccessUpdateStatus }: StatusSwitchProp) => {
   const checked: boolean = data.status === 1;
   const toast = useToast();
 
   const handleChangeStatusSuccess = (data: RoomModel) => {
     toast.success("Đổi trạng thái thành công ^_^");
-    onSuccessUpdateStaus(data);
+    onSuccessUpdateStatus(data);
   };
 
   const { mutate, isPending } = useMutation({
@@ -29,10 +24,6 @@ const StatusSwitch = ({
     onSuccess: (data) => handleChangeStatusSuccess(data),
     onError: () => toast.warning("Đổi trạng thái không thành công T_T"),
   });
-
-  useEffect(() => {
-    onLoadingChange(isPending);
-  }, [isPending, onLoadingChange]);
 
   const handleToogle = useCallback(
     (checked: boolean) => {

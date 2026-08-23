@@ -23,6 +23,12 @@ type PopoverProp = {
   children?: ReactNode;
   position?: PopoverPosition;
   btnProps?: ComponentPropsWithoutRef<"button">;
+  /**
+   * Gọi khi popover đóng/mở. Dùng để nạp dữ liệu cho `content` ngay trước lúc
+   * nó mount — đây là handler sự kiện nên đọc ref ở đây là hợp lệ.
+   * (không dùng được `btnProps.onClick`: nó bị onClick nội bộ ghi đè)
+   */
+  onOpenChange?: (open: boolean) => void;
 };
 const getVariants = (position: string) => {
   switch (position) {
@@ -72,6 +78,7 @@ const Popover = ({
   children,
   position = "bottom-left",
   btnProps,
+  onOpenChange,
 }: PopoverProp) => {
   const [isVisible, setIsVisible] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -114,6 +121,7 @@ const Popover = ({
   }, []);
 
   const toggleVisibility = () => {
+    onOpenChange?.(!isVisible);
     setIsVisible(!isVisible);
   };
 

@@ -2,8 +2,9 @@ import type { ResponseApi } from "@shared/types/common";
 import { useRoomContext } from "../context/RoomContext";
 import type { RoomCreateRequest, RoomModel } from "../types/room.type";
 import { useToast } from "@shared/hooks/useToast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createRoom, getRoomDetail, updateRoom } from "../api/room.api";
+import { roomKeys } from "../api/room.keys";
 import { useEffect, useRef } from "react";
 import {
   useForm,
@@ -13,7 +14,6 @@ import {
 import { uploadImages } from "../api/image.api";
 import type { FileInput } from "@shared/components/UI/Image/DragAndDropImage";
 import type { UploadImageRequest } from "../types/image.type";
-import type { GridComponent } from "@syncfusion/ej2-react-grids";
 
 const defaultValues: DefaultValues<RoomCreateRequest> = {
   roomName: "",
@@ -34,6 +34,7 @@ const defaultValues: DefaultValues<RoomCreateRequest> = {
 export const useRoomForm = (onSuccess: (data: RoomModel) => void) => {
   const methods = useForm<RoomCreateRequest>({ defaultValues });
   const { openDialog, id } = useRoomContext();
+  const queryClient = useQueryClient();
   const toast = useToast();
   const { reset } = methods;
   const isEdit: boolean = Boolean(id);
@@ -57,6 +58,9 @@ export const useRoomForm = (onSuccess: (data: RoomModel) => void) => {
       } else {
         toast.success("Thêm mới thành công ^_^");
         reset(defaultValues);
+        // Response của tạo mới chỉ có id nên không ghép thẳng vào cache được —
+        // nạp lại danh sách để phòng mới xuất hiện trên lưới.
+        queryClient.invalidateQueries({ queryKey: roomKeys.list() });
       }
       openDialog(false);
     } else {
@@ -83,7 +87,7 @@ export const useRoomForm = (onSuccess: (data: RoomModel) => void) => {
   });
 
   const { data, isPending } = useQuery({
-    queryKey: ["rooms", id],
+    queryKey: roomKeys.detail(id),
     queryFn: ({ signal }) => getRoomDetail({ signal }, id),
     enabled: isEdit,
   });
