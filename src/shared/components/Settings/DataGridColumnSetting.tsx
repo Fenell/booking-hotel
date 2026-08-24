@@ -14,8 +14,7 @@ export type DataGridColumnSettingProps<T> = {
 
 /**
  * Bảng chọn ẩn/hiện cột cho DataGrid, đặt NGOÀI grid (thường nhét vào Popover
- * trên thanh hành động của trang). Khác `ColumnSetting` — bản đó nói chuyện với
- * Syncfusion qua localStorage; bản này chỉ hiển thị, còn việc đọc/ghi trạng
+ * trên thanh hành động của trang). Bản thân nó chỉ hiển thị: việc đọc/ghi trạng
  * thái cột do nơi gọi làm qua API ref của DataGrid (grid tự lo phần lưu theo
  * `gridKey`).
  *

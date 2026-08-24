@@ -1,92 +1,44 @@
-import { getDynamicData } from "@shared/services/dynamic";
-import { useQuery } from "@tanstack/react-query";
-import type { ServiceResponse } from "../types/service.type";
-import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
+import {
+  buildServerFieldMap,
+  useServerGrid,
+} from "@shared/components/DataGrid";
 import { useServiceContext } from "../context/ServiceContext";
-import { loadConfigGrid } from "@shared/services/configGridSetting";
 import { serviceKeys } from "../api/service.keys";
-import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
+import createServiceCol from "../components/createServiceCol";
+import type { ServiceResponse } from "../types/service.type";
 
-const serviceRequest: DynamicDataPagingRequest = {
-  tableNames: "view_service_with_icon",
-  pageSize: 100,
-  pageNumber: 1,
-};
-
+/**
+ * Nối lưới Dịch vụ với view `view_service_with_icon` theo kiểu server-side:
+ * lọc / sắp xếp / phân trang đều chạy dưới Postgres qua `POST /dynamic/get-data`.
+ *
+ * Khác lưới Phòng (đang phải chạy client-side vì `view_room` join sang dịch vụ
+ * nên một phòng ra nhiều dòng) — view của dịch vụ mỗi dòng là một dịch vụ nên
+ * đi thẳng server-side được.
+ */
 export const useServiceGrid = () => {
-  const { data, isPending } = useQuery({
-    queryKey: serviceKeys.grid(),
-    queryFn: () => getDynamicData<ServiceResponse[]>(serviceRequest),
-  });
   const { openOrCloseDialog } = useServiceContext();
 
-  const [colConfig, setColConfig] = useState(
-    () => loadConfigGrid("service") as GridColumnModel[],
-  );
-
-  const handleUpdateColDef = (newCols: GridColumnModel[]) => {
-    setColConfig(newCols);
-  };
-
-  const pageOptions = useMemo(() => {
-    return {
-      pageSize: 20,
-      pageSizes: [20, 50, "All"],
-    };
-  }, []);
-
-  // const handleClickAction = useCallback(
-  //   (id?: string) => {
-  //     openOrCloseDialog(true, id);
-  //     // console.log(id);
-  //   },
-  //   [openOrCloseDialog],
-  // );
-
-  const handleClickAction = useCallback(
-    (id?: string) => {
-      openOrCloseDialog(true, id);
-    },
+  const handleEditService = useCallback(
+    (id: string) => openOrCloseDialog(true, id),
     [openOrCloseDialog],
   );
 
-  // const actionCol = useMemo<GridColumnModel>(
-  //   () => ({
-  //     field: "actions",
-  //     headerName: "Thao tác",
-  //     pinned: "right",
-  //     // type: "rightAligned",
-  //     width: 120,
-  //     cellComponent: ActionServiceCol,
-  //     cellProps: ({
-  //       row: data,
-  //     }: DataGridCellComponentProps<ServiceResponse>): Pick<
-  //       ActionCellRendererProps<ServiceResponse>,
-  //       "onClick"
-  //     > => ({
-  //       onClick: () => handleClickAction(data?.id),
-  //     }),
-  //   }),
-  //   [handleClickAction],
-  // );
+  const columns = useMemo(
+    () => createServiceCol({ onEdit: handleEditService }),
+    [handleEditService],
+  );
 
-  // const colDefs = useMemo(() => {
-  //   return [...colConfig, actionCol];
-  // }, [colConfig, actionCol]);
+  // Giữ tham chiếu ổn định: serviceKeys.grid() tạo mảng mới mỗi lần gọi.
+  const queryKey = useMemo(() => serviceKeys.grid(), []);
 
-  // const defaultColDef = useMemo<ColDef>(() => {
-  //   return {
-  //     editable: false,
-  //     flex: 1,
-  //   };
-  // }, []);
+  const grid = useServerGrid<ServiceResponse>({
+    tableNames: "view_service_with_icon",
+    queryKey,
+    initialPageSize: 20,
+    initialSorts: [{ field: "serviceName", direction: "asc" }],
+    serverFields: buildServerFieldMap(columns),
+  });
 
-  return {
-    colConfig,
-    pageOptions,
-    data,
-    isPending,
-    setColConfig: handleUpdateColDef,
-  };
+  return { columns, grid };
 };

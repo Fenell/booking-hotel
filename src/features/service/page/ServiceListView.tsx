@@ -1,39 +1,39 @@
+import { useCallback, useRef, useState } from "react";
+import { AnimatePresence } from "motion/react";
+import {
+  DataGrid,
+  type DataGridRef,
+  type PersistedColumnState,
+} from "@shared/components/DataGrid";
+import { Button } from "@shared/components/UI";
+import Popover from "@shared/components/Popover/Popover";
+import { DataGridColumnSetting } from "@shared/components/Settings/DataGridColumnSetting";
+import CreateAndUpdateService from "../components/CreateAndUpdateService";
 import { useServiceGrid } from "../hook/useServiceGrid";
 import { useServiceContext } from "../context/ServiceContext";
-import CreateAndUpdateService from "../components/CreateAndUpdateService";
+import type { ServiceResponse } from "../types/service.type";
 import serviceStyle from "../style/service.module.css";
-import { Button } from "@shared/components/UI";
-import { AnimatePresence } from "motion/react";
-
-import {
-  ColumnDirective,
-  ColumnsDirective,
-  Edit,
-  Freeze,
-  GridComponent,
-  Inject,
-  Page,
-  Resize,
-  type PageSettingsModel,
-} from "@syncfusion/ej2-react-grids";
-import {
-  SERVICE_KIND_LABEL,
-  type ServiceResponse,
-} from "../types/service.type";
-import { ColumnSetting } from "@shared/components/Settings/ColumnSetting";
-import Popover from "@shared/components/Popover/Popover";
-import ActionServiceCol from "../components/ActionServiceCol";
-import { useRef } from "react";
 
 const ServiceListView = () => {
-  const { colConfig, pageOptions, data, setColConfig } = useServiceGrid();
+  const { columns, grid } = useServiceGrid();
   const { isOpen, openOrCloseDialog } = useServiceContext();
 
-  const gridRef = useRef<GridComponent | null>(null);
+  const gridRef = useRef<DataGridRef<ServiceResponse>>(null);
+  const [colState, setColState] = useState<PersistedColumnState[]>([]);
 
-  const kindTemplate = (props: ServiceResponse) => {
-    return <span>{SERVICE_KIND_LABEL[props.kind] ?? "—"}</span>;
-  };
+  // Đọc trạng thái cột ngay trước lúc popover mở — trong handler sự kiện nên
+  // truy cập ref ở đây là hợp lệ (và grid chắc chắn đã mount xong).
+  const handleColumnPanelOpen = useCallback((open: boolean) => {
+    if (open) setColState(gridRef.current?.getColumnState() ?? []);
+  }, []);
+
+  const handleToggleColumn = useCallback((field: string, visible: boolean) => {
+    gridRef.current?.setColumnVisible(field, visible);
+    setColState((prev) =>
+      prev.map((col) => (col.field === field ? { ...col, visible } : col)),
+    );
+  }, []);
+
   return (
     <>
       <AnimatePresence>{isOpen && <CreateAndUpdateService />}</AnimatePresence>
@@ -48,78 +48,42 @@ const ServiceListView = () => {
           </Button>
           <Popover
             noAnimation
-            content={
-              <ColumnSetting
-                gridRef={gridRef}
-                girdKey="service"
-                onChangeCol={(newCols) => setColConfig(newCols)}
-              />
-            }
             status="success"
             position="bottom-right"
+            onOpenChange={handleColumnPanelOpen}
+            content={
+              <DataGridColumnSetting
+                colState={colState}
+                columns={columns}
+                onToggle={handleToggleColumn}
+              />
+            }
           >
             <i className="fa-regular fa-list"></i>
           </Popover>
         </div>
-        {/* <DataGrid<ServiceResponse>
-          isLoading={isPending}
-          // contentHeight={500}
-          enableResize
-          enableSort
-          enablePinning
-          getRowId={(row) => row.id}
-          columns={colDefs}
-          data={data?.data ?? []}
-          serverSide={false}
-          pageSizeOptions={[20, 50, 100]}
-        /> */}
-        <div style={{ minWidth: 0 }}>
-          <GridComponent
-            ref={(g) => (gridRef.current = g)}
-            dataSource={data?.data}
-            allowResizing={true}
-            width="100%"
-            height="100%"
-            allowPaging={true}
-            pageSettings={pageOptions}
-          >
-            {/* <ColumnDirective type="checkbox" width="10" /> */}
-            <ColumnsDirective>
-              {colConfig.map((a) => {
-                if (a.field === "kind") {
-                  return (
-                    <ColumnDirective
-                      field={a.field}
-                      headerText={a.headerText}
-                      width={a.width}
-                      visible={a.visible}
-                      textAlign={a.textAlign}
-                      template={kindTemplate}
-                    />
-                  );
-                }
-                return (
-                  <ColumnDirective
-                    field={a.field}
-                    headerText={a.headerText}
-                    width={a.width}
-                    visible={a.visible}
-                    textAlign={a.textAlign}
-                    isPrimaryKey={a.isPrimaryKey}
-                    type={a.type}
-                    format={a.format}
-                  />
-                );
-              })}
-              <ColumnDirective
-                headerText="Thao tác"
-                width="100"
-                freeze="Right"
-                template={ActionServiceCol}
-              />
-            </ColumnsDirective>
-            <Inject services={[Resize, Page, Freeze, Edit]} />
-          </GridComponent>
+
+        {/* Bọc một lớp flex có min-width/min-height 0: nếu thiếu, min-content
+            của bảng lan ngược lên làm thanh cuộn ngang nhảy ra ngoài page
+            (xem DataGrid/README mục 11). */}
+        <div className={serviceStyle.gridWrap}>
+          <DataGrid<ServiceResponse>
+            ref={gridRef}
+            gridKey="service"
+            /* Nút chọn cột đã nằm ngoài, trên thanh hành động của trang */
+            enableColumnChooser={false}
+            className={serviceStyle.grid}
+            columns={columns}
+            data={grid.data}
+            getRowId={(row) => row.id}
+            rowCount={grid.total}
+            state={grid.gridState}
+            onStateChange={grid.setGridState}
+            isLoading={grid.isLoading}
+            isFetching={grid.isFetching}
+            pageSizeOptions={[20, 50, 100]}
+            emptyMessage="Chưa có dịch vụ nào"
+          />
         </div>
       </div>
     </>

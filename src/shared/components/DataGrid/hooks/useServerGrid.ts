@@ -26,8 +26,11 @@ export type UseServerGridOptions<T> = {
   fetcher?: (state: ServerGridState) => Promise<ServerPage<T>>;
   /** Tên bảng/view Postgres cho đường mặc định, vd "rooms" — bắt buộc nếu không có fetcher */
   tableNames?: string;
-  /** Prefix queryKey React Query */
-  queryKey: string;
+  /**
+   * Prefix queryKey React Query — chuỗi hoặc mảng key của feature
+   * (vd `serviceKeys.grid()`), grid nối thêm tableNames + gridState vào sau.
+   */
+  queryKey: string | readonly unknown[];
   initialPageSize?: number;
   initialSorts?: GridSortState[];
   fields?: string;
@@ -80,7 +83,13 @@ export const useServerGrid = <T,>(
 
   const queryClient = useQueryClient();
   const queryKey = useMemo(
-    () => [options.queryKey, options.tableNames ?? "custom", gridState] as const,
+    () => [
+      ...(typeof options.queryKey === "string"
+        ? [options.queryKey]
+        : options.queryKey),
+      options.tableNames ?? "custom",
+      gridState,
+    ],
     [options.queryKey, options.tableNames, gridState],
   );
 

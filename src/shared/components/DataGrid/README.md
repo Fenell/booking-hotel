@@ -1,13 +1,18 @@
 # DataGrid — Grid tự dựng (lõi TanStack Table v8, giao diện kiểu AG Grid)
 
-Grid dùng chung của dự án, thay thế Syncfusion Grid cho các màn danh sách.
+Grid dùng chung của dự án. Từ 25/08/2026 nó là grid **duy nhất** — Syncfusion đã
+được gỡ khỏi repo (package, license key, theme CDN, locale `vi.json`).
 Toàn bộ nằm trong thư mục này, **CSS độc lập hoàn toàn** với phần còn lại của app
-(tokens `--dg-*` riêng, không bị theme Syncfusion CDN hay `index.css` tác động).
+(tokens `--dg-*` riêng, không bị `index.css` tác động).
 
 Trang demo sống: `/demo-grid` (source: `src/features/demo-grid/`) — là **mẫu
 chuẩn để copy áp dụng**: Grid 1 = server-side 1.000 dòng giả lập (option
 `fetcher`), Grid 2 = client-side 1.000 dòng + cột map động; cả hai cố định
 chiều cao qua prop `height`, resize cột vượt khung tự hiện thanh cuộn ngang.
+
+Hai màn thật để đối chiếu: **Dịch vụ** (`features/service/`) chạy server-side
+qua `useServerGrid` + view `view_service_with_icon`; **Phòng** (`features/room/`)
+chạy client-side vì `view_room` join sang dịch vụ nên một phòng ra nhiều dòng.
 
 ```
 DataGrid/
@@ -41,7 +46,7 @@ Cách nối chuẩn là hook `useServerGrid` (React Query + `POST /dynamic/get-d
 ```tsx
 const grid = useServerGrid<RoomRow>({
   tableNames: "rooms",              // bảng hoặc view Postgres
-  queryKey: "room-grid",            // prefix queryKey React Query
+  queryKey: roomKeys.grid(),        // prefix queryKey — chuỗi hoặc mảng key của feature
   initialPageSize: 20,
   serverFields: buildServerFieldMap(columns), // map field FE → cột snake_case
 });
@@ -59,6 +64,12 @@ const grid = useServerGrid<RoomRow>({
 ```
 
 Grid tự nhận diện server mode khi có `onStateChange` (hoặc ép bằng `serverSide`).
+
+`queryKey` nhận **chuỗi hoặc mảng** — truyền thẳng key khai trong
+`api/<tên>.keys.ts` của feature (vd `serviceKeys.grid()`) thì grid nối
+`tableNames` + `gridState` vào sau, nên `invalidateQueries` theo key gốc của
+feature vẫn làm mới được lưới. Nhớ `useMemo` mảng key: hàm `keys.grid()` tạo
+mảng mới mỗi lần gọi.
 
 **Nối với API bất kỳ (không qua endpoint dynamic)** — truyền `fetcher` thay
 cho `tableNames`; hàm nhận nguyên `ServerGridState` (operator FE thô:
@@ -331,9 +342,8 @@ một instance: truyền `className` và override biến `--dg-*` trong class đ
 **Không** style bằng cách đánh vào class đã hash của grid từ ngoài.
 
 Quy tắc giữ tính độc lập khi sửa grid: không dùng biến CSS của repo, không
-class `e-*` (đụng theme Syncfusion CDN), không `fa-*` bên trong grid — icon
-là SVG inline trong `icons/icons.tsx`. (Cell template ở tầng page thì dùng
-Font Awesome thoải mái.)
+`fa-*` bên trong grid — icon là SVG inline trong `icons/icons.tsx`. (Cell
+template ở tầng page thì dùng Font Awesome thoải mái.)
 
 ---
 

@@ -1,5 +1,12 @@
 import type { IconResponse } from "@features/icon/types/icon.type";
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  type ReactNode,
+} from "react";
 
 type ServiceState = {
   isOpen: boolean;
@@ -58,21 +65,33 @@ export const ServiceContextProvider = ({
     isOpen: false,
   });
 
-  const openOrCloseDialog = (isOpen: boolean, id?: string) => {
+  // Giữ tham chiếu ổn định: bộ cột của lưới được useMemo theo openOrCloseDialog,
+  // hàm mới mỗi render sẽ làm memo hoá đó vô nghĩa.
+  const openOrCloseDialog = useCallback((isOpen: boolean, id?: string) => {
     dispatch({ type: "OPEN_OR_CLOSE", isOpen, id });
-  };
+  }, []);
 
-  const selectIcon = (icon?: IconResponse | null) => {
+  const selectIcon = useCallback((icon?: IconResponse | null) => {
     dispatch({ type: "SELECT_ICON", icon });
-  };
+  }, []);
 
-  const ctx: ServiceContextValue = {
-    isOpen: serviceState.isOpen,
-    id: serviceState.id,
-    icon: serviceState.icon,
-    openOrCloseDialog,
-    selectIcon,
-  };
+  const ctx: ServiceContextValue = useMemo(
+    () => ({
+      isOpen: serviceState.isOpen,
+      id: serviceState.id,
+      icon: serviceState.icon,
+      openOrCloseDialog,
+      selectIcon,
+    }),
+    [
+      serviceState.isOpen,
+      serviceState.id,
+      serviceState.icon,
+      openOrCloseDialog,
+      selectIcon,
+    ],
+  );
+
   return (
     <ServiceContext.Provider value={ctx}> {children}</ServiceContext.Provider>
   );

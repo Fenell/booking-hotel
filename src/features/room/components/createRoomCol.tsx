@@ -13,8 +13,7 @@ type CreateRoomColOptions = {
  * Cột của lưới Phòng.
  *
  * Cấu hình cột (thứ tự, ẩn/hiện, độ rộng) do chính DataGrid lưu vào
- * localStorage qua prop `gridKey`, nên ở đây chỉ khai mặc định — không còn đọc
- * `loadConfigGrid` như thời Syncfusion nữa.
+ * localStorage qua prop `gridKey`, nên ở đây chỉ khai mặc định.
  */
 const createRoomCol = ({
   onEdit,

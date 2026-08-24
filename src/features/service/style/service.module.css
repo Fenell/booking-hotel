@@ -1,14 +1,31 @@
 .box {
   display: grid;
   grid-template-rows: auto 1fr;
+  grid-template-columns: minmax(0, 1fr);
   height: 100%;
+  min-width: 0;
   gap: 10px;
+}
+
+/* DataGrid tự cuộn bên trong; lớp bọc phải cho phép co lại (min-*: 0) để bảng
+   không đẩy thanh cuộn ngang ra tận page. */
+.gridWrap {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.grid {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
 }
 
 .actionBar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 6px;
   padding: 8px;
   border-radius: 6px;
   border: solid 1px #dbdbdb;

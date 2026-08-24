@@ -48,7 +48,7 @@ export type RoomService = {
  * Loại phòng lồng trong response chi tiết phòng.
  * Đây là một phần hợp đồng API của Phòng nên do feature Phòng tự khai báo —
  * feature Loại phòng không cần biết tới nó. Lưới đọc qua dot-path
- * "roomType.typeName" (xem shared/types/gridConfig.ts).
+ * "roomType.typeName" (xem components/createRoomCol.tsx).
  */
 export type RoomTypeSummary = {
   id: string;

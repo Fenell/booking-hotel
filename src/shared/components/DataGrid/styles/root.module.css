@@ -1,6 +1,6 @@
 /* ===== Khung gốc: TOÀN BỘ design tokens của grid nằm ở đây =====
    Grid tự khép kín — không đọc biến CSS của repo, tự set font/line-height
-   để chặn `:root { line-height: 1.5rem }` và theme Syncfusion global. */
+   để chặn `:root { line-height: 1.5rem }` của app. */
 .root {
   /* Bảng màu — phỏng theme Quartz của AG Grid */
   --dg-font: "Inter", system-ui, -apple-system, sans-serif;
