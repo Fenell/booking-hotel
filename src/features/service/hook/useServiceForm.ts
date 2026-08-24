@@ -3,7 +3,7 @@ import {
   type DefaultValues,
   type SubmitHandler,
 } from "react-hook-form";
-import type { ServiceResponse } from "../types/service.type";
+import { SERVICE_KIND, type ServiceResponse } from "../types/service.type";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { serviceKeys } from "../api/service.keys";
@@ -20,6 +20,11 @@ const defaultValues: DefaultValues<ServiceResponse> = {
   serviceName: "",
   description: "",
   idIcon: "",
+  kind: SERVICE_KIND.amenity,
+  isBookable: false,
+  isOrderable: false,
+  price: null,
+  unit: null,
 };
 
 export const useServiceForm = (

@@ -17,6 +17,7 @@ import type { UploadImageRequest } from "../types/image.type";
 
 const defaultValues: DefaultValues<RoomCreateRequest> = {
   roomName: "",
+  propertyId: "",
   roomNumber: null,
   currentPrice: null,
   priceWeekend: null,
@@ -116,7 +117,6 @@ export const useRoomForm = (onSuccess: (data: RoomModel) => void) => {
     if (isEdit) {
       mutateUpdate(data);
     } else {
-      data.roomNumber = 111;
       mutate(data);
     }
   };

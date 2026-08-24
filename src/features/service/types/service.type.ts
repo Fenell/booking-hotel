@@ -27,13 +27,38 @@ export type ServiceResponse = ServiceCreateAndUpdateModel & {
   nameTypeService: string;
 };
 
+/**
+ * Bản chất hành xử của một dòng dịch vụ — khớp enum ServiceKind bên BE.
+ * Tiện nghi không có giá và gắn vào phòng; hàng hóa/dịch vụ có giá và bán được.
+ * Phần chia nhỏ theo nghiệp vụ (Đồ uống, Đồ ăn, Spa…) nằm ở nhóm (type_services).
+ */
+export const SERVICE_KIND = {
+  amenity: 0,
+  goods: 1,
+  service: 2,
+} as const;
+
+export const SERVICE_KIND_LABEL: Record<number, string> = {
+  [SERVICE_KIND.amenity]: "Tiện nghi",
+  [SERVICE_KIND.goods]: "Hàng hóa",
+  [SERVICE_KIND.service]: "Dịch vụ",
+};
+
 export type ServiceCreateAndUpdateModel = {
   serviceCode?: string;
   serviceName: string;
   description?: string;
-  price?: number;
-  isFee: boolean;
-  unit: string;
+  /** 0 Tiện nghi | 1 Hàng hóa | 2 Dịch vụ */
+  kind: number;
+  price?: number | null;
+  unit?: string | null;
+  /** Hàng của cơ sở nào; để trống = dùng chung mọi cơ sở */
+  propertyId?: string | null;
+  /** Khách chọn được lúc đặt phòng */
+  isBookable: boolean;
+  /** Gọi thêm được trong kỳ lưu trú */
+  isOrderable: boolean;
+  sortOrder?: number;
   idIcon?: string | null;
   idTypeService: string;
 };
@@ -46,6 +71,8 @@ export type ServiceType = {
   id: string;
   codeTypeService: string;
   nameTypeService: string;
+  /** Nhóm này dành cho loại nào — chỉ chọn được nhóm cùng kind với dịch vụ */
+  kind: number;
 };
 
 // id": "019b8497-de44-745a-a0ff-4995cd9c5ff0",

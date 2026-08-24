@@ -6,6 +6,7 @@ import { Input } from "@shared/components/UI/Input";
 import { formatNumber, parseNumber } from "@shared/utils/formatNumber";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useRoomTypeOptions } from "@features/roomType";
+import { usePropertyOptions } from "@features/property";
 
 // type InputRoomFormProp = {
 //   control: Control<RoomCreateRequest>;
@@ -46,10 +47,51 @@ const BaseInfoInput = () => {
   const methods = useFormContext<RoomCreateRequest>();
   // Feature Phòng không tự query bảng room_types nữa — hỏi feature Loại phòng
   const { options: optionRoomType } = useRoomTypeOptions();
+  // Tương tự với cơ sở cho thuê (khách sạn / villa / homestay)
+  const { options: optionProperty } = usePropertyOptions();
 
   const { control } = methods;
   return (
     <div className={roomStlye.baseInfo}>
+      <div className={classNames(roomStlye.halfField, roomStlye.inputField)}>
+        <div style={{ width: "100%" }}>
+          <label htmlFor="propertyId">Cơ sở</label>
+          <Controller
+            control={control}
+            name="propertyId"
+            render={({ field }) => (
+              <SelectCustom
+                {...field}
+                inputId="propertyId"
+                options={optionProperty}
+                value={optionProperty.find((c) => c.value === field.value)}
+                onChange={(e) => field.onChange(e?.value)}
+              />
+            )}
+          />
+        </div>
+        <div style={{ width: "100%" }}>
+          {/* Villa/homestay thuê nguyên căn thì để trống */}
+          <label htmlFor="roomNumber">Số phòng</label>
+          <Controller
+            control={control}
+            name="roomNumber"
+            render={({ field }) => (
+              <Input
+                id="roomNumber"
+                type="number"
+                {...field}
+                value={field.value ?? ""}
+                onChange={(e) =>
+                  field.onChange(
+                    e.target.value === "" ? null : Number(e.target.value),
+                  )
+                }
+              />
+            )}
+          />
+        </div>
+      </div>
       <div className={classNames(roomStlye.fullField, roomStlye.inputField)}>
         <label htmlFor="roomName">Tên phòng</label>
         <Controller

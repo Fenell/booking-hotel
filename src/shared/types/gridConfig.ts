@@ -2,9 +2,14 @@ import type { GridColumnModel } from "@syncfusion/ej2-react-grids";
 
 export const defaultServiceConfig: GridColumnModel[] = [
   {
+    field: "id",
+    visible: false,
+    isPrimaryKey: true,
+  },
+  {
     field: "serviceCode",
     headerText: "Mã dịch vụ",
-    width: 150,
+    width: 120,
     visible: false,
   },
   {
@@ -15,14 +20,22 @@ export const defaultServiceConfig: GridColumnModel[] = [
   },
   { field: "nameTypeService", headerText: "Nhóm", visible: true, width: 150 },
   {
-    field: "isFee",
-    headerText: "Có phí",
-    width: 100,
-    visible: false,
-    type: "boolean",
+    field: "kind",
+    headerText: "Loại",
+    width: 110,
+    visible: true,
   },
 
-  { field: "price", headerText: "Giá dịch vụ", visible: true, width: 150 },
+  {
+    field: "price",
+    headerText: "Giá dịch vụ",
+    visible: true,
+    width: 150,
+    format: "N0",
+    type: "number",
+    textAlign: "Right",
+  },
+  { field: "unit", headerText: "Đơn vị", width: 60, visible: false },
   { field: "description", headerText: "Ghi chú", visible: true },
 ];
 
@@ -47,40 +60,40 @@ export const defaultRoomConfig: GridColumnModel[] = [
   {
     field: "numberAdults",
     headerText: "Số người lớn",
-    type: "numericColumn",
+    type: "number",
     visible: false,
   },
   {
     field: "numberChild",
     headerText: "Số trẻ em",
-    type: "numericColumn",
+    type: "number",
     width: 90,
     visible: false,
   },
   {
     field: "currentPrice",
     headerText: "Giá phòng",
-    type: "numericColumn",
+    type: "number",
     textAlign: "Right",
     visible: true,
   },
   {
     field: "priceWeekend",
     headerText: "Giá cuối tuần",
-    type: "numericColumn",
+    type: "number",
     textAlign: "Right",
     visible: true,
   },
   {
     field: "numberBedroom",
     headerText: "Số phòng ngủ",
-    type: "numericColumn",
+    type: "number",
     visible: true,
   },
   {
     field: "numberBathRoom",
     headerText: "Số phòng tắm",
-    type: "numericColumn",
+    type: "number",
     visible: true,
   },
   {

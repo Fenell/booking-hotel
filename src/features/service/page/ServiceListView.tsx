@@ -16,12 +16,14 @@ import {
   Resize,
   type PageSettingsModel,
 } from "@syncfusion/ej2-react-grids";
-import type { ServiceResponse } from "../types/service.type";
+import {
+  SERVICE_KIND_LABEL,
+  type ServiceResponse,
+} from "../types/service.type";
 import { ColumnSetting } from "@shared/components/Settings/ColumnSetting";
 import Popover from "@shared/components/Popover/Popover";
 import ActionServiceCol from "../components/ActionServiceCol";
 import { useRef } from "react";
-import Checkbox from "@shared/components/UI/Checkbox/Checkbox";
 
 const ServiceListView = () => {
   const { colConfig, pageOptions, data, setColConfig } = useServiceGrid();
@@ -29,8 +31,8 @@ const ServiceListView = () => {
 
   const gridRef = useRef<GridComponent | null>(null);
 
-  const checkBoxTemplate = (props: ServiceResponse) => {
-    return <Checkbox isChecked={props.isFee} />;
+  const kindTemplate = (props: ServiceResponse) => {
+    return <span>{SERVICE_KIND_LABEL[props.kind] ?? "—"}</span>;
   };
   return (
     <>
@@ -84,7 +86,7 @@ const ServiceListView = () => {
             {/* <ColumnDirective type="checkbox" width="10" /> */}
             <ColumnsDirective>
               {colConfig.map((a) => {
-                if (a.type === "boolean") {
+                if (a.field === "kind") {
                   return (
                     <ColumnDirective
                       field={a.field}
@@ -92,7 +94,7 @@ const ServiceListView = () => {
                       width={a.width}
                       visible={a.visible}
                       textAlign={a.textAlign}
-                      template={checkBoxTemplate}
+                      template={kindTemplate}
                     />
                   );
                 }

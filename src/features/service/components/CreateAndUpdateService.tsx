@@ -17,7 +17,11 @@ import { useState } from "react";
 import SelectCustom from "@shared/components/UI/Select/SelectCustom";
 import { useQuery } from "@tanstack/react-query";
 import { getDynamicData } from "@shared/services/dynamic";
-import type { ServiceResponse, ServiceType } from "../types/service.type";
+import {
+  SERVICE_KIND,
+  SERVICE_KIND_LABEL,
+  type ServiceType,
+} from "../types/service.type";
 import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
 
 const CreateAndUpdateService = () => {
@@ -28,11 +32,13 @@ const CreateAndUpdateService = () => {
     selectIcon,
   );
 
-  const { control, handleSubmit } = methods;
-  const [isFee] = useWatch({
+  const { control, handleSubmit, setValue } = methods;
+  const [kind] = useWatch({
     control,
-    name: ["isFee"],
+    name: ["kind"],
   });
+  // Tiện nghi không có giá; hàng hóa và dịch vụ thì bắt buộc có (DB ép bằng CHECK)
+  const isSellable = kind !== SERVICE_KIND.amenity;
 
   const [submitAction, setSubmitAction] = useState<"save" | "saveAdd">("save");
 
@@ -47,10 +53,18 @@ const CreateAndUpdateService = () => {
     queryFn: () => getDynamicData<ServiceType[]>(serviceTypeRq),
   });
 
-  const optionTypeService = data?.data.map((a) => ({
-    label: a.nameTypeService,
-    value: a.id,
-  }));
+  // Nhóm phải cùng kind với dịch vụ — DB chặn bằng composite FK, nên lọc sẵn ở đây
+  // để người dùng không chọn được nhóm sai (hàng hóa mà chọn nhóm "Spa").
+  const optionTypeService = data?.data
+    .filter((a) => a.kind === kind)
+    .map((a) => ({
+      label: a.nameTypeService,
+      value: a.id,
+    }));
+
+  const optionKind = Object.entries(SERVICE_KIND_LABEL).map(
+    ([value, label]) => ({ label, value: Number(value) }),
+  );
 
   return (
     <Modal size="xs" onClose={() => openOrCloseDialog(false)}>
@@ -82,7 +96,34 @@ const CreateAndUpdateService = () => {
               </div>
             </div>
             <div>
-              <label htmlFor="serviceName">Nhóm:</label>
+              <label htmlFor="kind">Loại:</label>
+              <Controller
+                control={control}
+                name="kind"
+                render={({ field }) => (
+                  <SelectCustom
+                    {...field}
+                    inputId="kind"
+                    options={optionKind}
+                    value={optionKind.find((c) => c.value === field.value)}
+                    onChange={(e) => {
+                      field.onChange(e?.value);
+                      // Nhóm cũ thuộc loại khác thì không còn hợp lệ
+                      setValue("idTypeService", "");
+                      if (e?.value === SERVICE_KIND.amenity) {
+                        // Tiện nghi: DB bắt buộc price/unit null và không mang cờ bán
+                        setValue("price", null);
+                        setValue("unit", null);
+                        setValue("isBookable", false);
+                        setValue("isOrderable", false);
+                      }
+                    }}
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <label htmlFor="idTypeService">Nhóm:</label>
               <Controller
                 control={control}
                 name="idTypeService"
@@ -122,21 +163,35 @@ const CreateAndUpdateService = () => {
                 ></i>
               </div>
             </div>
-            <div>
-              <Controller
-                name="isFee"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <Checkbox
-                    index="isFee"
-                    label="Có thu phí"
-                    isChecked={value}
-                    onChecked={(e) => onChange(e.target.checked)}
-                  />
-                )}
-              />
-            </div>
-            {isFee && (
+            {isSellable && (
+              <div style={{ display: "flex", gap: "14px" }}>
+                <Controller
+                  name="isBookable"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Checkbox
+                      index="isBookable"
+                      label="Chọn được khi đặt phòng"
+                      isChecked={value}
+                      onChecked={(e) => onChange(e.target.checked)}
+                    />
+                  )}
+                />
+                <Controller
+                  name="isOrderable"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Checkbox
+                      index="isOrderable"
+                      label="Gọi thêm khi đang ở"
+                      isChecked={value}
+                      onChecked={(e) => onChange(e.target.checked)}
+                    />
+                  )}
+                />
+              </div>
+            )}
+            {isSellable && (
               <div style={{ display: "flex", gap: "14px" }}>
                 <div style={{ width: "50%" }}>
                   <label htmlFor="price">Giá dịch vụ:</label>
@@ -160,7 +215,9 @@ const CreateAndUpdateService = () => {
                   <Controller
                     name="unit"
                     control={control}
-                    render={({ field }) => <Input id="unit" {...field} />}
+                    render={({ field }) => (
+                      <Input id="unit" {...field} value={field.value ?? ""} />
+                    )}
                   />
                 </div>
               </div>

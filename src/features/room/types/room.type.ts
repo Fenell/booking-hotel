@@ -8,6 +8,9 @@ import type { RoomImage } from "./image.type";
 export type RoomCreateRequest = {
   id: string;
   roomTypeId: string;
+  /** Cơ sở chứa phòng — bắt buộc, chọn qua usePropertyOptions */
+  propertyId: string;
+  /** Null với villa/homestay thuê nguyên căn */
   roomNumber: number | null;
   roomName: string;
   status: number;
@@ -15,7 +18,6 @@ export type RoomCreateRequest = {
   currentPrice: number | null;
   acreage: number | null;
   priceWeekend: number | null;
-  imageUrl?: string;
   location?: string;
   numberAdults: number | null;
   numberChild: number | null;
