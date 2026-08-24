@@ -345,6 +345,15 @@ Quy tắc giữ tính độc lập khi sửa grid: không dùng biến CSS của
 `fa-*` bên trong grid — icon là SVG inline trong `icons/icons.tsx`. (Cell
 template ở tầng page thì dùng Font Awesome thoải mái.)
 
+**Combobox cỡ trang** (`pagination/PageSizeSelect.tsx`) cố ý **không** dùng
+`<select>` native: phần menu xổ ra do trình duyệt/OS vẽ nên không ăn token
+`--dg-*`. Đổi lại nó tự lo ARIA (`combobox` + `listbox` + `aria-activedescendant`)
+và phím ↑↓/Home/End/Enter/Esc, đóng khi bấm ra ngoài. Danh sách xổ **lên trên**
+vì pager nằm đáy grid, và nó nằm trong `.root` (`overflow: hidden`) nên phần
+vượt quá chiều cao grid sẽ bị cắt — CSS chặn bằng `max-height: 196px` + cuộn.
+Ô chọn toán tử của bộ lọc số (`filters/NumberFilter.tsx`) vẫn là `<select>`
+native, chưa chuyển.
+
 ---
 
 ## Định hướng v2 (đã chốt, chưa làm): batch edit + điều hướng phím kiểu Excel

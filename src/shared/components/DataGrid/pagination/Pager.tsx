@@ -5,6 +5,7 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
 } from "../icons/icons";
+import PageSizeSelect from "./PageSizeSelect";
 import styles from "../styles/pager.module.css";
 
 type PagerProps<T> = {
@@ -24,18 +25,11 @@ const Pager = <T,>({ table, pageSizeOptions }: PagerProps<T>) => {
     <div className={styles.pager}>
       <div className={styles.sizeBox}>
         <span>Cỡ trang:</span>
-        <select
-          className={styles.sizeSelect}
+        <PageSizeSelect
           value={pageSize}
-          aria-label="Số dòng mỗi trang"
-          onChange={(e) => table.setPageSize(Number(e.target.value))}
-        >
-          {pageSizeOptions.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
+          options={pageSizeOptions}
+          onChange={(size) => table.setPageSize(size)}
+        />
       </div>
 
       <span className={styles.rangeText}>

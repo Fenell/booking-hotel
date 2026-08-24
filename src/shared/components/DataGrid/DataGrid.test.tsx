@@ -42,6 +42,22 @@ describe("DataGrid (client-side)", () => {
     expect(screen.getByText("Chưa có phòng nào")).toBeInTheDocument();
   });
 
+  it("đổi cỡ trang bằng combobox thì phân trang lại", async () => {
+    const user = userEvent.setup();
+    renderGrid({ pageSizeOptions: [1, 2] });
+
+    // Cỡ trang mặc định là lựa chọn đầu tiên → mỗi trang 1 dòng
+    const dataRows = () => screen.getAllByRole("row").slice(1); // bỏ hàng header
+    expect(dataRows()).toHaveLength(1);
+    expect(screen.getByText("1 đến 1 trong 2")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("combobox", { name: "Số dòng mỗi trang" }));
+    await user.click(screen.getByRole("option", { name: "2" }));
+
+    expect(dataRows()).toHaveLength(2);
+    expect(screen.getByText("1 đến 2 trong 2")).toBeInTheDocument();
+  });
+
   it("bấm tiêu đề thì đảo thứ tự dòng", async () => {
     const user = userEvent.setup();
     renderGrid();
