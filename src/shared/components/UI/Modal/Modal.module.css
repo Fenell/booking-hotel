@@ -1,5 +1,7 @@
 .modal {
   position: fixed;
+  /* Khai tường minh, trước đây nền trắng là do UA stylesheet của <dialog> */
+  background-color: var(--bgc-write);
   top: 20px;
   border: 0;
   margin: 0 auto;
@@ -11,6 +13,12 @@
   z-index: 10;
   display: grid;
   grid-template-rows: auto 1fr auto;
+}
+
+/* Cỡ nhỏ, cao theo nội dung — dùng cho hộp thoại xác nhận */
+.sm {
+  min-width: 320px;
+  max-width: 400px;
 }
 
 .xs {

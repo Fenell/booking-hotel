@@ -13,16 +13,23 @@ const ModalHeader = ({
   title,
   children,
 }: ModalHeaderProps) => {
-  const { handleCloseModal } = useModalContext();
+  const { handleCloseModal, titleId } = useModalContext();
   return (
     <div className={modalStyle["modal-header"]}>
       {children ? (
-        children
+        // display: contents để bọc thêm một lớp lấy id mà không đổi layout flex
+        <div id={titleId} style={{ display: "contents" }}>
+          {children}
+        </div>
       ) : (
-        <p className={modalStyle["modal-title"]}>{title}</p>
+        <p id={titleId} className={modalStyle["modal-title"]}>
+          {title}
+        </p>
       )}
       {hasCloseButton && (
         <button
+          type="button"
+          aria-label="Đóng"
           className={modalStyle["modal-close-btn"]}
           onClick={handleCloseModal}
         >

@@ -1,10 +1,6 @@
-import React, {
-  forwardRef,
-  type ComponentPropsWithRef,
-  type ReactNode,
-} from "react";
+import { useId, type ReactNode } from "react";
 import buttonStyle from "./Button.module.css";
-import { AnimatePresence, motion } from "motion/react";
+import { motion, type HTMLMotionProps, type Variants } from "motion/react";
 import classNames from "classnames";
 import Tooltip from "../Tooltip/Tooltip";
 
@@ -17,164 +13,121 @@ export type StatusBtn =
   | "primary"
   | "dark";
 
-type RawButtonProps = {
-  status: StatusBtn;
+export type RawButtonProps = {
+  /** Bộ màu của nút. Mặc định `"default"`. */
+  status?: StatusBtn;
+  /** Chuỗi class Font Awesome, ví dụ `"fa-regular fa-trash"`. */
   icon?: string | null;
+  /** Tắt hiệu ứng hiện icon / trượt chữ khi rê chuột. */
   noAnimation?: boolean;
   small?: boolean;
+  /** Đang xử lý: hiện spinner và **vô hiệu hoá thật sự** nút. */
   isLoading?: boolean;
   typeButton?: "outline";
-  children?: ReactNode | null;
-} & ComponentPropsWithRef<"button">;
+  children?: ReactNode;
+} & HTMLMotionProps<"button">;
 
-type SpinnerIconProps = {
-  isLoading?: boolean;
+/**
+ * Spinner của nút. Không dùng `<defs>`/`id` nào để hai nút loading cùng lúc
+ * không đụng id trong DOM; vòng xoay và màu đều do CSS module lo.
+ */
+const SpinnerIcon = () => (
+  <svg
+    className={buttonStyle["spinner"]}
+    width="16"
+    height="16"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle
+      cx="10"
+      cy="10"
+      r="8"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeDasharray="38 13"
+    />
+  </svg>
+);
+
+// Khai ở ngoài component: variant là hằng, không cần dựng lại mỗi lần render.
+const ICON_VARIANTS: Variants = { hover: { opacity: 1 }, init: { opacity: 0 } };
+const ICON_VARIANTS_STATIC: Variants = {
+  hover: { opacity: 1 },
+  init: { opacity: 1 },
 };
-const SpinnerIcon = ({ isLoading }: SpinnerIconProps) => {
-  const spinnerVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.6,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.2,
-        ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.6,
-      transition: {
-        duration: 0.15,
-        ease: "easeIn",
-      },
-    },
-  };
+const TEXT_VARIANTS: Variants = {
+  hover: { right: 0 },
+  init: { right: "10px" },
+};
+const TEXT_VARIANTS_STATIC: Variants = {
+  hover: { right: 0 },
+  init: { right: "0" },
+};
+
+const RawButton = ({
+  children,
+  status = "default",
+  icon,
+  small = false,
+  noAnimation = false,
+  typeButton,
+  isLoading = false,
+  disabled = false,
+  type = "button",
+  className,
+  ...props
+}: RawButtonProps) => {
+  const iconVariants = noAnimation ? ICON_VARIANTS_STATIC : ICON_VARIANTS;
+  const textVariants = noAnimation ? TEXT_VARIANTS_STATIC : TEXT_VARIANTS;
 
   return (
-    <svg
-      width={"16px"}
-      height={"16px"}
-      fill="hsl(228, 97%, 42%)"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
+    <motion.button
+      whileHover="hover"
+      type={type}
+      // Khoá thật bằng thuộc tính `disabled`: chỉ gắn class là vẫn bấm được
+      // bằng Space/Enter và vẫn submit được form.
+      disabled={disabled || isLoading}
+      aria-busy={isLoading || undefined}
+      className={classNames(
+        buttonStyle["button"],
+        small && buttonStyle["small"],
+        isLoading && buttonStyle["loading"],
+        className,
+      )}
+      data-variant={status}
+      data-type={typeButton || undefined}
+      {...props}
     >
-      <defs>
-        <linearGradient id="radialGradient8932">
-          <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0.25" />
-        </linearGradient>
-      </defs>
-
-      <style>
-        {`
-        @keyframes spin8932 {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        #circle8932 {
-          transform-origin: 50% 50%;
-          stroke: url(#radialGradient8932);
-          fill: none;
-          animation: spin8932 0.5s linear infinite;
-        }
-      `}
-      </style>
-
-      <circle cx="10" cy="10" r="8" id="circle8932" strokeWidth="2" />
-    </svg>
-    // <AnimatePresence mode="wait">
-    //   {isLoading && (
-    //     <motion.div
-    //       key="spinner"
-    //       variants={spinnerVariants}
-    //       intial="hidden"
-    //       animate="visible"
-    //       exit="exit"
-    //     >
-
-    //     </motion.div>
-    //   )}
-    // </AnimatePresence>
+      {icon && (
+        <motion.i
+          aria-hidden="true"
+          variants={iconVariants}
+          initial="init"
+          className={classNames(icon, !!children && buttonStyle["btn-icon"])}
+        />
+      )}
+      {children && (
+        <motion.span
+          variants={textVariants}
+          initial="init"
+          className={buttonStyle["button-text"]}
+        >
+          {children}
+        </motion.span>
+      )}
+      {/* Nội dung trên chỉ bị `visibility: hidden` khi loading nên nút giữ
+          nguyên bề rộng, không làm nhảy layout. */}
+      {isLoading && <SpinnerIcon />}
+    </motion.button>
   );
 };
 
-const RawButton = forwardRef<HTMLButtonElement, RawButtonProps>(
-  (
-    {
-      children,
-      status,
-      icon,
-      small = false,
-      noAnimation = false,
-      typeButton,
-      isLoading = false,
-      //cssCustom,
-      ...props
-    },
-    ref,
-  ) => {
-    const createIconVariant = (noAnimation: boolean): any => ({
-      hover: { opacity: 1 },
-      init: { opacity: noAnimation ? 1 : 0 },
-    });
-    const createTextVariant = (noAnimation: boolean): any => ({
-      hover: { right: 0 },
-      init: { right: noAnimation ? "0" : "10px" },
-    });
-    return (
-      <div style={{ display: "inline-flex" }}>
-        <motion.button
-          whileHover={"hover"}
-          ref={ref}
-          className={classNames(
-            buttonStyle["button"],
-            small && buttonStyle["small"],
-            // buttonStyle[status] || buttonStyle[""],
-            isLoading && buttonStyle["disabled"],
-          )}
-          data-variant={status || "default"}
-          data-type={typeButton || undefined}
-          {...props}
-        >
-          {isLoading ? (
-            <SpinnerIcon />
-          ) : (
-            <>
-              {" "}
-              {icon && (
-                <motion.i
-                  variants={createIconVariant(noAnimation)}
-                  initial={createIconVariant(noAnimation).init}
-                  className={classNames(
-                    icon,
-                    !!children && buttonStyle["btn-icon"],
-                  )}
-                ></motion.i>
-              )}
-              {children && (
-                <motion.span
-                  variants={createTextVariant(noAnimation)}
-                  initial={createTextVariant(noAnimation).init}
-                  className={buttonStyle["button-text"]}
-                >
-                  {children}
-                </motion.span>
-              )}
-            </>
-          )}
-        </motion.button>
-      </div>
-    );
-  },
-);
-
-type ButtonProps = {
+export type ButtonProps = {
   showTooltip?: boolean;
   tooltipContent?: string;
   tooltipPosition?: "top" | "bottom";
@@ -186,13 +139,32 @@ const Button = ({
   tooltipPosition = "top",
   ...rawBtnProps
 }: ButtonProps) => {
-  if (!showTooltip) {
-    return <RawButton {...rawBtnProps} />;
-  }
+  const tooltipId = useId();
+  const hasTooltip = showTooltip && !!tooltipContent;
+
+  // Nút chỉ có icon thì không có tên khả truy cập — mượn nội dung tooltip
+  // làm nhãn, trừ khi nơi gọi đã tự đặt `aria-label`.
+  const ariaLabel =
+    rawBtnProps["aria-label"] ??
+    (!rawBtnProps.children && tooltipContent ? tooltipContent : undefined);
+
+  const button = (
+    <RawButton
+      {...rawBtnProps}
+      aria-label={ariaLabel}
+      aria-describedby={
+        hasTooltip
+          ? classNames(rawBtnProps["aria-describedby"], tooltipId)
+          : rawBtnProps["aria-describedby"]
+      }
+    />
+  );
+
+  if (!hasTooltip) return button;
 
   return (
-    <Tooltip content={tooltipContent} position={tooltipPosition}>
-      <RawButton {...rawBtnProps} />
+    <Tooltip id={tooltipId} content={tooltipContent} position={tooltipPosition}>
+      {button}
     </Tooltip>
   );
 };

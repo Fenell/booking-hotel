@@ -3,9 +3,11 @@
   --warning-clr: #ffecb3;
   --error-clr: #ffe6e8;
   --info-clr: #d0e6ff;
-  --bule-clr: #6dccff;
+  --blue-clr: #6dccff;
   --dark-clr: #9e9e9e;
   --default-clr: #424242;
+  --text-on-light: #2b2b2b;
+  --text-on-dark: #fff;
   padding: 6px 18px;
   font-size: 14px;
   border-radius: var(--border-radius-input);
@@ -13,34 +15,44 @@
   background-color: #fff;
   cursor: pointer;
   letter-spacing: 0.4px;
-  transition: background-color 0.5s ease;
-  display: flex;
+  transition:
+    background-color 0.5s ease,
+    color 0.2s ease;
+  /* inline-flex chứ không phải flex: nút tự co theo nội dung, khỏi cần bọc
+     thêm một <div style="display:inline-flex"> bên ngoài. */
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   border: 1px solid var(--btn-clr);
+  color: var(--btn-text-clr);
 }
 
-.button[data-type="outline"]:hover {
+/* Kiểu viền: nền trắng, chỉ tô màu khi rê chuột nên chữ phải đổi theo nền. */
+.button[data-type="outline"] {
+  color: var(--text-on-light);
+}
+
+.button[data-type="outline"]:hover:not(:disabled) {
   background-color: var(--btn-clr);
+  color: var(--btn-text-clr);
 }
 
 .button:not([data-type="outline"]) {
   background-color: var(--btn-clr);
 }
 
-.button:not([data-type="outline"]):hover {
+.button:not([data-type="outline"]):hover:not(:disabled) {
   background-color: color-mix(in srgb, var(--btn-clr) 85%, black);
 }
 
-/* .button:hover {
-  background-color: var(--btn-clr);
-} */
+.button:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
+}
 
-.button:disabled,
-.button.disabled {
+.button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 .button.small {
@@ -59,33 +71,64 @@
   margin-right: 5px;
 }
 
-/* Variants */
+/* Trạng thái loading: giữ nguyên nội dung (chỉ ẩn hình) để bề rộng nút không
+   đổi, spinner phủ chính giữa. */
+.button.loading {
+  position: relative;
+}
+
+.button.loading > i,
+.button.loading > .button-text {
+  visibility: hidden;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  color: inherit;
+  transform-origin: 50% 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+/* Variants — mỗi biến thể khai cả màu nền lẫn màu chữ tương phản với nó. */
 .button[data-variant="default"] {
   --btn-clr: var(--default-clr);
+  --btn-text-clr: var(--text-on-dark);
 }
 .button[data-variant="success"] {
   --btn-clr: var(--success-clr);
-  & i,
-  span {
-    color: #fff;
-  }
+  --btn-text-clr: var(--text-on-dark);
 }
 .button[data-variant="error"] {
   --btn-clr: var(--error-clr);
+  --btn-text-clr: var(--text-on-light);
 }
 .button[data-variant="warning"] {
   --btn-clr: var(--warning-clr);
+  --btn-text-clr: var(--text-on-light);
 }
 .button[data-variant="info"] {
   --btn-clr: var(--info-clr);
+  --btn-text-clr: var(--text-on-light);
 }
 .button[data-variant="primary"] {
-  --btn-clr: var(--bule-clr);
+  --btn-clr: var(--blue-clr);
+  --btn-text-clr: var(--text-on-light);
 }
 .button[data-variant="dark"] {
   --btn-clr: var(--dark-clr);
-  & i,
-  span {
-    color: #fff;
-  }
+  --btn-text-clr: var(--text-on-dark);
 }

@@ -1,15 +1,9 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import styles from "./Popover.module.css";
 import { motion, AnimatePresence } from "motion/react";
 import classNames from "classnames";
 import { Button } from "../UI";
-import type { StatusBtn } from "../UI/Button/Button";
+import type { ButtonProps, StatusBtn } from "../UI/Button/Button";
 type PopoverPosition =
   | "top-left"
   | "top-right"
@@ -22,7 +16,10 @@ type PopoverProp = {
   icon?: string;
   children?: ReactNode;
   position?: PopoverPosition;
-  btnProps?: ComponentPropsWithoutRef<"button">;
+  btnProps?: Omit<
+    ButtonProps,
+    "status" | "icon" | "children" | "noAnimation" | "ref" | "onClick"
+  >;
   /**
    * Gọi khi popover đóng/mở. Dùng để nạp dữ liệu cho `content` ngay trước lúc
    * nó mount — đây là handler sự kiện nên đọc ref ở đây là hợp lệ.
