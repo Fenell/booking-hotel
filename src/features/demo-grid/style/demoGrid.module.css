@@ -1,63 +1,67 @@
-/* Layout NGOÀI grid — được phép dùng CSS/convention của repo */
+/* Layout NGOÀI grid — dùng design token của repo (xem docs/design-system.md).
+   Đây là màn mẫu để copy khi dựng lưới mới, nên không viết hex ở đây. */
 .page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-2xl);
   min-width: 0;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
   min-width: 0;
 }
 
 .sectionTitle {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 .sectionNote {
-  font-size: 12.5px;
-  color: #6b7280;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
 }
 
 .actionBar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
   flex-wrap: wrap;
 }
 
 .selectedBadge {
-  font-size: 12.5px;
-  color: #2563eb;
-  background: #dbeafe;
-  border-radius: 6px;
-  padding: 4px 10px;
+  font-size: var(--text-xs);
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2xs) var(--space-sm);
 }
 
+/* Thẻ trạng thái phòng: nền nhạt + chữ đậm cùng một màu semantic. */
 .statusBooked {
-  font-size: 11.5px;
-  border-radius: 10px;
-  padding: 2px 8px;
-  background: #fee2e2;
-  color: #b91c1c;
+  font-size: var(--text-2xs);
+  border-radius: var(--radius-full);
+  padding: var(--space-3xs) var(--space-sm);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .statusEmpty {
-  font-size: 11.5px;
-  border-radius: 10px;
-  padding: 2px 8px;
-  background: #dcfce7;
-  color: #15803d;
+  font-size: var(--text-2xs);
+  border-radius: var(--radius-full);
+  padding: var(--space-3xs) var(--space-sm);
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 
 .statusStop {
-  font-size: 11.5px;
-  border-radius: 10px;
-  padding: 2px 8px;
-  background: #e5e7eb;
-  color: #4b5563;
+  font-size: var(--text-2xs);
+  border-radius: var(--radius-full);
+  padding: var(--space-3xs) var(--space-sm);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
 }

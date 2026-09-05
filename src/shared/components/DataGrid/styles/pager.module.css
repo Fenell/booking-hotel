@@ -2,11 +2,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 16px;
+  gap: var(--space-lg, 16px);
   padding: 8px 12px;
   border-top: 1px solid var(--dg-border);
   background: var(--dg-bg);
-  font-size: 12px;
+  font-size: var(--text-xs, 12px);
   color: var(--dg-text-secondary);
   flex-wrap: wrap;
 }
@@ -33,7 +33,7 @@
   height: 28px;
   padding: 0 8px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--text-xs, 12px);
   font-variant-numeric: tabular-nums;
   color: var(--dg-text);
   background: var(--dg-bg);
@@ -87,7 +87,7 @@
   background: var(--dg-bg);
   border: 1px solid var(--dg-border);
   border-radius: var(--dg-radius);
-  box-shadow: 0 6px 20px rgba(24, 29, 31, 0.12);
+  box-shadow: var(--shadow-md, 0 6px 20px rgba(24, 29, 31, 0.12));
   outline: none;
 }
 
@@ -98,7 +98,7 @@
   width: 100%;
   padding: 5px 8px;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: var(--text-xs, 12px);
   font-variant-numeric: tabular-nums;
   color: var(--dg-text);
   background: transparent;
@@ -153,7 +153,7 @@
 .navBtn:hover:not(:disabled) { background: var(--dg-row-hover); }
 
 .navBtn:disabled {
-  color: #c2c8d2;
+  color: var(--color-text-disabled, #c2c8d2);
   cursor: default;
 }
 

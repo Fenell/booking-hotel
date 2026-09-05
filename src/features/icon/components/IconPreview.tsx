@@ -1,6 +1,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import type { IconResponse } from "../types/icon.type";
 import type { CSSProperties } from "react";
+import { DEFAULT_ICON_COLOR } from "../icon.constants";
 
 const IconPreview = () => {
   const { control } = useFormContext<IconResponse>();
@@ -14,7 +15,7 @@ const IconPreview = () => {
     sizeIcon && "fa-" + sizeIcon
   }`;
   const iconColor: CSSProperties = {
-    color: color ?? "#2796fd",
+    color: color ?? DEFAULT_ICON_COLOR,
   };
   // console.log(color);
   return (
@@ -22,8 +23,8 @@ const IconPreview = () => {
       style={{
         width: "50px",
         height: "50px",
-        border: "solid 1px #dedede",
-        borderRadius: "6px",
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-sm)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

@@ -1,13 +1,14 @@
 main {
-  margin-top: var(--nav-height);
-  max-width: calc(100wh - var(--sidebar-width));
-  height: calc(100vh - var(--nav-height));
+  margin-top: var(--layout-nav-height);
+  /* KHÔNG đặt max-width theo bề rộng sidebar: sidebar thu gọn còn 58px thì
+     nội dung phải giãn theo. Bề rộng do track 1fr của .root-layout quyết định. */
+  height: calc(100vh - var(--layout-nav-height));
   /* main là grid item của track 1fr (root-layout) — mặc định min-width: auto
      nên không co dưới min-content của nội dung: bảng/grid rộng sẽ đẩy cả trang
      có thanh cuộn ngang. min-width: 0 để nội dung rộng tự cuộn TRONG chính nó. */
   min-width: 0;
-  /* background-color: #eaecf0; */
-  border-radius: 10px 10px 0 0;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   /* overflow-y: auto; */
 }
 main p {
@@ -21,7 +22,7 @@ main p {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
 }
 
 .main-content {
@@ -29,14 +30,14 @@ main p {
 }
 
 .header-content {
-  padding: 5px;
-  border-radius: 5px;
+  padding: var(--space-2xs);
+  border-radius: var(--radius-xs);
 }
 .container {
   /* margin-bottom: 20px; */
   /*Phần đệm (padding) sẽ được tính bằng giá trị nhỏ hơn giữa 1rem và 15% của chiều rộng phần tử chứa (container).*/
   /* padding: min(0.5em, 15%); */
-  padding: 1rem 1rem 0.5rem 1rem;
+  padding: var(--space-lg) var(--space-lg) var(--space-sm) var(--space-lg);
   /* display: grid;
   grid-template-rows: auto 1fr; */
   height: 100%;

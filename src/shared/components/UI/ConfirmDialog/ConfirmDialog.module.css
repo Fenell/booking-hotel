@@ -4,7 +4,7 @@
 */
 .text {
   margin: 0;
-  padding: 0 6px 6px;
-  color: #737373;
-  line-height: 1.4;
+  padding: 0 var(--space-xs) var(--space-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-snug);
 }

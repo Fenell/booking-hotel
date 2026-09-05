@@ -90,13 +90,15 @@ describe("customConfirm", () => {
     );
   });
 
-  it("mặc định nút đồng ý vẫn là màu success", async () => {
+  it("mặc định nút đồng ý là màu primary", async () => {
     render(<ConfirmDialogHost />);
     await open({ text: "Chắc chưa?" });
 
+    // Từ bản design system navy: hành động chính dùng primary, không dùng
+    // success — xanh lá để dành cho trạng thái "đã xong", không phải nút bấm.
     expect(screen.getByText("Đồng ý").closest("button")).toHaveAttribute(
       "data-variant",
-      "success",
+      "primary",
     );
   });
 

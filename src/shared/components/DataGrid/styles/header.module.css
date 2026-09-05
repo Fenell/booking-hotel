@@ -39,7 +39,7 @@
 .alignCenter .thInner { justify-content: center; }
 
 .sortable { cursor: pointer; }
-.sortable:hover { background: #eef1f6; }
+.sortable:hover { background: var(--gray-200, #eef1f6); }
 
 .sortIcon {
   color: var(--dg-accent);
@@ -48,7 +48,7 @@
 }
 
 .sortIndex {
-  font-size: 10px;
+  font-size: var(--text-2xs, 10px);
   color: var(--dg-text-secondary);
 }
 

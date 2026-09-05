@@ -1,11 +1,24 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xs);
+}
+
 .actionRow {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
   background-color: unset;
+  color: var(--color-text-secondary);
   cursor: pointer;
   border: none;
-  /* color: #ffffff; */
-  /* margin: aut; */
+  border-radius: var(--radius-xs);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.actionRow:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
 }

@@ -1,54 +1,88 @@
-.tooltip {
-  display: inline-block;
-  position: relative;
+/*
+  Lớp bọc không tạo hộp: nút bên trong vẫn là con trực tiếp của flex/grid cha,
+  nên bọc tooltip vào không làm xê dịch layout.
+*/
+.anchor {
+  display: contents;
 }
+
+/*
+  Phần nội dung render qua portal ra <body> nên không thừa hưởng biến CSS của
+  nơi đặt nút — mọi giá trị ở đây phải khai báo tường minh.
+  Toạ độ (left/top) do JS đặt theo viewport.
+*/
 .tooltip-content {
-  position: absolute;
-
-  background-color: #707070;
-  text-align: center;
-  color: #fff;
-  border-radius: 10px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.8rem;
-  /* transform: translateX(-50%); */
-  white-space: nowrap;
-  cursor: default;
-  z-index: 2000;
+  position: fixed;
+  z-index: var(--z-tooltip, 1200);
+  max-width: 320px;
+  padding: var(--space-xs, 6px) var(--space-sm, 8px);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--gray-900, #0f172a);
+  color: var(--color-text-inverse, #ffffff);
+  font-size: var(--text-xs, 12px);
+  line-height: var(--leading-snug, 1.45);
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: var(--shadow-md, 0 4px 14px rgba(0, 0, 0, 0.18));
+  pointer-events: none; /* không chặn hover/click của phần tử bên dưới */
 }
 
-.tooltip-content::before {
+/* Mũi nhọn chỉ về phía phần tử neo */
+.tooltip-content::after {
   content: "";
   position: absolute;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
 }
 
-.tooltip-content.top {
-  bottom: 100%;
-  left: 50%;
-  margin-bottom: 10px;
-  pointer-events: all;
+.top {
+  transform: translate(-50%, -100%);
+  animation: tooltipTop 120ms ease-out;
+}
 
-  &::before {
-    top: 100%;
-    left: 46%;
-    margin-left: -4px;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #707070;
+.top::after {
+  top: 100%;
+  border-top-color: var(--gray-900, #0f172a);
+}
+
+.bottom {
+  transform: translate(-50%, 0);
+  animation: tooltipBottom 120ms ease-out;
+}
+
+.bottom::after {
+  bottom: 100%;
+  border-bottom-color: var(--gray-900, #0f172a);
+}
+
+/* Hiện dần + trượt nhẹ về phía phần tử neo (giữ nguyên translate của placement) */
+@keyframes tooltipTop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 4px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
   }
 }
-.tooltip-content.bottom {
-  top: 100%;
-  left: 50%;
-  margin-top: 10px;
-  pointer-events: all;
 
-  &::before {
-    bottom: 100%;
-    left: 50%;
-    margin-left: -4px;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid #707070;
+@keyframes tooltipBottom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top,
+  .bottom {
+    animation: none;
   }
 }

@@ -36,7 +36,7 @@ const ConfirmDialogHost = () => {
               noAnimation
               small
               icon="fa-regular fa-check fa-lg"
-              status={request.danger ? "error" : "success"}
+              status={request.danger ? "error" : "primary"}
             >
               {request.options?.trueButtonText ?? "Đồng ý"}
             </Button>
@@ -45,7 +45,8 @@ const ConfirmDialogHost = () => {
               noAnimation
               small
               icon="fa-regular fa-ban fa-lg"
-              status="dark"
+              status="default"
+              typeButton="outline"
             >
               {request.options?.falseButtonText ?? "Bỏ qua"}
             </Button>

@@ -1,26 +1,38 @@
 .input-custom {
-  padding: 0.3rem 0.8rem;
-  font-size: inherit;
-  /* line-height: 1; */
-  border: 1px solid var(--border-clr);
-  border-radius: var(--border-radius-input);
-  transition: all 0.5s ease;
-  color: rgb(57, 57, 57);
+  padding: 0 var(--space-md);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  color: var(--color-text);
   display: inline-flex;
   width: 100%;
-  min-height: 30px;
-  font-size: 14px;
+  min-height: var(--control-height-md);
+  font-size: var(--text-md);
 }
 .input-custom.smallType {
-  min-height: 22px;
-  font-size: 12px;
+  min-height: var(--control-height-sm);
+  font-size: var(--text-xs);
 }
 
-.input-custom:focus,
-.input-custom:hover {
-  border-color: var(--border-hover-blue);
-  box-shadow: var(--box-shadow-focus-blue);
+/* Rê chuột chỉ đậm viền; vòng sáng để dành riêng cho tiêu điểm bàn phím,
+   nếu không người dùng phím không phân biệt được ô nào đang được chọn. */
+.input-custom:hover:not(:disabled) {
+  border-color: var(--gray-400);
+}
+
+.input-custom:focus {
+  border-color: var(--color-focus-ring);
+  box-shadow: var(--focus-ring);
   outline: 0;
+}
+
+.input-custom:disabled {
+  background-color: var(--color-surface-sunken);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
 }
 
 .input-custom:focus::placeholder {
@@ -29,38 +41,41 @@
 
 .input-custom::placeholder {
   transform: translateX(0);
-  transition: transform 0.3s ease;
-  color: rgb(188, 188, 188);
+  transition: transform var(--duration-normal) var(--ease-out);
+  color: var(--color-text-placeholder);
 }
 
 .input-custom::selection {
-  background-color: rgb(35, 126, 255);
-  color: rgb(249, 252, 255);
-  font-weight: 500;
+  background-color: var(--color-secondary);
+  color: var(--color-text-inverse);
+  font-weight: var(--weight-medium);
 }
 
 .input-error {
   position: absolute;
   top: 100%;
   left: 0;
-  color: rgb(253, 88, 88);
-  font-size: 0.8rem;
+  color: var(--color-danger);
+  font-size: var(--text-xs);
   padding-left: 0.5rem;
   min-height: 1rem;
 }
 
 .text-area-custom {
-  font: 14px;
-  line-height: 1.1;
-  padding: 0.5rem;
-  border: 1px solid var(--border-clr);
-  border-radius: 8px;
-  transition: box-shadow 0.5s ease;
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: box-shadow var(--duration-fast) var(--ease-out);
   width: 100%;
   display: inline-flex;
 }
 
 .text-area-custom:focus {
   outline: 0;
-  box-shadow: var(--box-shadow-focus-blue);
+  border-color: var(--color-focus-ring);
+  box-shadow: var(--focus-ring);
 }

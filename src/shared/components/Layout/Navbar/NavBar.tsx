@@ -2,7 +2,6 @@ import { useCollapseSelector } from "@app/store/hooks";
 import boy from "@assets/boy.png";
 import Breadcrumb from "./Breadcrumb";
 import navBarStyle from "./NavBar.module.css";
-import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 import { useEffect, useRef, useState, type RefObject } from "react";
@@ -69,11 +68,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <motion.nav
-      variants={{ collapse: { left: "70px" } }}
-      animate={isCollapse ? "collapse" : ""}
-      id={navBarStyle["nav-bar"]}
-    >
+    <nav id={navBarStyle["nav-bar"]} data-collapsed={isCollapse}>
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
         <Breadcrumb />
       </div>
@@ -106,7 +101,7 @@ const NavBar = () => {
           </section>
         </li>
       </ul>
-    </motion.nav>
+    </nav>
   );
 };
 

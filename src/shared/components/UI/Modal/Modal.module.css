@@ -1,16 +1,16 @@
 .modal {
   position: fixed;
   /* Khai tường minh, trước đây nền trắng là do UA stylesheet của <dialog> */
-  background-color: var(--bgc-write);
-  top: 20px;
+  background-color: var(--color-surface);
+  top: var(--space-xl);
   border: 0;
   margin: 0 auto;
-  border-radius: var(--border-radius-tag);
+  border-radius: var(--radius-lg);
   max-width: 90%;
   max-height: 90%;
   width: fit-content;
-  box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
-  z-index: 10;
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-modal);
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
@@ -39,37 +39,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding: 6px 6px 6px 14px;
-  /* border-bottom: 1px solid var(--border-clr); */
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .modal-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 .modal-content {
-  margin: 0px 12px 12px 12px;
-  /* background-color: var(--bgc-modal); */
-  font-size: 14px;
-  border-radius: 6px;
+  margin: var(--space-md);
+  font-size: var(--text-md);
+  border-radius: var(--radius-sm);
   overflow-y: auto;
 }
 
 .modal-close-btn {
   border: 0;
   background-color: unset;
-  padding: 4px;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+  padding: var(--space-2xs);
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
   cursor: pointer;
 }
 
 .modal-close-btn:hover {
-  /* background-color: #ececec; */
-  color: #888888;
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 /* .modal::backdrop {
@@ -82,8 +82,8 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.75);
-  z-index: 9;
+  background-color: var(--color-overlay);
+  z-index: var(--z-overlay);
   display: flex;
   align-items: center;
 }
@@ -92,7 +92,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.6rem;
-  padding: 6px 12px;
-  border-top: 1px solid var(--border-clr);
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
 }

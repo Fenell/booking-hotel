@@ -97,7 +97,7 @@ const CreateAndUpdateRoom = ({ onSuccess }: CreateAndUpdateRoomProps) => {
       </ModalContent>
       <ModalFooter>
         <Button
-          status="success"
+          status="primary"
           noAnimation
           type="submit"
           isLoading={isProcessing}
@@ -105,7 +105,12 @@ const CreateAndUpdateRoom = ({ onSuccess }: CreateAndUpdateRoomProps) => {
         >
           Cất giữ
         </Button>
-        <Button status="dark" noAnimation onClick={() => openDialog(false)}>
+        <Button
+          status="default"
+          typeButton="outline"
+          noAnimation
+          onClick={() => openDialog(false)}
+        >
           Hủy bỏ
         </Button>
       </ModalFooter>

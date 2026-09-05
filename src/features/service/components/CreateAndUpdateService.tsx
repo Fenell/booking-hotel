@@ -23,6 +23,7 @@ import {
   type ServiceType,
 } from "../types/service.type";
 import type { DynamicDataPagingRequest } from "@shared/types/dynamic";
+import { DEFAULT_ICON_COLOR } from "@features/icon";
 
 const CreateAndUpdateService = () => {
   const { icon, id, openOrCloseDialog, selectIcon } = useServiceContext();
@@ -151,14 +152,19 @@ const CreateAndUpdateService = () => {
               />
             </div>
             <div>
-              <Popover status="info" noAnimation content={<IconSelect />}>
+              <Popover
+                status="primary"
+                btnProps={{ typeButton: "outline" }}
+                noAnimation
+                content={<IconSelect />}
+              >
                 Biểu tượng
               </Popover>
               <div style={{ display: "inline", marginLeft: "10px" }}>
                 <i
                   className={`fa-regular fa-${icon?.iconCode} ${icon?.sizeIcon && "fa-" + icon?.sizeIcon}`}
                   style={{
-                    color: icon?.color ?? "#2796fd",
+                    color: icon?.color ?? DEFAULT_ICON_COLOR,
                   }}
                 ></i>
               </div>
@@ -226,9 +232,11 @@ const CreateAndUpdateService = () => {
         </FormProvider>
       </ModalContent>
       <ModalFooter>
+        {/* Một hành động chính duy nhất: "Cất giữ" tô đặc, "Cất & Thêm mới"
+            dùng kiểu viền để mắt biết đâu là việc thường làm nhất. */}
         <Button
           form="service-form"
-          status="success"
+          status="primary"
           noAnimation
           type="submit"
           isLoading={isLoading}
@@ -238,7 +246,8 @@ const CreateAndUpdateService = () => {
         </Button>
         <Button
           form="service-form"
-          status="success"
+          status="primary"
+          typeButton="outline"
           noAnimation
           type="submit"
           isLoading={isLoading}

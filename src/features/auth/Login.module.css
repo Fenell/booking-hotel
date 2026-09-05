@@ -1,11 +1,19 @@
+/* Màn đăng nhập — nền tối, thẻ kính mờ.
+   Mọi màu lấy từ design token; sắc độ mờ dùng color-mix để không chế hex mới.
+   Xem docs/design-system.md. */
+
+/* ===== Nền trang trí =====
+   Thang z cục bộ của màn này: 0 = nền trang trí, 1 = thẻ đăng nhập.
+   Không dùng thang --z-* của app vì đây là stacking context riêng. */
 .shape {
   position: absolute;
+  z-index: 0;
   background: linear-gradient(
     135deg,
-    rgba(56, 189, 248, 0.3),
-    rgba(96, 165, 250, 0.2)
+    color-mix(in srgb, var(--blue-400) 30%, transparent),
+    color-mix(in srgb, var(--blue-500) 20%, transparent)
   );
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   filter: blur(40px);
   animation: float 20s infinite ease-in-out;
 }
@@ -55,15 +63,16 @@
   }
 }
 
-/* 3D decorative elements */
+/* Khối trang trí nổi */
 .decorator {
   position: absolute;
+  z-index: 0;
   background: linear-gradient(
     135deg,
-    rgba(125, 211, 252, 0.4),
-    rgba(56, 189, 248, 0.3)
+    color-mix(in srgb, var(--blue-300) 40%, transparent),
+    color-mix(in srgb, var(--blue-400) 30%, transparent)
   );
-  border-radius: 50px;
+  border-radius: var(--radius-full);
   backdrop-filter: blur(10px);
 }
 
@@ -72,7 +81,6 @@
   height: 80px;
   top: 15%;
   left: 8%;
-  transform: rotate(-25deg);
   animation: pulse 6s infinite ease-in-out;
 }
 
@@ -81,7 +89,6 @@
   height: 70px;
   top: 25%;
   left: 10%;
-  transform: rotate(15deg);
   animation: pulse 6s infinite ease-in-out 1s;
 }
 
@@ -90,7 +97,6 @@
   height: 90px;
   bottom: 30%;
   left: 12%;
-  transform: rotate(-35deg);
   animation: pulse 6s infinite ease-in-out 2s;
 }
 
@@ -99,7 +105,6 @@
   height: 75px;
   bottom: 18%;
   left: 8%;
-  transform: rotate(20deg);
   animation: pulse 6s infinite ease-in-out 3s;
 }
 
@@ -108,7 +113,6 @@
   height: 85px;
   top: 20%;
   right: 10%;
-  transform: rotate(-20deg);
   animation: pulse 6s infinite ease-in-out 1.5s;
 }
 
@@ -117,7 +121,6 @@
   height: 80px;
   top: 35%;
   right: 8%;
-  transform: rotate(25deg);
   animation: pulse 6s infinite ease-in-out 2.5s;
 }
 
@@ -126,7 +129,6 @@
   height: 82px;
   bottom: 25%;
   right: 12%;
-  transform: rotate(-30deg);
   animation: pulse 6s infinite ease-in-out 3.5s;
 }
 
@@ -135,22 +137,11 @@
   height: 72px;
   bottom: 15%;
   right: 9%;
-  transform: rotate(18deg);
   animation: pulse 6s infinite ease-in-out 4s;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: rotate(var(--rotation)) scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: rotate(var(--rotation)) scale(1.15);
-    opacity: 0.8;
-  }
-}
-
+/* Góc xoay khai riêng: keyframes pulse đọc --rotation nên transform tĩnh phải
+   nằm trong chính keyframes, không đặt rời ở class (sẽ bị animation ghi đè). */
 .decorator1 {
   --rotation: -25deg;
 }
@@ -176,21 +167,31 @@
   --rotation: 18deg;
 }
 
-/* Login container */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: rotate(var(--rotation)) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: rotate(var(--rotation)) scale(1.15);
+    opacity: 0.8;
+  }
+}
+
+/* ===== Thẻ đăng nhập ===== */
 .login-container {
   position: relative;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+  background: color-mix(in srgb, var(--gray-0) 8%, transparent);
   backdrop-filter: blur(20px);
-  border-radius: 30px;
-  padding: 50px 45px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4xl) var(--space-3xl);
   width: 90%;
   max-width: 420px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  animation: slideIn 0.6s ease-out;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid color-mix(in srgb, var(--gray-0) 15%, transparent);
+  animation: slideIn var(--duration-slow) var(--ease-out);
 }
 
 @keyframes slideIn {
@@ -206,136 +207,157 @@
 
 .logo {
   text-align: center;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 35px;
+  color: var(--color-text-inverse);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  margin-bottom: var(--space-3xl);
   letter-spacing: 0.5px;
 }
 
-h2 {
-  color: white;
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 30px;
+/* Class chứ KHÔNG phải selector `h2`: CSS Modules chỉ băm tên class, selector
+   phần tử rò ra toàn cục — bản trước làm mọi <h2> trong app thành chữ trắng
+   32px, nên tiêu đề ở màn nền sáng gần như vô hình. */
+.title {
+  color: var(--color-text-inverse);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2xl);
 }
 
 .form-group {
-  margin-bottom: 22px;
+  margin-bottom: var(--space-xl);
 }
 
 .form-group label {
   display: block;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
+  color: var(--color-text-inverse);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  margin-bottom: var(--space-sm);
 }
 
 .form-group input {
   width: 100%;
-  padding: 14px 18px;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  color: #333;
-  transition: all 0.3s ease;
+  padding: var(--space-md) var(--space-lg);
+  background: color-mix(in srgb, var(--gray-0) 95%, transparent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
   outline: none;
 }
 
 .form-group input::placeholder {
-  color: #999;
+  color: var(--color-text-placeholder);
 }
 
-.form-group input:focus {
-  background: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+/* Tiêu điểm bàn phím phải thấy rõ trên nền tối: viền trắng đặc + quầng sáng.
+   Bản trước chỉ đổi nền và nhấc ô lên 2px — gần như không nhận ra được. */
+.form-group input:focus-visible {
+  background: var(--gray-0);
+  border-color: var(--color-text-inverse);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gray-0) 45%, transparent);
 }
 
 .forgot-password {
   text-align: left;
-  margin: 12px 0 25px;
+  margin: var(--space-md) 0 var(--space-2xl);
 }
 
 .forgot-password a {
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: opacity 0.3s ease;
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 
 .forgot-password a:hover {
   opacity: 0.8;
+  color: var(--color-text-inverse);
 }
 
 .sign-in-btn {
   width: 100%;
-  padding: 16px;
-  background: #1e40af;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: var(--space-lg);
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-md);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-sm);
 }
 
-.sign-in-btn:hover {
-  background: #1e3a8a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+.sign-in-btn:hover:not(:disabled) {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-secondary-hover);
 }
 
-.sign-in-btn:active {
-  transform: translateY(0);
+.sign-in-btn:focus-visible {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
+}
+
+.sign-in-btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .sign-in-btn:disabled {
   opacity: 0.7;
-  cursor: unset;
+  cursor: not-allowed;
 }
 
 .divider {
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  margin: 25px 0 20px;
+  color: color-mix(in srgb, var(--gray-0) 80%, transparent);
+  font-size: var(--text-md);
+  margin: var(--space-2xl) 0 var(--space-xl);
 }
 
 .social-login {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
 }
 
 .social-btn {
   width: 55px;
   height: 55px;
-  background: white;
+  background: var(--color-surface);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-sm);
 }
 
 .social-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+.social-btn:focus-visible {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
 }
 
 .social-btn svg {
@@ -345,25 +367,26 @@ h2 {
 
 .register-link {
   text-align: center;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: color-mix(in srgb, var(--gray-0) 90%, transparent);
+  font-size: var(--text-md);
 }
 
 .register-link a {
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
-  font-weight: 600;
-  transition: opacity 0.3s ease;
+  font-weight: var(--weight-semibold);
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 
 .register-link a:hover {
   opacity: 0.8;
+  color: var(--color-text-inverse);
 }
 
 @media (max-width: 768px) {
   .login-container {
-    padding: 40px 30px;
-    margin: 20px;
+    padding: var(--space-3xl) var(--space-2xl);
+    margin: var(--space-xl);
   }
 
   .decorator {

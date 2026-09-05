@@ -8,6 +8,7 @@ import type { DeleteDataRequest } from "@shared/types/dynamic";
 import { useToast } from "@shared/hooks/useToast";
 import { queryClient } from "@app/queryClient";
 import classNames from "classnames";
+import { DEFAULT_ICON_COLOR } from "../icon.constants";
 
 type IconCardItemProps = {} & IconResponse;
 
@@ -38,7 +39,7 @@ const IconCardItem = ({
   }`;
 
   const iconColor: CSSProperties = {
-    color: color ?? "#2796fd",
+    color: color ?? DEFAULT_ICON_COLOR,
   };
 
   const handleEdit = () => {

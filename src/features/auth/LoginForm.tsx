@@ -87,22 +87,28 @@ const LoginForm = () => {
     mutate(data);
   };
 
+  // Không đặt autoComplete="off" trên form: trình quản lý mật khẩu phải điền
+  // được, đó là yêu cầu của WCAG 2.2 (Accessible Authentication).
   return (
-    <form onSubmit={handleSubmit(onsubmit)} autoComplete="off">
+    <form onSubmit={handleSubmit(onsubmit)}>
       <div className={loginStyle["form-group"]}>
-        <label>Tài khoản</label>
+        {/* htmlFor + id: bấm vào nhãn là con trỏ nhảy vào ô, và trình đọc màn
+            hình đọc đúng tên trường. Trước đây hai thứ này không nối với nhau. */}
+        <label htmlFor="login-username">Tài khoản</label>
         <input
+          id="login-username"
           type="text"
-          // placeholder="username@gmail.com"
+          autoComplete="username"
           {...register("userName")}
         />
       </div>
 
       <div className={loginStyle["form-group"]}>
-        <label>Mật khẩu</label>
+        <label htmlFor="login-password">Mật khẩu</label>
         <input
+          id="login-password"
           type="password"
-          // placeholder="Password"
+          autoComplete="current-password"
           {...register("password")}
         />
       </div>

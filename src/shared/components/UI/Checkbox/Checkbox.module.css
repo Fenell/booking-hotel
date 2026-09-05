@@ -5,46 +5,50 @@
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
-  padding: 6px 8px;
-  border-radius: var(--border-radius-input);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-fast) var(--ease-out);
   display: inline-block;
 }
 .checkbox-wrapper-4 .cbx:not(:last-child) {
-  margin-right: 6px;
+  margin-right: var(--space-xs);
 }
 .checkbox-wrapper-4 .cbx:hover {
-  background: rgba(0, 119, 255, 0.06);
+  background: var(--color-primary-soft);
 }
 .checkbox-wrapper-4 .cbx span {
   float: left;
   vertical-align: middle;
   transform: translate3d(0, 0, 0);
-  /* background-color: rgb(255, 255, 255); */
 }
 .checkbox-wrapper-4 .cbx span:first-child {
   position: relative;
   width: 18px;
   height: 18px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   transform: scale(1);
-  border: 1px solid #cccfdb;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 1px rgba(0, 16, 75, 0.05);
+  border: 1px solid var(--color-border-strong);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-xs);
 }
 .checkbox-wrapper-4 .cbx span:first-child svg {
   position: absolute;
   top: 3px;
   left: 2px;
   fill: none;
-  stroke: #fff;
+  stroke: var(--color-on-primary);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 16px;
   stroke-dashoffset: 16px;
-  transition: all 0.3s ease;
+  /* Chỉ animate nét vẽ dấu tick — `all` kéo theo cả stroke/fill, tốn công vẽ
+     lại mà mắt không thấy khác. */
+  transition: stroke-dashoffset var(--duration-normal) var(--ease-out);
   transition-delay: 0.1s;
   transform: translate3d(0, 0, 0);
 }
@@ -53,15 +57,15 @@
   line-height: 18px;
 }
 .checkbox-wrapper-4 .cbx:hover span:first-child {
-  border-color: #07f;
+  border-color: var(--color-primary);
 }
 .checkbox-wrapper-4 .inp-cbx {
   position: absolute;
   visibility: hidden;
 }
 .checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child {
-  background: #07f;
-  border-color: #07f;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   animation: wave-4 0.4s ease;
 }
 .checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child svg {

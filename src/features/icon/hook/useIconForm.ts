@@ -12,12 +12,13 @@ import { createIcon, updateIcon } from "../api/icon.api";
 import { useEffect } from "react";
 import { getDynamicData } from "@shared/services/dynamic";
 import { queryClient } from "@app/queryClient";
+import { DEFAULT_ICON_COLOR } from "../icon.constants";
 
 const defaultIconValue: DefaultValues<IconResponse> = {
   iconCode: "",
   iconName: "",
   isActive: true,
-  color: "#21a9e4",
+  color: DEFAULT_ICON_COLOR,
   sizeIcon: "",
   description: "",
 };

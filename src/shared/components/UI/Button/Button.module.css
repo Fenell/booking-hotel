@@ -1,74 +1,73 @@
+/* Nút — 7 bộ màu, mỗi bộ chỉ khai 3 biến: nền, nền-khi-rê, chữ.
+   Mọi giá trị lấy từ design token; đừng viết hex ở đây. */
 .button {
-  --success-clr: #00b63e;
-  --warning-clr: #ffecb3;
-  --error-clr: #ffe6e8;
-  --info-clr: #d0e6ff;
-  --blue-clr: #6dccff;
-  --dark-clr: #9e9e9e;
-  --default-clr: #424242;
-  --text-on-light: #2b2b2b;
-  --text-on-dark: #fff;
-  padding: 6px 18px;
-  font-size: 14px;
-  border-radius: var(--border-radius-input);
-  background: none;
-  background-color: #fff;
+  padding: 0 var(--space-lg);
+  min-height: var(--control-height-md);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.2px;
   transition:
-    background-color 0.5s ease,
-    color 0.2s ease;
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
   /* inline-flex chứ không phải flex: nút tự co theo nội dung, khỏi cần bọc
      thêm một <div style="display:inline-flex"> bên ngoài. */
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid var(--btn-clr);
-  color: var(--btn-text-clr);
+  justify-content: center;
+  gap: var(--space-xs);
+  border: 1px solid var(--btn-bg);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
 }
 
-/* Kiểu viền: nền trắng, chỉ tô màu khi rê chuột nên chữ phải đổi theo nền. */
+/* Kiểu viền: nền trắng, chữ mang màu của bộ — đọc rõ hơn chữ xám như trước. */
 .button[data-type="outline"] {
-  color: var(--text-on-light);
+  background-color: var(--color-surface);
+  color: var(--btn-bg);
 }
 
 .button[data-type="outline"]:hover:not(:disabled) {
-  background-color: var(--btn-clr);
-  color: var(--btn-text-clr);
-}
-
-.button:not([data-type="outline"]) {
-  background-color: var(--btn-clr);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
 }
 
 .button:not([data-type="outline"]):hover:not(:disabled) {
-  background-color: color-mix(in srgb, var(--btn-clr) 85%, black);
+  background-color: var(--btn-bg-hover);
+  border-color: var(--btn-bg-hover);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .button:focus-visible {
-  outline: 2px solid #1a73e8;
-  outline-offset: 2px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 .button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
 .button.small {
-  padding: 5px 6px;
-  font-size: 12px;
+  min-height: var(--control-height-sm);
+  padding: 0 var(--space-sm);
+  font-size: var(--text-xs);
 }
 
 .button-text {
   position: relative;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 18px;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  line-height: var(--leading-tight);
 }
 
 .button .btn-icon {
-  margin-right: 5px;
+  margin-right: var(--space-2xs);
 }
 
 /* Trạng thái loading: giữ nguyên nội dung (chỉ ẩn hình) để bề rộng nút không
@@ -103,32 +102,41 @@
   }
 }
 
-/* Variants — mỗi biến thể khai cả màu nền lẫn màu chữ tương phản với nó. */
+/* Bộ màu — nền đặc + chữ tương phản. Tất cả cặp nền/chữ đều đạt ≥4.5:1.
+   Trước đây warning/error/info dùng nền pastel chữ xám nên nhìn như nút bị
+   vô hiệu hoá; nay nền đặc, ai nhìn cũng biết đó là hành động bấm được. */
 .button[data-variant="default"] {
-  --btn-clr: var(--default-clr);
-  --btn-text-clr: var(--text-on-dark);
-}
-.button[data-variant="success"] {
-  --btn-clr: var(--success-clr);
-  --btn-text-clr: var(--text-on-dark);
-}
-.button[data-variant="error"] {
-  --btn-clr: var(--error-clr);
-  --btn-text-clr: var(--text-on-light);
-}
-.button[data-variant="warning"] {
-  --btn-clr: var(--warning-clr);
-  --btn-text-clr: var(--text-on-light);
-}
-.button[data-variant="info"] {
-  --btn-clr: var(--info-clr);
-  --btn-text-clr: var(--text-on-light);
+  --btn-bg: var(--color-neutral);
+  --btn-bg-hover: var(--color-neutral-hover);
+  --btn-text: var(--color-on-neutral);
 }
 .button[data-variant="primary"] {
-  --btn-clr: var(--blue-clr);
-  --btn-text-clr: var(--text-on-light);
+  --btn-bg: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-hover);
+  --btn-text: var(--color-on-primary);
+}
+.button[data-variant="success"] {
+  --btn-bg: var(--color-success);
+  --btn-bg-hover: var(--green-800);
+  --btn-text: var(--color-on-success);
+}
+.button[data-variant="warning"] {
+  --btn-bg: var(--color-warning);
+  --btn-bg-hover: var(--amber-800);
+  --btn-text: var(--color-on-warning);
+}
+.button[data-variant="error"] {
+  --btn-bg: var(--color-danger);
+  --btn-bg-hover: var(--color-danger-hover);
+  --btn-text: var(--color-on-danger);
+}
+.button[data-variant="info"] {
+  --btn-bg: var(--color-info);
+  --btn-bg-hover: var(--color-secondary-hover);
+  --btn-text: var(--color-on-info);
 }
 .button[data-variant="dark"] {
-  --btn-clr: var(--dark-clr);
-  --btn-text-clr: var(--text-on-dark);
+  --btn-bg: var(--gray-800);
+  --btn-bg-hover: var(--gray-900);
+  --btn-text: var(--color-text-inverse);
 }

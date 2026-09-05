@@ -65,8 +65,8 @@ const ServicesInput = () => {
         style={{
           display: "inline-block",
           marginTop: "6px",
-          color: "#5fb2ed",
-          fontWeight: "600",
+          color: "var(--color-secondary)",
+          fontWeight: "var(--weight-semibold)",
           cursor: "pointer",
         }}
         onClick={handleCheckAll}

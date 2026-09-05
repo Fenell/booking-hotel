@@ -1,0 +1,254 @@
+/* ===== Điều hướng chính: rail (cột icon) + panel (danh sách mục con) =====
+   Thu gọn = ẩn panel, rail luôn còn. Bề rộng đổi bằng CSS chứ không bằng JS. */
+
+.sideNav {
+  display: flex;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  /* Có z-index thì tấm nhãn của rail mới nổi trên vùng nội dung */
+  z-index: var(--z-sticky);
+  background-color: var(--color-sidebar-bg);
+  color: var(--color-sidebar-text);
+}
+
+/* ===== Rail ===== */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 var(--layout-rail-width);
+  width: var(--layout-rail-width);
+  padding-bottom: var(--space-sm);
+  background-color: var(--color-sidebar-bg);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--layout-nav-height);
+  flex: 0 0 auto;
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.06em;
+  color: var(--color-sidebar-text-strong);
+}
+
+.railList {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-sm) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  flex: 1 1 auto;
+  min-height: 0;
+  /* KHÔNG đặt overflow ở đây: chỉ cần một trục là auto thì trục kia cũng bị
+     kẹp theo (spec CSS overflow), và tấm nhãn .railTip nhô ra bên phải sẽ bị
+     cắt mất. Rail chỉ chứa các mục gốc (hiện là 6) nên không cần cuộn. */
+  overflow: visible;
+}
+
+.railItem {
+  position: relative;
+  display: flex;
+}
+
+.railBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-sidebar-text);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.railBtn:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-sidebar-text-strong);
+}
+
+/* Tiêu điểm bàn phím trên nền tối: viền trắng, không phải viền xanh */
+.railBtn:focus-visible {
+  outline: 2px solid var(--color-sidebar-text-strong);
+  outline-offset: 2px;
+}
+
+/* Nhóm đang duyệt trong panel */
+.railBtnActive,
+.railBtnActive:hover {
+  background-color: var(--color-sidebar-active);
+  color: var(--color-sidebar-text-strong);
+}
+
+/* Nhóm chứa TRANG ĐANG MỞ — khác với nhóm đang duyệt: người dùng có thể xem
+   danh sách nhóm khác mà chưa rời trang, lúc đó vạch này là thứ duy nhất cho
+   biết mình đang đứng ở đâu. */
+.railBtn[aria-current] {
+  color: var(--color-sidebar-text-strong);
+  box-shadow: inset 3px 0 0 var(--blue-300);
+}
+
+/* Nhãn hiện khi rê chuột hoặc khi tiêu điểm bàn phím tới — rail chỉ có icon nên
+   không có nhãn thì không đoán được mục nào. */
+.railTip {
+  position: absolute;
+  left: calc(100% + var(--space-2xs));
+  top: 50%;
+  transform: translate(-4px, -50%);
+  z-index: var(--z-dropdown);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--gray-900);
+  color: var(--color-text-inverse);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    visibility var(--duration-fast);
+}
+
+.railItem:hover .railTip,
+.railItem:focus-within .railTip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+}
+
+/* Panel đang mở thì nhãn của nhóm đó là thừa */
+.sideNav:not([data-collapsed="true"]) .railBtnActive + .railTip {
+  display: none;
+}
+
+.collapseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-sidebar-text);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.collapseBtn:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-sidebar-text-strong);
+}
+
+.collapseBtn:focus-visible {
+  outline: 2px solid var(--color-sidebar-text-strong);
+  outline-offset: 2px;
+}
+
+/* ===== Panel ===== */
+/* `display: flex` của author stylesheet thắng `[hidden] { display: none }` của
+   trình duyệt, nên phải tự tắt — nếu không panel vẫn hiện khi thu gọn. */
+.panel[hidden] {
+  display: none;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 var(--layout-panel-width);
+  width: var(--layout-panel-width);
+  min-width: 0;
+  padding: 0 var(--space-sm) var(--space-sm);
+  /* Sắc độ nhạt hơn rail: hai vùng tách nhau mà không cần đường kẻ */
+  background-color: var(--color-sidebar-panel-bg);
+  border-right: 1px solid var(--color-sidebar-border);
+}
+
+.panelTitle {
+  display: flex;
+  align-items: center;
+  height: var(--layout-nav-height);
+  margin: 0;
+  padding: 0 var(--space-sm);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-sidebar-text) 70%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.panelLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: 36px;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-sm);
+  color: var(--color-sidebar-text);
+  font-size: var(--text-md);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.panelLink:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-sidebar-text-strong);
+}
+
+.panelLink:focus-visible {
+  outline: 2px solid var(--color-sidebar-text-strong);
+  outline-offset: -2px;
+}
+
+/* Trang đang mở: vạch trái + nền mờ. Vạch bằng inset shadow nên chữ không bị
+   đẩy sang phải như khi dùng border-left. */
+.panelLinkActive,
+.panelLinkActive:hover {
+  background-color: var(--color-sidebar-active);
+  color: var(--color-sidebar-text-strong);
+  font-weight: var(--weight-medium);
+  box-shadow: inset 3px 0 0 var(--blue-300);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

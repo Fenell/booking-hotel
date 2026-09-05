@@ -5,9 +5,12 @@ export type Collapse = {
   subMenuId?: string | null;
 };
 
+/* subMenuId: `undefined` = người dùng chưa bấm vào nhóm nào, khi đó Sidebar tự
+   mở nhóm chứa trang hiện tại; `null` = đã chủ động đóng hết. Phân biệt hai giá
+   trị này để nhóm không tự bật lại sau khi người dùng đóng nó. */
 const initialState: Collapse = {
   isCollapse: false,
-  subMenuId: null,
+  subMenuId: undefined,
 };
 
 export const collapseSlice = createSlice({

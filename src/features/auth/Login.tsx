@@ -42,7 +42,7 @@ const Login = () => {
       <div className={loginStyle["login-container"]}>
         <div className={loginStyle.logo}>Your logo</div>
 
-        <h2>Đăng nhập</h2>
+        <h2 className={loginStyle.title}>Đăng nhập</h2>
 
         <LoginForm />
 

@@ -7,6 +7,7 @@ import serviceStyle from "../style/service.module.css";
 import { useServiceContext } from "../context/ServiceContext";
 import { useFormContext } from "react-hook-form";
 import type { ServiceResponse } from "../types/service.type";
+import { DEFAULT_ICON_COLOR } from "@features/icon";
 
 const IconItem = ({ id, iconCode, sizeIcon, color, ...prop }: IconResponse) => {
   const { selectIcon } = useServiceContext();
@@ -16,7 +17,7 @@ const IconItem = ({ id, iconCode, sizeIcon, color, ...prop }: IconResponse) => {
     return `fa-regular fa-${iconCode} ${sizeIcon && "fa-" + sizeIcon}`;
   };
   const getIconColor = (color?: string): CSSProperties => ({
-    color: color ?? "#2796fd",
+    color: color ?? DEFAULT_ICON_COLOR,
   });
   const hadleSelectIcon = () => {
     // console.log({ id, iconCode, sizeIcon, color, ...prop });

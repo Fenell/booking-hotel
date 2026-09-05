@@ -1,0 +1,267 @@
+/* =============================================================================
+   DESIGN TOKENS — nguồn sự thật duy nhất về màu, chữ, khoảng cách, bo góc,
+   đổ bóng, z-index và chuyển động của toàn bộ FE.
+
+   Kiến trúc 3 tầng, chỉ được đọc từ tầng dưới lên tầng trên:
+
+       Tầng 1 — PRIMITIVE   giá trị thô (#1e40af, 12px…)  — trong file này
+              ↓             KHÔNG dùng trực tiếp trong component
+       Tầng 2 — SEMANTIC    vai trò (--color-primary, --space-md…) — trong file này
+              ↓             đây là tầng component nên đọc
+       Tầng 3 — COMPONENT   khai trong chính file .module.css của component,
+                            ở scope của nó chứ không phải :root
+                            (`.button { --btn-bg: var(--color-primary) }`,
+                             `.root { --dg-border: var(--color-border, …) }`)
+
+   Đặt tầng 3 trong scope component thay vì :root là cố ý: với CSS Modules thì
+   mỗi component tự khép kín, và :root không phình lên hàng trăm biến.
+
+   Tầng alias tên-biến-cũ (--base-clr, --border-clr…) đã bị xoá ngày 05/09/2026
+   sau khi 35 file CSS dọn xong — đừng thêm lại.
+
+   Quy tắc: component chỉ đọc tầng 2. Không viết hex thẳng trong file .module.css.
+   Chi tiết và ví dụ: docs/design-system.md
+   ============================================================================= */
+
+:root {
+  /* ==========================================================================
+     TẦNG 1 — PRIMITIVE
+     ========================================================================== */
+
+  /* --- Trung tính (slate): nền, viền, chữ ------------------------------- */
+  --gray-0: #ffffff;
+  --gray-25: #fbfcfd;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  --gray-950: #020617;
+
+  /* --- Xanh navy: màu thương hiệu --------------------------------------- */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
+  --blue-925: #1b2c50; /* navy — nền panel điều hướng */
+  --blue-950: #16233e; /* navy sâu — nền rail điều hướng */
+
+  /* --- Hổ phách: cảnh báo, chờ xử lý, sắp hết hạn giữ chỗ ---------------- */
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-500: #f59e0b;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+
+  /* --- Lục: thành công, đã xác nhận, đã thanh toán ----------------------- */
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+  --green-500: #10b981;
+  --green-700: #047857;
+  --green-800: #065f46;
+
+  /* --- Đỏ: lỗi, huỷ đơn, xoá -------------------------------------------- */
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+
+  /* --- Chữ --------------------------------------------------------------- */
+  --font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Số trong lưới/hoá đơn: chữ số cùng bề rộng để cột không nhảy */
+  --font-numeric: "Inter", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14px; /* cỡ chữ nền của CMS */
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 24px;
+  --text-4xl: 32px;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.5;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* --- Khoảng cách: bậc 4px, thang dày cho màn nhiều dữ liệu ------------- */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 6px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 40px;
+
+  /* --- Bo góc ------------------------------------------------------------ */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* --- Đổ bóng: 4 bậc, dùng đúng bậc theo độ nổi của lớp ----------------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.16);
+
+  /* --- Chuyển động: nhanh và kín đáo, hợp công cụ vận hành --------------- */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ==========================================================================
+     TẦNG 2 — SEMANTIC (component chỉ đọc tầng này)
+     ========================================================================== */
+
+  /* --- Nền và bề mặt ----------------------------------------------------- */
+  --color-bg: var(--gray-50); /* nền trang */
+  --color-surface: var(--gray-0); /* thẻ, bảng, modal */
+  --color-surface-raised: var(--gray-0); /* popover, dropdown */
+  --color-surface-sunken: var(--gray-100); /* header bảng, vùng lõm */
+  --color-surface-hover: var(--gray-100);
+  --color-overlay: rgba(15, 23, 42, 0.55); /* lớp phủ sau modal */
+
+  /* --- Chữ --------------------------------------------------------------- */
+  --color-text: var(--gray-900); /* chữ chính */
+  --color-text-secondary: var(--gray-600); /* nhãn, mô tả */
+  --color-text-muted: var(--gray-500); /* chú thích, placeholder đậm */
+  --color-text-disabled: var(--gray-400);
+  /* gray-500 chứ không phải gray-400: placeholder mờ quá thì ô lọc trông như
+     đã bị vô hiệu hoá (gray-400 chỉ đạt 2.8:1 trên nền trắng). */
+  --color-text-placeholder: var(--gray-500);
+  --color-text-inverse: var(--gray-0); /* chữ trên nền đậm */
+
+  /* --- Viền -------------------------------------------------------------- */
+  --color-border: var(--gray-200);
+  --color-border-strong: var(--gray-300);
+  --color-border-subtle: var(--gray-100);
+
+  /* --- Thương hiệu / hành động chính ------------------------------------- */
+  --color-primary: var(--blue-800);
+  --color-primary-hover: var(--blue-900);
+  --color-primary-active: var(--blue-950);
+  /* Nền nhạt cho tag, hàng lưới đang chọn, ô đang mở. */
+  --color-primary-soft: var(--blue-50);
+  --color-primary-border: var(--blue-200);
+  --color-on-primary: var(--gray-0);
+
+  --color-secondary: var(--blue-600); /* nhấn phụ, link */
+  --color-secondary-hover: var(--blue-700);
+  --color-on-secondary: var(--gray-0);
+
+  /* --- Trạng thái nghiệp vụ ---------------------------------------------- */
+  --color-success: var(--green-700); /* đã xác nhận, đã thanh toán */
+  --color-success-soft: var(--green-50);
+  --color-success-border: var(--green-100);
+  --color-on-success: var(--gray-0);
+
+  --color-warning: var(--amber-700); /* chờ xử lý, sắp hết hạn giữ chỗ */
+  --color-warning-soft: var(--amber-50);
+  --color-warning-border: var(--amber-200);
+  --color-on-warning: var(--gray-0);
+
+  --color-danger: var(--red-600); /* huỷ đơn, xoá */
+  --color-danger-hover: var(--red-700);
+  --color-danger-soft: var(--red-50);
+  --color-danger-border: var(--red-100);
+  --color-on-danger: var(--gray-0);
+
+  --color-info: var(--blue-600);
+  --color-info-soft: var(--blue-50);
+  --color-info-border: var(--blue-100);
+  --color-on-info: var(--gray-0);
+
+  --color-neutral: var(--gray-600); /* nút phụ, hành động trung tính */
+  --color-neutral-hover: var(--gray-700);
+  --color-on-neutral: var(--gray-0);
+
+  /* --- Tiêu điểm bàn phím: luôn nhìn thấy, không bao giờ bỏ outline ------ */
+  --color-focus-ring: var(--blue-600);
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.28);
+  --focus-outline: 2px solid var(--color-focus-ring);
+  --focus-outline-offset: 2px;
+
+  /* --- Sidebar (bề mặt tối, cần bộ token riêng) --------------------------- */
+  --color-sidebar-bg: var(--blue-950);
+  /* Panel nhạt hơn rail một bậc: hai vùng tách nhau không cần đường kẻ. */
+  --color-sidebar-panel-bg: var(--blue-925);
+  --color-sidebar-text: var(--gray-200);
+  --color-sidebar-text-strong: var(--gray-0);
+  --color-sidebar-hover: rgba(255, 255, 255, 0.08);
+  /* Nền mục đang mở: mờ chứ không đặc — vạch trái mới là thứ chỉ vị trí. */
+  --color-sidebar-active: color-mix(in srgb, var(--blue-500) 30%, transparent);
+  --color-sidebar-border: rgba(255, 255, 255, 0.12);
+
+  /* --- Kích thước khung ---------------------------------------------------- */
+  --layout-nav-height: 48px;
+  /* Điều hướng chính = rail (cột icon) + panel (mục con). Thu gọn thì panel ẩn,
+     chỉ còn rail — đó cũng là bề rộng tối thiểu. */
+  --layout-rail-width: 56px;
+  --layout-panel-width: 200px;
+  --layout-sidebar-width: calc(
+    var(--layout-rail-width) + var(--layout-panel-width)
+  );
+  --layout-sidebar-width-collapsed: var(--layout-rail-width);
+  --control-height-sm: 26px;
+  --control-height-md: 32px; /* input, nút mặc định */
+  --control-height-lg: 38px;
+
+  /* --- Z-index: 6 bậc, không dùng số lẻ ngoài thang này ------------------ */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-nav: 200;
+  --z-dropdown: 300;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+  --z-tooltip: 1200;
+}
+
+/* =============================================================================
+   TÔNG TỐI — khung đã sẵn, chưa bật.
+   Khi làm dark mode: bỏ comment khối dưới và chỉ định nghĩa lại token TẦNG 2.
+   Không đụng tầng 1, không đụng component — đó là lý do có 3 tầng.
+   Bật bằng cách gắn data-theme="dark" lên <html>.
+   Nhớ cân lại tương phản riêng cho tông tối (đừng đảo màu của tông sáng).
+   ============================================================================= */
+/*
+:root[data-theme="dark"] {
+  --color-bg: var(--gray-950);
+  --color-surface: var(--gray-900);
+  --color-surface-sunken: var(--gray-800);
+  --color-text: var(--gray-100);
+  --color-text-secondary: var(--gray-300);
+  --color-border: var(--gray-700);
+  --color-primary: var(--blue-400);
+  --color-on-primary: var(--gray-950);
+  ...
+}
+*/

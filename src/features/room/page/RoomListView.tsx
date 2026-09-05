@@ -52,14 +52,15 @@ const RoomListView = () => {
         <div className={roomStyle.actionBar}>
           <Button
             noAnimation
-            status="success"
+            status="primary"
             onClick={() => logic.openDialog(true)}
           >
             Thêm mới
           </Button>
           <Popover
             noAnimation
-            status="success"
+            status="primary"
+            btnProps={{ typeButton: "outline" }}
             position="bottom-right"
             onOpenChange={handleColumnPanelOpen}
             content={

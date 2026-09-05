@@ -14,7 +14,12 @@
   z-index: var(--dg-z-sticky);
 }
 
-.alignRight { text-align: right; }
+/* Căn phải = cột số, nên dùng luôn chữ số cùng bề rộng: giá tiền đổi giá trị
+   thì cột không giật. */
+.alignRight {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
 .alignCenter { text-align: center; }
 
 /* Hover/selected phải set trên td (tr sticky trong suốt) */
@@ -53,5 +58,5 @@
 .checkboxChecked {
   background: var(--dg-accent);
   border-color: var(--dg-accent);
-  color: #fff;
+  color: var(--color-text-inverse, #fff);
 }

@@ -1,14 +1,26 @@
-nav {
+/* Phải là `#nav-bar` chứ không phải `nav`: CSS Modules không băm selector phần
+   tử, nên quy tắc `nav { position: fixed; left: 240px }` áp cho MỌI thẻ <nav>
+   trong app — kể cả thanh menu bên trái, làm nó bị đẩy lệch chồng lên nội dung.
+   Id `nav-bar` thì được băm nên chỉ ăn đúng thanh trên cùng. */
+#nav-bar {
   box-sizing: border-box;
-  /* border-bottom: 1px solid var(--line-clr); */
-  height: var(--nav-height);
-  padding-right: 20px;
+  height: var(--layout-nav-height);
+  padding-right: var(--space-xl);
   position: fixed;
   top: 0;
   right: 0;
-  left: 250px;
+  left: var(--layout-sidebar-width);
+  transition: left var(--duration-normal) var(--ease-out);
   display: flex;
   justify-content: space-between;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  z-index: var(--z-nav);
+}
+
+/* Thu gọn: điều hướng chính chỉ còn rail nên thanh trên cùng bám sát theo */
+#nav-bar[data-collapsed="true"] {
+  left: var(--layout-sidebar-width-collapsed);
 }
 
 #nav-bar .topNavBar {
@@ -21,7 +33,7 @@ nav {
   align-items: center;
 }
 #nav-bar i {
-  color: #b8b8b8;
+  color: var(--color-text-muted);
 }
 
 #nav-bar .navItem:first-child {
@@ -32,13 +44,13 @@ nav {
   display: flex;
   align-items: center;
   justify-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: var(--control-height-md);
+  height: var(--control-height-md);
+  border-radius: var(--radius-full);
   cursor: pointer;
 }
 #nav-bar .navItem:hover {
-  background-color: var(--hover-icon);
+  background-color: var(--color-surface-hover);
 }
 
 #nav-bar .navItem section,
@@ -49,12 +61,12 @@ nav {
   margin: auto;
   width: 40px;
   text-decoration: none;
-  color: var(--base-clr);
+  color: var(--color-text);
 }
 
 .navItem section:hover {
-  background-color: var(--bgc-hover);
-  border-radius: 50%;
+  background-color: var(--color-surface-hover);
+  border-radius: var(--radius-full);
 }
 
 #nav-bar a {
@@ -79,15 +91,15 @@ nav {
 }
 
 .noti-bage {
-  color: white;
-  background-color: red;
-  border-radius: 50%;
+  color: var(--color-on-danger);
+  background-color: var(--color-danger);
+  border-radius: var(--radius-full);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 14px;
   height: 14px;
-  font-size: 11px;
+  font-size: var(--text-2xs);
   position: absolute;
   top: -3px;
   left: 18px;
@@ -98,8 +110,7 @@ nav {
   /* position: sticky;
   top: 0; */
   display: flex;
-  /* margin-bottom: 10px; */
-  z-index: 200;
+  z-index: var(--z-sticky);
 }
 
 .breadcrumb-title {
@@ -108,13 +119,15 @@ nav {
   div {
     margin-right: 10px;
   }
-  font-size: 20px;
-  border-right: 1px solid #ced3da;
-  padding-right: 20px;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  border-right: 1px solid var(--color-border);
+  padding-right: var(--space-xl);
 }
 
 .breadcrumb-child {
-  padding-left: 15px;
+  padding-left: var(--space-lg);
+  color: var(--color-text-secondary);
 }
 
 .user-info > a {
@@ -125,23 +138,22 @@ nav {
   position: absolute;
   top: 42px;
   right: 20px;
-  z-index: 99;
-  background-color: var(--bgc-write);
-  /* background-color: #cb4141; */
+  z-index: var(--z-dropdown);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   display: block;
   list-style: none;
-  padding: 8px 0;
-  /* border-radius: 6px; */
+  padding: var(--space-sm) 0;
   min-width: 160px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
 
   opacity: 0;
   transform: translateY(-10px) scale(0.95);
   visibility: hidden;
   /* pointer-events: none; */
 
-  transition: all 0.2s ease;
+  transition: all var(--duration-normal) var(--ease-out);
 }
 
 .userMenu.open {
@@ -155,16 +167,17 @@ nav {
   display: flex;
   justify-items: flex-start;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-md);
 }
 
 .userMenu a {
-  font-size: 14px;
+  font-size: var(--text-md);
   cursor: pointer;
-  padding: 8px 18px;
-  transition: background-color 0.5s ease-in;
+  padding: var(--space-sm) var(--space-xl);
+  color: var(--color-text);
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 .userMenu a:hover {
-  background-color: var(--bgc-hover);
+  background-color: var(--color-surface-hover);
 }

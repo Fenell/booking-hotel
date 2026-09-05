@@ -40,7 +40,7 @@ const ServiceListView = () => {
       <div className={serviceStyle.box}>
         <div className={serviceStyle.actionBar}>
           <Button
-            status="success"
+            status="primary"
             noAnimation
             onClick={() => openOrCloseDialog(true)}
           >
@@ -48,7 +48,8 @@ const ServiceListView = () => {
           </Button>
           <Popover
             noAnimation
-            status="success"
+            status="primary"
+            btnProps={{ typeButton: "outline" }}
             position="bottom-right"
             onOpenChange={handleColumnPanelOpen}
             content={

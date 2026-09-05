@@ -7,7 +7,7 @@
   height: 30px;
   padding: 0 10px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--text-xs, 12px);
   color: var(--dg-text);
   background: var(--dg-bg);
   border: 1px solid var(--dg-border);
@@ -29,7 +29,7 @@
   background: var(--dg-bg);
   border: 1px solid var(--dg-border);
   border-radius: var(--dg-radius);
-  box-shadow: 0 6px 20px rgba(24, 29, 31, 0.12);
+  box-shadow: var(--shadow-md, 0 6px 20px rgba(24, 29, 31, 0.12));
 }
 
 .item {
@@ -39,7 +39,7 @@
   width: 100%;
   padding: 6px 8px;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: var(--text-xs, 12px);
   color: var(--dg-text);
   background: transparent;
   border: none;

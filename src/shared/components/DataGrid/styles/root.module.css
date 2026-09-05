@@ -1,32 +1,34 @@
 /* ===== Khung gốc: TOÀN BỘ design tokens của grid nằm ở đây =====
-   Grid tự khép kín — không đọc biến CSS của repo, tự set font/line-height
-   để chặn `:root { line-height: 1.5rem }` của app. */
+   Grid vẫn khép kín: mỗi biến --dg-* đọc token của app NHƯNG luôn kèm giá trị
+   dự phòng, nên nhúng grid vào trang không có styles/tokens.css vẫn hiển thị
+   đúng. Grid tự set font/line-height để chặn line-height của app. */
 .root {
-  /* Bảng màu — phỏng theme Quartz của AG Grid */
-  --dg-font: "Inter", system-ui, -apple-system, sans-serif;
-  --dg-font-size: 13px;
-  --dg-line-height: 1.4;
-  --dg-text: #181d1f;
-  --dg-text-secondary: #6b7280;
-  --dg-border: #dde2eb;
-  --dg-border-strong: #c4ccd8;
-  --dg-bg: #ffffff;
-  --dg-header-bg: #f8f9fb;
-  --dg-row-hover: #f1f5fb;
-  --dg-row-selected: #e8f1fd;
-  --dg-accent: #2563eb;
-  --dg-accent-soft: #dbeafe;
-  --dg-flash-bg: #fef3c7;
-  --dg-radius: 8px;
-  --dg-radius-sm: 5px;
+  /* Bảng màu — lấy từ design token, dự phòng theo theme Quartz của AG Grid */
+  --dg-font: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  --dg-font-size: var(--text-sm, 13px);
+  --dg-line-height: var(--leading-snug, 1.4);
+  --dg-text: var(--color-text, #0f172a);
+  --dg-text-secondary: var(--color-text-secondary, #475569);
+  --dg-border: var(--color-border, #e2e8f0);
+  --dg-border-strong: var(--color-border-strong, #cbd5e1);
+  --dg-bg: var(--color-surface, #ffffff);
+  --dg-header-bg: var(--color-surface-sunken, #f1f5f9);
+  --dg-row-hover: var(--color-surface-hover, #f1f5f9);
+  --dg-row-selected: var(--color-primary-soft, #eff6ff);
+  --dg-accent: var(--color-secondary, #2563eb);
+  --dg-accent-soft: var(--blue-100, #dbeafe);
+  --dg-flash-bg: var(--color-warning-soft, #fffbeb);
+  --dg-radius: var(--radius-md, 8px);
+  --dg-radius-sm: var(--radius-sm, 6px);
 
   /* Kích thước */
   --dg-row-height: 40px;
   --dg-header-height: 44px;
   --dg-filter-row-height: 40px;
-  --dg-cell-px: 12px;
+  --dg-cell-px: var(--space-md, 12px);
 
-  /* Z-index 4 lớp: body < body-pinned < header < header-pinned < overlay < popup */
+  /* Z-index 4 lớp: body < body-pinned < header < header-pinned < overlay < popup
+     — thang cục bộ trong stacking context của .root, không liên quan --z-* app */
   --dg-z-sticky: 2;
   --dg-z-header: 3;
   --dg-z-header-sticky: 4;

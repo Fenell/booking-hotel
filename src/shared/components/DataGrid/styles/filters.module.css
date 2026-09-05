@@ -25,7 +25,7 @@
   height: 28px;
   padding: 0 8px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--text-xs, 12px);
   line-height: 1.2;
   color: var(--dg-text);
   background: var(--dg-bg);
@@ -35,7 +35,7 @@
   appearance: none;
 }
 
-.input::placeholder { color: #a9b0bd; }
+.input::placeholder { color: var(--color-text-placeholder, #a9b0bd); }
 
 .input:focus {
   border-color: var(--dg-accent);
@@ -47,7 +47,7 @@
   height: 28px;
   padding: 0 4px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--text-xs, 12px);
   color: var(--dg-text-secondary);
   background: var(--dg-bg);
   border: 1px solid var(--dg-border);

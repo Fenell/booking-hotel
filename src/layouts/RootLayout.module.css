@@ -1,6 +1,6 @@
 .root-layout {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.4rem;
-  background-color: #f2f4f7;
+  gap: var(--space-2xs);
+  background-color: var(--color-bg);
 }

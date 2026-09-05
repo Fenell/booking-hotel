@@ -5,55 +5,52 @@
 .select-custom__control {
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--border-clr);
-  border-radius: var(--border-radius-input);
-  padding: 0rem 0px 0rem 12px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0 0 0 var(--space-md);
   transition:
-    border-color 0.5s ease,
-    box-shadow 0.5s !important;
-  background-color: #fff;
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out) !important;
+  background-color: var(--color-surface);
 }
 
 .select-custom__control {
-  min-height: 30px !important;
+  min-height: var(--control-height-md) !important;
 }
 
 .select-custom__placeholder {
-  color: rgb(180, 180, 180);
-  font-size: 14px;
-  font-weight: 400;
+  color: var(--color-text-placeholder);
+  font-size: var(--text-md);
+  font-weight: var(--weight-regular);
 }
 
 .select-custom__control:hover {
   cursor: pointer;
-  /* border-color: rgb(114, 114, 114); */
-  border-color: var(--border-hover-blue);
-  box-shadow: var(--box-shadow-focus-blue);
+  border-color: var(--gray-400);
 }
 
 .select-custom__control--is-focused {
-  /* border-color: rgb(114, 114, 114); */
-  border-color: var(--border-hover-blue);
-  box-shadow: var(--box-shadow-focus-blue);
+  border-color: var(--color-focus-ring);
+  box-shadow: var(--focus-ring);
 }
 
 .select-custom__menu {
-  box-shadow:
-    rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  border-radius: 5px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
   left: 0;
-  padding: 0.5rem;
-  margin-top: 5px;
-  background-color: white;
+  padding: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  background-color: var(--color-surface-raised);
+  z-index: var(--z-dropdown);
 }
 
 .select-custom__option {
-  padding: 0.4rem 0.8rem;
-  border-radius: 5px;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-xs);
 }
 .select-custom__action {
-  padding: 0.4rem 0.8rem;
+  padding: var(--space-xs) var(--space-md);
   /* position: fixed; */
 }
 
@@ -62,35 +59,35 @@
 .select-custom__dropdown-indicator {
   align-items: center;
   height: 100%;
-  padding: 10px 8px;
-  color: #939393;
+  padding: var(--space-sm);
+  color: var(--color-text-muted);
 }
 
 .select-custom__clear-indicator {
-  padding: 0 0.6rem 0 0.6rem;
-  color: #939393;
+  padding: 0 var(--space-sm);
+  color: var(--color-text-muted);
 }
 
 .select-custom__clear-indicator:hover,
 .select-custom__dropdown-indicator:hover {
-  color: #4d4c4c;
+  color: var(--color-text);
 }
 
 .select-custom__indicator-separator {
-  border: 1px solid rgb(216, 216, 216);
+  border: 1px solid var(--color-border);
 }
 /*Indicator END*/
 
 /* focus item */
 .select-custom__option--is-focused {
-  background-color: #f2f3f4;
+  background-color: var(--color-primary-soft);
 }
 
 /*Multi value*/
 
 .select-custom__value-container {
-  font-size: 0.9rem;
-  row-gap: 5px;
+  font-size: var(--text-md);
+  row-gap: var(--space-2xs);
 }
 
 .select-custom__input-container {
@@ -98,19 +95,20 @@
 }
 
 .select-custom__multi-value {
-  gap: 2px;
-  margin-right: 0.4rem;
-  padding: 0.1rem 0.4rem;
-  background-color: #edeef0;
-  border-radius: 5px;
+  gap: var(--space-3xs);
+  margin-right: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-xs);
+  background-color: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-xs);
   align-items: center;
-  color: #454444;
+  color: var(--color-primary);
 
-  transition: background-color 0.5s ease;
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 .select-custom__multi-value:hover {
-  background-color: #ddddde;
+  background-color: var(--blue-100);
   cursor: default;
 }
 
@@ -119,8 +117,8 @@
   justify-content: center;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
-  background-color: #bababa;
+  border-radius: var(--radius-full);
+  color: var(--color-primary);
 }
 
 .select-custom__multi-value__remove:hover {

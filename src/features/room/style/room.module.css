@@ -4,7 +4,7 @@
   grid-template-columns: minmax(0, 1fr);
   height: 100%;
   min-width: 0;
-  gap: 10px;
+  gap: var(--space-md);
 }
 
 /* DataGrid tự cuộn bên trong; lớp bọc phải cho phép co lại (min-*: 0) để bảng
@@ -25,10 +25,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 6px;
-  padding: 8px;
-  border-radius: 6px;
-  border: solid 1px #dbdbdb;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
 }
 
 .roomForm {
@@ -39,31 +40,30 @@
 }
 
 .title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  /* border-top: 1px solid var(--border-clr); */
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-xs);
 }
 
 .inputField {
-  margin-bottom: 10px;
+  margin-bottom: var(--space-md);
 }
 .halfField {
   display: flex;
   width: 100%;
-  gap: 14px;
+  gap: var(--space-lg);
 }
 
 .baseInfo {
   height: 100%;
-  padding: 0 6px;
+  padding: 0 var(--space-xs);
 }
 
 .unityRoom {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  row-gap: 6px;
-  margin-top: 10px;
+  row-gap: var(--space-xs);
+  margin-top: var(--space-md);
 }
 
 .mapRoom {

@@ -12,7 +12,12 @@
 
 .tfPinned { z-index: var(--dg-z-header-sticky); }
 
-.alignRight { text-align: right; }
+/* Căn phải = cột số, nên dùng luôn chữ số cùng bề rộng: giá tiền đổi giá trị
+   thì cột không giật. */
+.alignRight {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
 .alignCenter { text-align: center; }
 
 .edgeLeft { border-right: 1px solid var(--dg-border-strong); }
